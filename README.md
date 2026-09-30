@@ -78,6 +78,11 @@ python -m experiments.convert_ad --input exports/vul_1k.json \
   --entries entries.txt --targets targets.txt --out data/vul_1k_s0
 ```
 
+完整的六个 ADSynth 预设、五个种子的生成命令见
+`docs/ad_io.md`。仓库还提供 `datasets/adsynth-suite.tar.gz`，其中是已经转换
+好的 CSV 和显式标注，不包含原始 JSONL；来源提交和每份数据的哈希记录在
+实例的 `meta.json` 与 `manifest.csv` 中。
+
 规范化 JSON 使用 `nodes`、`edges`、`entries`、`targets` 四个数组；节点字段为
 `id`、`type`，边字段为 `source`、`target`、`type`。读取器也接受常见的
 BloodHound 风格 `data`、`Properties`、`ObjectIdentifier` 字段，并把边类型映射到
