@@ -98,3 +98,18 @@ def test_heuristics_feasible_and_not_better_than_opt(seed):
             assert sol.cost <= budget
             assert inst.cost_of(sol.removed) == sol.cost
             assert inst.risk(sol.removed) >= opt - 1e-9
+
+
+@pytest.mark.parametrize("seed", range(25))
+def test_lp_is_lower_bound_and_matches_ip_structure(seed):
+    from adinterdict.lp import lp_relaxation
+    inst = random_instance(seed)
+    for budget in (2, 5):
+        opt, _ = brute_force(inst, budget)
+        lb, x, status = lp_relaxation(inst, budget)
+        assert status == "optimal"
+        assert lb <= opt + 1e-7
+        assert (inst.cost * x).sum() <= budget + 1e-7
+    # 预算为 0 时 LP 必须等于 R(空集)
+    lb0, _, _ = lp_relaxation(inst, 0)
+    assert lb0 == pytest.approx(inst.risk())

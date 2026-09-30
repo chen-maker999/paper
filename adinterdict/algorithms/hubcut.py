@@ -7,6 +7,8 @@ D2 枢纽割贪心：每轮从动作集合中选“单位成本收益”最大�
    (c) 枢纽割：按 score(h) = w(S~>h) * v(h~>T) 取前 M 个枢纽 h，对每个 h 生成三个割：
        S_h -> T（切断经过 h 的那一簇入口与全部目标），h -> T，S_h -> h。
    成本只计新增的边，所以不同动作共用的边不重复计费。
+D2' LP 引导补救：若所有动作收益都为 0（典型情形：每个入口都有多条冗余路径），求当前状态下
+   (IP-T) 的 LP 松弛，按 x_e 从大到小逐条加入付得起的边，直到风险开始下降，把这组边作为一个动作。
 D3 局部搜索：删掉已选但冗余的边（删掉后风险不变），用省下的预算继续执行 D2，直到没有改进。
 
 另外同时运行两种选择规则（按单位成本收益 / 按收益），取风险更低的解。
@@ -20,6 +22,7 @@ from scipy.sparse.csgraph import breadth_first_order
 from ..dominators import single_edge_gains
 from ..flow import min_cut
 from ..indexed import IndexedInstance
+from ..lp import lp_relaxation
 from ..reduction import reduce_instance
 from .base import Solution
 from .greedy import pick_best_edge
@@ -74,8 +77,28 @@ def cut_actions(inst: IndexedInstance, mask, tr, n_hubs=10, use_target_cuts=True
     return [(kind, set(c)) for c, kind in acts.items()]
 
 
+def lp_action(inst: IndexedInstance, F, remaining, r_cur, max_edges=200):
+    """D2'：LP 引导的补救动作。返回 (边集合, 成本, 收益)；找不到则返回 None。"""
+    _, x, status = lp_relaxation(inst, remaining, removed=F)
+    if status != "optimal":
+        return None
+    idx = np.flatnonzero(x > 1e-6)
+    order = idx[np.lexsort((idx, inst.cost[idx], -x[idx]))]
+    chosen, spent = set(), 0
+    for e in order.tolist()[:max_edges]:
+        c = int(inst.cost[e])
+        if spent + c > remaining:
+            continue
+        chosen.add(e)
+        spent += c
+        g = r_cur - inst.risk(F | chosen)
+        if g > EPS:
+            return chosen, spent, g
+    return None
+
+
 def hubcut_greedy(inst: IndexedInstance, budget, removed=None, mode="ratio",
-                  n_hubs=10, use_target_cuts=True, log=None):
+                  n_hubs=10, use_target_cuts=True, use_lp=True, log=None):
     F = set(removed or ())
     spent = inst.cost_of(F)
     while True:
@@ -113,6 +136,11 @@ def hubcut_greedy(inst: IndexedInstance, budget, removed=None, mode="ratio",
             g = r_cur - inst.risk(F | extra)
             consider(g / c if mode == "ratio" else g, g, c, kind, extra)
 
+        if best is None and use_lp:
+            act = lp_action(inst, F, remaining, r_cur)
+            if act is not None:
+                edges, c, g = act
+                best = (g / c, g, -c, "lp", edges)
         if best is None:
             break
         F |= best[4]
@@ -143,14 +171,14 @@ def local_search(inst: IndexedInstance, budget, F, max_iter=10, **kw):
 
 
 def solve(inst: IndexedInstance, budget: int, reduce=True, n_hubs=10, use_target_cuts=True,
-          modes=("ratio", "gain"), use_local_search=True) -> Solution:
+          modes=("ratio", "gain"), use_local_search=True, use_lp=True) -> Solution:
     if reduce:
         work, stats = reduce_instance(inst)
     else:
         work, stats = inst, {}
     best_F, best_key, best_mode = set(), None, None
     for mode in modes:
-        kw = dict(mode=mode, n_hubs=n_hubs, use_target_cuts=use_target_cuts)
+        kw = dict(mode=mode, n_hubs=n_hubs, use_target_cuts=use_target_cuts, use_lp=use_lp)
         F = hubcut_greedy(work, budget, **kw)
         if use_local_search:
             F = local_search(work, budget, F, **kw)
