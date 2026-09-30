@@ -74,7 +74,8 @@ def main():
         if x not in ALGS:
             raise SystemExit(f"未知算法 {x}，可选：{', '.join(ALGS)}")
     fracs = [float(x) for x in a.fracs.split(",")]
-    dirs = sorted({d for pat in a.data for d in glob.glob(pat) if os.path.isdir(d)})
+    dirs = sorted({d for pat in a.data for d in glob.glob(pat)
+                   if os.path.isfile(os.path.join(d, "edges.csv"))})
     if not dirs:
         raise SystemExit("没有找到实例目录")
     os.makedirs(os.path.dirname(a.out) or ".", exist_ok=True)
@@ -94,6 +95,9 @@ def main():
         red_time = time.perf_counter() - t0
         lam, _, _ = global_min_cut(I)
         r0 = I.risk()
+        if r0 <= 0:
+            print(f"[{inst.name}] R0=0：没有入口能到达目标，跳过")
+            continue
         base = dict(dataset=inst.name, group=group, seed=seed, n=I.n, m=I.m,
                     m_deletable=int(I.deletable.sum()), n_entries=len(I.entries),
                     n_targets=len(I.targets), red_n=red.n, red_m=red.m,
