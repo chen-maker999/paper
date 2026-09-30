@@ -51,6 +51,32 @@ n9,0,10
 转换脚本需要你自己编写：从数据源生成上面两个 CSV，成本规则按阶段 2 文档表 1。
 写完后，建议先用 `adinterdict.graphio.load_instance` 读回来检查节点数、边数和入口/目标数。
 
+### AD 导出读取与合成数据
+
+仓库提供离线 AD 图工具：`adinterdict.adio.load_ad_export` 读取已经导出的
+JSON 图数据，`adinterdict.ad_generator.generate_ad_graph` 生成用于算法验证的
+抽象用户、组、计算机和 Tier-0 目标。它们都只生成/读取中性的图实例，不连接域，
+也不执行目录修改。
+
+```bash
+python -m experiments.ad_generator --users 1000 --groups 80 \
+  --computers 300 --targets 5 --seeds 0-4 --out data/ad_smoke
+```
+
+读取单个规范化 JSON 或包含多个 JSON 文件的目录：
+
+```python
+from adinterdict.adio import load_ad_export
+
+inst = load_ad_export("exports/graph.json")
+```
+
+规范化 JSON 使用 `nodes`、`edges`、`entries`、`targets` 四个数组；节点字段为
+`id`、`type`，边字段为 `source`、`target`、`type`。读取器也接受常见的
+BloodHound 风格 `data`、`Properties`、`ObjectIdentifier` 字段，并把边类型映射到
+现有成本规则。入口和目标建议通过 `entry_weight`、`target_value` 显式标注，或在
+调用 `load_ad_export` 时通过 `entry_weight=`、`target_value=` 传入。
+
 ## 目录结构
 
 ```
