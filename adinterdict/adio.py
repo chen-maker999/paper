@@ -91,6 +91,10 @@ def _id(record: dict[str, Any]) -> str | None:
 def _node_type(record: dict[str, Any]) -> str:
     value = record.get("type", record.get("Type", record.get("kind", record.get("Kind"))))
     p = _props(record)
+    if str(value).lower() in {"node", "vertex"}:
+        labels = record.get("labels", record.get("Labels", []))
+        if isinstance(labels, list):
+            value = next((label for label in reversed(labels) if str(label).lower() != "base"), "Other")
     text = str(value or p.get("type") or p.get("objecttype") or "Other").lower()
     for known in NODE_TYPES:
         if text == known.lower() or text.endswith(known.lower()):
@@ -111,9 +115,12 @@ def _endpoint(record: dict[str, Any], names: tuple[str, ...]) -> str | None:
 
 
 def _raw_relation(record: dict[str, Any]) -> Any:
-    for key in ("type", "Relationship", "relationship", "RelationshipType", "Kind", "rel"):
+    for key in ("label", "Label", "Relationship", "relationship", "RelationshipType", "Kind", "rel"):
         if record.get(key) is not None:
             return record[key]
+    value = record.get("type")
+    if value is not None and str(value).lower() not in {"node", "relationship", "edge"}:
+        return value
     return None
 
 
@@ -137,8 +144,8 @@ def _split_payload(payload: Any) -> tuple[list[dict[str, Any]], list[dict[str, A
                 [x for x in edges if isinstance(x, dict)] if isinstance(edges, list) else [])
     nodes, edges = [], []
     for record in _records(payload):
-        src = _endpoint(record, ("source", "SourceNodeId", "source_id", "src", "from"))
-        dst = _endpoint(record, ("target", "TargetNodeId", "target_id", "dst", "to"))
+        src = _endpoint(record, ("source", "SourceNodeId", "source_id", "src", "from", "start"))
+        dst = _endpoint(record, ("target", "TargetNodeId", "target_id", "dst", "to", "end"))
         (edges if src and dst and _raw_relation(record) is not None else nodes).append(record)
     return nodes, edges
 
@@ -240,8 +247,8 @@ def load_ad_export(path: str | os.PathLike[str], *, name: str | None = None,
                     targets[str(_id(item))] = float(item.get("value", item.get("target_value", 1)))
 
         for rec in edge_records:
-            src = _endpoint(rec, ("source", "SourceNodeId", "source_id", "src", "from"))
-            dst = _endpoint(rec, ("target", "TargetNodeId", "target_id", "dst", "to"))
+            src = _endpoint(rec, ("source", "SourceNodeId", "source_id", "src", "from", "start"))
+            dst = _endpoint(rec, ("target", "TargetNodeId", "target_id", "dst", "to", "end"))
             raw = _raw_relation(rec)
             rel = _relation_type(raw, preserve_unknown=True)
             if src and dst and rel:
@@ -262,7 +269,7 @@ def load_ad_export(path: str | os.PathLike[str], *, name: str | None = None,
             attrs = {
                 "name": str(rec.get("name", rec.get("Name", p.get("name", ident)))),
                 "ntype": owner_type,
-                "tier0": bool(rec.get("tier0", p.get("tier0", False))),
+                "tier0": bool(rec.get("tier0", p.get("tier0", p.get("highvalue", False)))),
                 "wellknown": str(rec.get("wellknown", p.get("wellknown", ""))).upper(),
             }
             primary = rec.get("primary_group", p.get("primary_group", p.get("primarygroupsid")))
@@ -280,12 +287,19 @@ def load_ad_export(path: str | os.PathLike[str], *, name: str | None = None,
                 if _key(key) in _METADATA_KEYS or key in {"Properties", "properties"}:
                     continue
                 rel = _relation_type(key)
-                if rel is None and _looks_like_relation_key(key):
+                # Unknown embedded relationships must be collection-valued;
+                # scalar properties such as ``enabled`` and ``admincount``
+                # are node attributes, even when their names start with a
+                # relationship-looking verb.
+                collection = isinstance(value, (list, tuple, dict))
+                if rel is None and collection and _looks_like_relation_key(key):
                     rel = _relation_type(key, preserve_unknown=True)
                     record_unknown(key)
                 if not rel:
-                    if isinstance(value, list) and value:
+                    if collection and value:
                         record_skipped(key)
+                    continue
+                if rel is not None and not collection and _key(key) not in _RELATION_ALIASES:
                     continue
                 reverse = _embedded_direction(key, rel, owner_type)
                 for other in _iter_relation_values(value):
@@ -302,6 +316,7 @@ def load_ad_export(path: str | os.PathLike[str], *, name: str | None = None,
     if missing:
         raise ADImportError(f"入口/目标引用了不存在的节点: {sorted(missing)[:5]}")
     graph = build_graph(nodes, relations)
+    report["files"] = len({filename.split(":", 1)[0] for filename, _ in payloads})
     report["nodes"] = len(nodes)
     report["relations"] = len(relations)
     inst = Instance(graph, entries, targets, name=name or Path(path).stem,
