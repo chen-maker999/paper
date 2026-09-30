@@ -37,7 +37,9 @@ instance = load_ad_export(
 目录输入会合并其中的 `*.json` 文件。节点记录支持 `id`、`type`、`Properties`、
 `ObjectIdentifier` 等常见字段；关系记录支持 `source`/`target` 和
 `SourceNodeId`/`TargetNodeId`。节点属性中的列表关系（例如 `MemberOf`）也会被
-转换。未标注的入口和目标不会由名称猜测。
+转换；组对象上的 `Members`、计算机对象上的管理员/RDP 列表会自动反向。未标注
+的入口和目标不会由名称猜测。未知关系不会静默丢弃：可识别的未知类型会保留并
+使用通用成本，统计信息位于 `instance.meta['import_stats']`。
 
 ## 抽象图生成
 
@@ -48,4 +50,5 @@ python -m experiments.ad_generator \
 ```
 
 Python 接口为 `ADGeneratorConfig` 和 `generate_ad_graph`。生成器使用固定种子，
-输出的节点和关系是抽象实验数据，能直接交给 `experiments.run`。
+按每个源节点采样固定期望度数，输出的节点和关系是抽象实验数据，目录名包含
+用户/组/计算机规模，能直接交给 `experiments.run`。
