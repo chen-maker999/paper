@@ -75,7 +75,9 @@ inst = load_ad_export("exports/graph.json")
 `id`、`type`，边字段为 `source`、`target`、`type`。读取器也接受常见的
 BloodHound 风格 `data`、`Properties`、`ObjectIdentifier` 字段，并把边类型映射到
 现有成本规则。入口和目标建议通过 `entry_weight`、`target_value` 显式标注，或在
-调用 `load_ad_export` 时通过 `entry_weight=`、`target_value=` 传入。
+调用 `load_ad_export` 时通过 `entry_weight=`、`target_value=` 传入。未知关系会保留
+并使用通用成本；被跳过的列表字段和未知关系类型会记录在
+`instance.meta['import_stats']` 中。
 
 ## 目录结构
 
