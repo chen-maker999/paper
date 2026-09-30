@@ -97,3 +97,24 @@ def test_generator_is_sparse_and_has_fixed_structure():
     assert inst.G.number_of_edges() < 20 * inst.G.number_of_nodes()
     assert any(data["cost"] == float("inf") for _, _, data in inst.G.edges(data=True))
     assert any(data.get("tier0") for _, data in inst.G.nodes(data=True))
+
+
+def test_adsynth_neo4j_jsonl_shape(tmp_path):
+    path = tmp_path / "graph.json"
+    records = [
+        {"id": "1", "labels": ["Base", "User"], "properties": {"name": "u"}, "type": "node"},
+        {"id": "2", "labels": ["Base", "Group"], "properties": {"name": "g", "highvalue": True}, "type": "node"},
+        {"type": "relationship", "label": "MemberOf", "start": {"id": "1"}, "end": {"id": "2"}},
+    ]
+    path.write_text("\n".join(json.dumps(record) for record in records), encoding="utf-8")
+    inst = load_ad_export(path, entry_weight={"1": 1}, target_value={"2": 2})
+    assert inst.G.has_edge("1", "2")
+    assert inst.G.nodes["1"]["ntype"] == "User"
+    assert inst.G.nodes["2"]["tier0"] is True
+
+
+def test_mapping_file_converter_format(tmp_path):
+    from experiments.convert_ad import _mapping
+    path = tmp_path / "ids.txt"
+    path.write_text("# comment\nu\nu2,2.5\nu3\t3\n", encoding="utf-8")
+    assert _mapping(str(path), 1) == {"u": 1.0, "u2": 2.5, "u3": 3.0}
