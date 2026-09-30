@@ -59,3 +59,41 @@ def test_load_embedded_relationship_and_overrides(tmp_path):
     assert inst.G.has_edge("u", "g")
     assert inst.entries["u"] == 1
     assert inst.targets["g"] == 3
+
+
+def test_embedded_members_and_computer_admin_lists_are_reversed(tmp_path):
+    payload = {"data": [
+        {"ObjectIdentifier": "g", "Type": "Group",
+         "Properties": {"Members": ["u"]}},
+        {"ObjectIdentifier": "c", "Type": "Computer",
+         "Properties": {"LocalAdmins": ["u"], "RDPUsers": ["u"]}},
+        {"ObjectIdentifier": "u", "Type": "User"},
+    ]}
+    path = tmp_path / "relations.json"
+    path.write_text(json.dumps(payload), encoding="utf-8")
+    inst = load_ad_export(path)
+    assert inst.G.has_edge("u", "g")
+    assert inst.G.has_edge("u", "c")
+    assert set(inst.G["u"]["c"]["etypes"]) == {"AdminTo", "CanRDP"}
+
+
+def test_jsonl_and_unknown_relationships_are_retained(tmp_path):
+    path = tmp_path / "export.jsonl"
+    path.write_text("\n".join([
+        json.dumps({"id": "u", "type": "User"}),
+        json.dumps({"id": "t", "type": "Group", "target_value": 1}),
+        json.dumps({"source": "u", "target": "t", "type": "NewRelation"}),
+    ]), encoding="utf-8")
+    stats = {}
+    inst = load_ad_export(path, entry_weight={"u": 1}, stats=stats)
+    assert inst.G.has_edge("u", "t")
+    assert "NewRelation" in inst.G["u"]["t"]["etypes"]
+    assert stats["unknown_relation_types"] == {"NewRelation": 1}
+
+
+def test_generator_is_sparse_and_has_fixed_structure():
+    inst = generate_ad_graph(ADGeneratorConfig(users=600, groups=60, computers=300, targets=3, seed=2))
+    assert inst.name.startswith("ad_u600_g60_c300_t3_s2")
+    assert inst.G.number_of_edges() < 20 * inst.G.number_of_nodes()
+    assert any(data["cost"] == float("inf") for _, _, data in inst.G.edges(data=True))
+    assert any(data.get("tier0") for _, data in inst.G.nodes(data=True))
