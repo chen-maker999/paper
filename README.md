@@ -71,6 +71,13 @@ from adinterdict.adio import load_ad_export
 inst = load_ad_export("exports/graph.json")
 ```
 
+要把 ADSynth/BloodHound JSONL 转成实验目录，可显式准备入口和目标 ID 文件后运行：
+
+```bash
+python -m experiments.convert_ad --input exports/vul_1k.json \
+  --entries entries.txt --targets targets.txt --out data/vul_1k_s0
+```
+
 规范化 JSON 使用 `nodes`、`edges`、`entries`、`targets` 四个数组；节点字段为
 `id`、`type`，边字段为 `source`、`target`、`type`。读取器也接受常见的
 BloodHound 风格 `data`、`Properties`、`ObjectIdentifier` 字段，并把边类型映射到
