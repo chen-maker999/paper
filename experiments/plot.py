@@ -91,6 +91,8 @@ def _legend(fig, axes):
     for ax in axes:
         for h, l in zip(*ax.get_legend_handles_labels()):
             handles.setdefault(l, h)
+    if not handles:
+        return
     fig.legend(list(handles.values()), list(handles.keys()), loc="lower center",
                ncol=min(5, len(handles)), bbox_to_anchor=(0.5, 1.0))
 
@@ -166,8 +168,9 @@ def main():
     _setup()
     s = pd.read_csv(a.summary)
     main_s = s[s.alg.isin(list(STYLE) + ["LB"])]
-    risk_vs_budget(main_s, a.out, STYLE, "risk_vs_budget")
-    gap_vs_budget(main_s, a.out)
+    if main_s.alg.isin(["A", "B2", "C"]).any():
+        risk_vs_budget(main_s, a.out, STYLE, "risk_vs_budget")
+        gap_vs_budget(main_s, a.out)
     fracs = sorted(s.budget_frac.unique())
     runtime_vs_size(s, a.out, a.runtime_frac if a.runtime_frac is not None else fracs[len(fracs) // 2])
     abl = s[s.alg.isin(ABLATION)]
