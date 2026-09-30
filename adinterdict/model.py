@@ -45,13 +45,15 @@ OTHER_EDGE_COST = 2
 STRUCTURAL_EDGES = {"Contains", "GPLink"}
 
 # 成员关系不可删的“默认组”（按 wellknown 标签识别）。
+# 注意：指向 Domain Admins 等特权组的成员关系*可以*删——低层组被嵌套进特权组正是要修复的误配置；
+# 合法 Tier-0 管理员的成员关系由规则 3（Tier-0 起点的边不可删）保护。
 FIXED_MEMBERSHIP_GROUPS = {
     "DOMAIN_USERS",
     "DOMAIN_COMPUTERS",
     "DOMAIN_CONTROLLERS",
-    "DOMAIN_ADMINS",
-    "ENTERPRISE_ADMINS",
-    "ADMINISTRATORS",
+    "EVERYONE",
+    "AUTHENTICATED_USERS",
+    "BUILTIN_USERS",
 }
 
 NODE_TYPES = ("User", "Computer", "Group", "OU", "GPO", "Domain")
