@@ -28,6 +28,11 @@ def main() -> None:
     ap.add_argument("--computers", type=int, default=40)
     ap.add_argument("--targets", type=int, default=3)
     ap.add_argument("--entry-fraction", type=float, default=0.10)
+    ap.add_argument("--membership-degree", type=float, default=1.5)
+    ap.add_argument("--admin-degree", type=float, default=1.5)
+    ap.add_argument("--session-degree", type=float, default=1.0)
+    ap.add_argument("--remote-degree", type=float, default=0.8)
+    ap.add_argument("--parent-degree", type=float, default=1.0)
     ap.add_argument("--seeds", default="0-4")
     ap.add_argument("--out", required=True)
     args = ap.parse_args()
@@ -35,7 +40,12 @@ def main() -> None:
     for seed in _seeds(args.seeds):
         cfg = ADGeneratorConfig(users=args.users, groups=args.groups,
                                 computers=args.computers, targets=args.targets,
-                                entry_fraction=args.entry_fraction, seed=seed)
+                                entry_fraction=args.entry_fraction,
+                                membership_degree=args.membership_degree,
+                                admin_degree=args.admin_degree,
+                                session_degree=args.session_degree,
+                                remote_degree=args.remote_degree,
+                                parent_degree=args.parent_degree, seed=seed)
         inst = generate_ad_graph(cfg)
         path = os.path.join(args.out, inst.name)
         save_instance(inst, path)
