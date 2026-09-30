@@ -78,10 +78,8 @@ def save_instance(inst: Instance, path: str) -> None:
     with open(os.path.join(path, "nodes.csv"), "w", newline="", encoding="utf-8") as f:
         wr = csv.writer(f)
         wr.writerow(["node", "entry_weight", "target_value"])
-        for s, w in inst.entries.items():
-            wr.writerow([s, w, 0])
-        for t, val in inst.targets.items():
-            wr.writerow([t, 0, val])
+        for node in inst.G:
+            wr.writerow([node, inst.entries.get(node, 0), inst.targets.get(node, 0)])
     if inst.meta:
         with open(os.path.join(path, "meta.json"), "w", encoding="utf-8") as f:
             json.dump(inst.meta, f, ensure_ascii=False, indent=2)

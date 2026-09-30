@@ -62,7 +62,27 @@ Python 接口为 `ADGeneratorConfig` 和 `generate_ad_graph`。生成器使用�
 python -m experiments.convert_ad \
   --input generated_datasets/vul_1k.json \
   --entries entries.txt --targets targets.txt \
+  --tier0 tier0.txt --wellknown wellknown.json \
   --out data/vul_1k_s0
 ```
 
-转换器会写出 `edges.csv`、`nodes.csv` 和导入统计，并保留未知关系类型的统计信息。
+`--tier0` 是显式的 Tier-0 节点 ID 列表；不传时不会把 `highvalue` 当作 Tier-0。
+`--wellknown` 是节点 ID 到 `DOMAIN_USERS`、`DOMAIN_COMPUTERS`、
+`DOMAIN_CONTROLLERS`、`EVERYONE`、`AUTHENTICATED_USERS` 或 `BUILTIN_USERS`
+的 JSON 映射。指向这些组的 `MemberOf` 边不可删。`GetChanges` 与
+`GetChangesAll` 在同一主体/目标对上会合并为一条 `DCSync` 边；只有其中一个
+权限的记录不会被当成攻击路径。转换器会写出 `edges.csv`、`nodes.csv` 和导入
+统计，并保留未知关系类型的统计信息。
+
+### ADSynth 数据集套件
+
+`experiments.prepare_adsynth` 使用 ADSynth 的六个公开参数预设（`vul_1k`、
+`vul_5k`、`vul_10k`、`secure_1k`、`secure_5k`、`secure_10k`），每个预设生成
+五个正整数种子。它固定 UUID、时间戳和 `PYTHONHASHSEED`，在
+`data/<preset>_s<seed>/` 写出实验 CSV、显式标注和来源哈希；原始 JSONL 放在
+`data/_sources/` 供审计。生成只调用 ADSynth 的离线经典路径，不连接 Neo4j 或域。
+
+```bash
+python -m experiments.prepare_adsynth \
+  --adsynth /path/to/ADSynth --out data
+```

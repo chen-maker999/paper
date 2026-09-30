@@ -12,7 +12,7 @@ import os
 from pathlib import Path
 from typing import Any, Iterable
 
-from .model import NODE_TYPES, Instance, build_graph
+from .model import FIXED_MEMBERSHIP_GROUPS, NODE_TYPES, Instance, build_graph
 
 
 class ADImportError(ValueError):
@@ -36,6 +36,7 @@ _RELATION_ALIASES = {
     "allowedtodelegate": "AllowedToDelegate", "allowedtoact": "AllowedToAct",
     "addallowedtoact": "AddAllowedToAct", "writesPN".lower(): "WriteSPN",
     "addkeycredentiallink": "AddKeyCredentialLink", "sqladmin": "SQLAdmin",
+    "getchanges": "GetChanges", "getchangesall": "GetChangesAll", "dcsync": "DCSync",
     "contains": "Contains", "gplink": "GPLink",
 }
 _METADATA_KEYS = {
@@ -204,6 +205,8 @@ def _load_payloads(path: str | os.PathLike[str]) -> list[tuple[str, Any]]:
 def load_ad_export(path: str | os.PathLike[str], *, name: str | None = None,
                    entry_weight: dict[str, float] | None = None,
                    target_value: dict[str, float] | None = None,
+                   tier0: Iterable[str] | None = None,
+                   wellknown: dict[str, str] | None = None,
                    stats: dict[str, Any] | None = None) -> Instance:
     """Load a normalized or BloodHound-style offline export.
 
@@ -211,8 +214,12 @@ def load_ad_export(path: str | os.PathLike[str], *, name: str | None = None,
     relationship names are retained with fallback cost 2 and listed in import
     statistics. Embedded ``Members`` and computer-side admin/RDP lists are
     reversed to match the graph convention ``subject -> controlled object``.
+    Tier-0 and well-known groups are explicit inputs; generic ``highvalue``
+    flags are intentionally not treated as Tier-0 markers.
     """
     payloads = _load_payloads(path)
+    tier0_ids = {str(value) for value in (tier0 or ())}
+    wellknown_ids = {str(key): str(value).upper() for key, value in (wellknown or {}).items()}
     nodes: dict[str, dict[str, Any]] = {}
     relations: list[tuple[str, str, str]] = []
     entries: dict[str, float] = {}
@@ -269,9 +276,16 @@ def load_ad_export(path: str | os.PathLike[str], *, name: str | None = None,
             attrs = {
                 "name": str(rec.get("name", rec.get("Name", p.get("name", ident)))),
                 "ntype": owner_type,
-                "tier0": bool(rec.get("tier0", p.get("tier0", p.get("highvalue", False)))),
-                "wellknown": str(rec.get("wellknown", p.get("wellknown", ""))).upper(),
+                "tier0": (ident in tier0_ids if tier0 is not None
+                          else bool(rec.get("tier0", p.get("tier0", False)))),
+                "wellknown": wellknown_ids.get(
+                    ident, str(rec.get("wellknown", p.get("wellknown", ""))).upper()
+                ),
             }
+            # Keep only the non-secret attributes needed for selection/audit.
+            for field in ("objectid", "distinguishedname", "enabled", "admincount", "highvalue"):
+                if field in p:
+                    attrs[field] = p[field]
             primary = rec.get("primary_group", p.get("primary_group", p.get("primarygroupsid")))
             if primary:
                 attrs["primary_group"] = str(primary)
@@ -308,17 +322,48 @@ def load_ad_export(path: str | os.PathLike[str], *, name: str | None = None,
     for u, v, _ in relations:
         nodes.setdefault(u, {"name": u, "ntype": "Other"})
         nodes.setdefault(v, {"name": v, "ntype": "Other"})
-    if entry_weight:
-        entries.update({str(k): float(v) for k, v in entry_weight.items() if float(v) > 0})
-    if target_value:
-        targets.update({str(k): float(v) for k, v in target_value.items() if float(v) > 0})
+    annotations_missing = (tier0_ids | set(wellknown_ids)) - set(nodes)
+    if annotations_missing:
+        raise ADImportError(f"Tier-0/default-group 标注引用不存在的节点: {sorted(annotations_missing)[:5]}")
+    for ident, label in wellknown_ids.items():
+        if label not in FIXED_MEMBERSHIP_GROUPS:
+            raise ADImportError(f"未知的默认组标签 {label!r} ({ident})")
+        nodes[ident]["wellknown"] = label
+    for ident in tier0_ids:
+        nodes[ident]["tier0"] = True
+    # An explicit mapping replaces annotations, including when it is empty.
+    if entry_weight is not None:
+        entries = {str(k): float(v) for k, v in entry_weight.items() if float(v) > 0}
+    if target_value is not None:
+        targets = {str(k): float(v) for k, v in target_value.items() if float(v) > 0}
     missing = (set(entries) | set(targets)) - set(nodes)
     if missing:
         raise ADImportError(f"入口/目标引用了不存在的节点: {sorted(missing)[:5]}")
-    graph = build_graph(nodes, relations)
+    # Neither replication permission alone is a traversal edge. For the
+    # same principal/domain pair, both permissions enable one modeled DCSync
+    # edge. Revoking either suffices, so its cost is one ACL repair (2).
+    replication: dict[tuple[str, str], set[str]] = {}
+    kept = []
+    for u, v, rel in relations:
+        if rel in {"GetChanges", "GetChangesAll"}:
+            replication.setdefault((u, v), set()).add(rel)
+        else:
+            kept.append((u, v, rel))
+    combined = incomplete = 0
+    for (u, v), rights in replication.items():
+        if rights == {"GetChanges", "GetChangesAll"}:
+            kept.append((u, v, "DCSync"))
+            combined += 1
+        else:
+            incomplete += 1
+    report["dcsync_pairs"] = combined
+    report["incomplete_replication_pairs"] = incomplete
+    report["tier0_nodes"] = sum(bool(attrs.get("tier0")) for attrs in nodes.values())
+    report["wellknown_nodes"] = sum(bool(attrs.get("wellknown")) for attrs in nodes.values())
+    graph = build_graph(nodes, kept)
     report["files"] = len({filename.split(":", 1)[0] for filename, _ in payloads})
     report["nodes"] = len(nodes)
-    report["relations"] = len(relations)
+    report["relations"] = len(kept)
     inst = Instance(graph, entries, targets, name=name or Path(path).stem,
                     meta={"source": str(path), "format": "offline-ad-export",
                           "import_stats": report})

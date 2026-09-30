@@ -36,6 +36,8 @@ DEFAULT_EDGE_COST = {
     "AddAllowedToAct": 2,
     "WriteSPN": 2,
     "AddKeyCredentialLink": 2,
+    # Combined GetChanges + GetChangesAll; one ACL revocation breaks the pair.
+    "DCSync": 2,
     "Contains": INF,
     "GPLink": INF,
 }

@@ -110,7 +110,47 @@ def test_adsynth_neo4j_jsonl_shape(tmp_path):
     inst = load_ad_export(path, entry_weight={"1": 1}, target_value={"2": 2})
     assert inst.G.has_edge("1", "2")
     assert inst.G.nodes["1"]["ntype"] == "User"
-    assert inst.G.nodes["2"]["tier0"] is True
+    assert inst.G.nodes["2"]["tier0"] is False
+
+
+def test_explicit_tier0_and_wellknown_annotations(tmp_path):
+    path = tmp_path / "graph.json"
+    records = [
+        {"id": "u", "type": "User", "highvalue": True},
+        {"id": "du", "type": "Group"},
+        {"id": "t", "type": "Group"},
+    ]
+    payload = {"nodes": records, "edges": [
+        {"source": "u", "target": "du", "type": "MemberOf"},
+        {"source": "t", "target": "u", "type": "GenericAll"},
+    ]}
+    path.write_text(json.dumps(payload), encoding="utf-8")
+    inst = load_ad_export(path, tier0=["t"], wellknown={"du": "DOMAIN_USERS"})
+    assert inst.G.nodes["u"]["tier0"] is False
+    assert inst.G.nodes["t"]["tier0"] is True
+    assert inst.G["u"]["du"]["cost"] == float("inf")
+    assert inst.G["t"]["u"]["cost"] == float("inf")
+
+
+def test_dcsync_requires_both_replication_rights(tmp_path):
+    path = tmp_path / "replication.json"
+    payload = {"nodes": [
+        {"id": "u", "type": "User"},
+        {"id": "d", "type": "Domain"},
+    ], "edges": [
+        {"source": "u", "target": "d", "type": "GetChanges"},
+        {"source": "u", "target": "d", "type": "GetChangesAll"},
+    ]}
+    path.write_text(json.dumps(payload), encoding="utf-8")
+    inst = load_ad_export(path, entry_weight={"u": 1}, target_value={"d": 1})
+    assert inst.G["u"]["d"]["etypes"] == ["DCSync"]
+    assert inst.G["u"]["d"]["cost"] == 2
+
+    payload["edges"] = payload["edges"][:1]
+    path.write_text(json.dumps(payload), encoding="utf-8")
+    incomplete = load_ad_export(path, entry_weight={"u": 1}, target_value={"d": 1})
+    assert not incomplete.G.has_edge("u", "d")
+    assert incomplete.meta["import_stats"]["incomplete_replication_pairs"] == 1
 
 
 def test_mapping_file_converter_format(tmp_path):

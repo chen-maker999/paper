@@ -26,7 +26,8 @@ class ADGeneratorConfig:
     admin_degree: float = 1.5
     session_degree: float = 1.0
     remote_degree: float = 0.8
-    parent_degree: float = 1.0
+    parent_degree: float = 1.7
+    gate_count: int = 3
     cross_branch_fraction: float = 0.02
     ou_count: int = 4
     seed: int = 0
@@ -53,6 +54,8 @@ class ADGeneratorConfig:
                 raise ValueError(f"{field} 不能为负数")
         if self.ou_count == 0:
             raise ValueError("ou_count 至少为 1")
+        if self.gate_count < 2:
+            raise ValueError("gate_count 至少为 2")
         for field in ("membership_fraction", "admin_fraction", "session_fraction",
                       "remote_fraction", "group_edge_fraction"):
             value = getattr(self, field)
@@ -123,8 +126,9 @@ def generate_ad_graph(config: ADGeneratorConfig | None = None, *, name: str | No
 
     branches = max(1, cfg.targets)
     group_branch = {g: i % branches for i, g in enumerate(groups)}
-    levels = {g: i // branches for i, g in enumerate(groups)}
-    max_level = max(levels.values(), default=0)
+    # Keep several groups at the top of each branch so a target has redundant
+    # gate paths rather than one universal incoming edge.
+    levels = {g: (i // branches) // 2 for i, g in enumerate(groups)}
     branch_groups = {b: [g for g in groups if group_branch[g] == b] for b in range(branches)}
 
     # Default membership is deliberately fixed by model.relation_cost.
@@ -151,13 +155,18 @@ def generate_ad_graph(config: ADGeneratorConfig | None = None, *, name: str | No
             for parent in rng.sample(candidates, count):
                 add(group, parent, "MemberOf")
 
-    # Only the highest-level gate group in each branch controls that branch's target.
+    # Several highest-level groups in each branch control that branch's target.
     for branch in range(branches):
         branch_levels = branch_groups[branch]
         if branch_levels:
             top = max(levels[g] for g in branch_levels)
             gates = [g for g in branch_levels if levels[g] == top]
-            add(rng.choice(gates), targets[branch % len(targets)], "GenericAll")
+            if len(gates) < cfg.gate_count:
+                lower = sorted((g for g in branch_levels if g not in gates),
+                               key=lambda g: levels[g], reverse=True)
+                gates.extend(lower[:cfg.gate_count - len(gates)])
+            for gate in gates[:cfg.gate_count]:
+                add(gate, targets[branch % len(targets)], "GenericAll")
 
     # Tier-0 internal relations are fixed because their source is Tier-0.
     for i in range(1, len(targets)):
