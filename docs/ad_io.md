@@ -52,3 +52,17 @@ python -m experiments.ad_generator \
 Python 接口为 `ADGeneratorConfig` 和 `generate_ad_graph`。生成器使用固定种子，
 按每个源节点采样固定期望度数，输出的节点和关系是抽象实验数据，目录名包含
 用户/组/计算机规模，能直接交给 `experiments.run`。
+
+## 转换为实验 CSV
+
+对 ADSynth 输出，入口和目标应由实验设计明确指定。准备两个文本文件，每行一个
+节点 ID，可在第二列写权重或价值，然后运行：
+
+```bash
+python -m experiments.convert_ad \
+  --input generated_datasets/vul_1k.json \
+  --entries entries.txt --targets targets.txt \
+  --out data/vul_1k_s0
+```
+
+转换器会写出 `edges.csv`、`nodes.csv` 和导入统计，并保留未知关系类型的统计信息。
