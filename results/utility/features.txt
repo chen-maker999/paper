@@ -26,3 +26,6 @@ type=led:view
 type=led:cmd
 type=led:search
 type=led:fact
+bm25_last
+lines_last
+lines_recent
