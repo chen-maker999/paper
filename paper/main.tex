@@ -1,19 +1,18 @@
 \documentclass[10pt]{article}
-\usepackage[letterpaper,margin=1in]{geometry}
-\usepackage[T1]{fontenc}
-\usepackage{mathptmx}
-\usepackage[scaled=0.92]{helvet}
-\usepackage{courier}
-\usepackage{microtype}
+\usepackage{tmlr}
+% For the camera-ready version use \usepackage[accepted]{tmlr};
+% for an arXiv preprint use \usepackage[preprint]{tmlr}.
+
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{multirow}
 \usepackage{enumitem}
 \usepackage{xcolor}
-\usepackage[numbers,sort&compress]{natbib}
+\usepackage{microtype}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
+\usepackage{url}
 \usepackage[colorlinks=true,linkcolor=blue!50!black,citecolor=blue!50!black,urlcolor=blue!50!black]{hyperref}
 \usepackage[capitalise,noabbrev]{cleveref}
 \usepackage{caption}
@@ -26,11 +25,15 @@
 \crefname{proposition}{Proposition}{Propositions}
 \crefname{corollary}{Corollary}{Corollaries}
 
-\newcommand{\skc}{\textsc{SKC}}
+\title{Keep the Ledger, Drop the Logs:\\State-Keyed Context Compaction for Long-Horizon LLM Agents}
 
-\title{\textbf{Keep the Ledger, Drop the Logs:\\State-Keyed Context Compaction for Long-Horizon LLM Agents}}
-\author{Anonymous Authors}
-\date{}
+% Authors are hidden automatically in the anonymous submission version.
+\author{\name Anonymous \email anonymous@example.com \\
+      \addr Anonymous institution}
+
+\def\month{MM}
+\def\year{YYYY}
+\def\openreview{\url{https://openreview.net/forum?id=XXXX}}
 
 \begin{document}
 \maketitle
@@ -39,8 +42,26 @@
 \input{sec_front}
 \input{sec_results}
 
-\bibliographystyle{plainnat}
+\section*{Broader Impact Statement}
+This work makes long-running LLM agents cheaper and more reliable by keeping
+their working state accurate under context limits. Stale or missing state can
+lead agents to act on outdated information---for example to report a test as
+passing after a later run failed---so methods that surface the current state,
+and evaluations that measure staleness, can reduce such silent errors. More
+capable autonomous agents also amplify the consequences of misuse and of
+unattended mistakes; our method does not change what an agent is permitted to
+do, and we recommend that compressed contexts keep provenance (as SKC's ledger
+does) so that humans can audit what an agent knew when it acted. All data used
+are public agent trajectories released by the SWE-bench leaderboard
+participants; no human subjects were involved.
+
+\section*{Use of AI Assistants}
+An AI coding assistant was used to implement the experimental code, run the
+experiments and draft the manuscript under the direction of the authors, who
+take full responsibility for the content.
+
 \bibliography{refs}
+\bibliographystyle{tmlr}
 
 \clearpage
 \appendix
