@@ -5,7 +5,7 @@ API key 依次读取环境变量 DASHSCOPE_API_KEY、OPENAI_API_KEY。
 
 用法示例：
   python -m experiments.llm_client "你好"
-  python -m experiments.llm_client --model deepseek-v4-flash（需付费额度） --max-tokens 64 "回复 OK"
+  python -m experiments.llm_client --model deepseek-v4-flash --max-tokens 64 "回复 OK"  # 需付费额度
 """
 from __future__ import annotations
 
