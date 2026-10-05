@@ -10,3 +10,4 @@ paper/*.blg
 paper/*.fls
 paper/*.fdb_latexmk
 paper/*.synctex.gz
+results/llm_*/samples.jsonl
