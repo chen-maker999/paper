@@ -119,6 +119,16 @@ python experiments/llm_eval.py submit  --out $OUT $ARGS                     # �
 python experiments/llm_eval.py collect --out $OUT
 ```
 
+## 4.3 同预算的 LLM 摘要基线（summary_fill）
+
+原来的 LLM 摘要基线只用了约 30% 的预算。`summary_fill` 复用已有的 `summaries.json`，在摘要后面用最近的原始轮次把 8k 预算填满（与 Claude Code 等系统的做法一致）：
+
+```bash
+python experiments/llm_eval.py add     --method summary_fill --cache data/cache --out $OUT
+python experiments/llm_eval.py submit  --out $OUT $ARGS      # 只请求 summary_fill
+python experiments/llm_eval.py collect --out $OUT
+```
+
 ## 5. 把结果交回
 
 把 `$OUT/` 目录下的这几个文件提交到仓库（或直接发给我）：

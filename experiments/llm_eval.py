@@ -132,16 +132,38 @@ def prepare(a):
             f.write(json.dumps(s) + "\n")
 
 
+def summary_fill(turns, summary):
+    """Budget-matched LLM-summary baseline (as in production agents): the task, the LLM summary of
+    the older history, and as many of the most recent turns, verbatim, as fit in the budget."""
+    from skc.compressors import _fit_recent, _split
+    from skc.core import Unit
+    pinned, hist = _split(turns)
+    task = [Unit(t.idx, "turn", t.text, t.tokens) for t in pinned if t.role == "task"]
+    block = Unit(-1, "summary", f"<summary>\n{summary}\n</summary>")
+    left = BUDGET - sum(u.tokens for u in task) - block.tokens
+    rec, _ = _fit_recent(hist, max(left, 0))
+    parts = [f"<turn index={u.src}>\n{u.text}\n</turn>" for u in task]
+    parts.append(block.text)
+    parts += [f"<turn index={u.src}>\n{u.text}\n</turn>" for u in rec]
+    return "\n".join(parts)
+
+
 def add_method(a):
     """Add the context of a new compressor to existing samples (answers of the other methods are
     cached, so `submit` afterwards only sends requests for the new method)."""
     samples = load_samples(a.out)
     corpora = {}
-    for s in samples:
+    summaries = None
+    if a.method == "summary_fill":
+        summaries = json.load(open(os.path.join(a.out, "summaries.json")))
+    for k, s in enumerate(samples):
         short, name, point = s["model"], s["instance"], s["point"]
         if short not in corpora:
             corpora[short] = load_corpus(a.cache, short)
         turns = corpora[short][name][0]
+        if a.method == "summary_fill":
+            s["contexts"][a.method] = summary_fill(turns[: point + 1], summaries.get(f"s{k}", ""))
+            continue
         comp = UtilityCompaction(model=utility_model(a.utility, short, name))
         s["contexts"][a.method] = render(comp(turns[: point + 1], BUDGET))
     with open(os.path.join(a.out, "samples.jsonl"), "w") as f:
@@ -334,7 +356,9 @@ def collect(a):
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("phase", choices=["prepare", "summarise", "submit", "collect", "add"])
-    ap.add_argument("--method", default="skc2", help="name of the context added by the `add` phase")
+    ap.add_argument("--method", default="skc2",
+                    help="context added by the `add` phase: a SKC variant name, or summary_fill (budget-matched "
+                         "LLM summary + recent turns; needs summaries.json)")
     ap.add_argument("--utility", default="hgb2", help="utility model prefix used by the `add` phase")
     ap.add_argument("--cache")
     ap.add_argument("--out", default="results/llm")

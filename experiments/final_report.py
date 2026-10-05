@@ -226,7 +226,7 @@ def llm():
     readers = {"qwen3.8-flash": "Qwen3.8-Flash", "qwen3.7-flash": "Qwen3.7-Flash",
                "deepseek-v4-flash": "DeepSeek-V4-Flash"}
     meth = {"window": "Recency window", "obs_mask": "Observation masking", "bm25": "BM25 (turns)",
-            "llm_summary": "LLM summary", "skc2": "SKC (ours)"}
+            "llm_summary": "LLM summary", "summary_fill": "LLM summary + recent", "skc2": "SKC (ours)"}
     rows, sig = [], []
     rs = np.random.default_rng(0)
     for key, rname in readers.items():
@@ -247,7 +247,9 @@ def llm():
                              ident_f1=100 * x.ident_f1.mean(), ctx_tokens=x.ctx_tokens.mean(), n_qa=len(q)))
         for col, frame, val in (("qa_correct", qa, "correct"), ("path_hit", d, "path_hit"), ("ident_f1", d, "ident_f1")):
             pv = frame.pivot_table(index="sample", columns="method", values=val)
-            for b in ("window", "obs_mask", "bm25", "llm_summary"):
+            for b in ("window", "obs_mask", "bm25", "llm_summary", "summary_fill"):
+                if b not in pv:
+                    continue
                 diff = (pv["skc2"] - pv[b]).dropna().values
                 bs = diff[rs.integers(0, len(diff), (5000, len(diff)))].mean(1)
                 sig.append(dict(reader=rname, metric=col, versus=meth[b], diff=100 * diff.mean(),
@@ -258,14 +260,16 @@ def llm():
     write(pd.DataFrame(sig), "llm_significance", floatfmt=".3g", index=False)
     fig, axes = plt.subplots(1, 2, figsize=(7.0, 2.3))
     cols = {"Recency window": P.COLOR["window"], "Observation masking": P.COLOR["obs_mask"],
-            "BM25 (turns)": P.COLOR["bm25"], "LLM summary": "#52514e", "SKC (ours)": P.COLOR["skc"]}
+            "BM25 (turns)": P.COLOR["bm25"], "LLM summary": "#52514e", "LLM summary + recent": "#9085e9",
+            "SKC (ours)": P.COLOR["skc"]}
     rnames = list(t.reader.unique())
     w = 0.16
     for ax, col, title in ((axes[0], "qa_correct", "State QA: correct (%)"), (axes[1], "ident_f1",
                                                                             "Next action: identifier F1")):
-        for j, m in enumerate(cols):
+        ms = [m for m in cols if m in set(t.method)]
+        for j, m in enumerate(ms):
             vals = [t[(t.reader == r) & (t.method == m)][col].iloc[0] for r in rnames]
-            ax.bar(np.arange(len(rnames)) + (j - 2) * w, vals, width=w * 0.9, color=cols[m], label=m)
+            ax.bar(np.arange(len(rnames)) + (j - (len(ms) - 1) / 2) * w, vals, width=w * 0.9, color=cols[m], label=m)
         ax.set_xticks(range(len(rnames)))
         ax.set_xticklabels(rnames, fontsize=6.5)
         ax.set_title(title, loc="left")
