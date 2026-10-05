@@ -303,3 +303,42 @@ if __name__ == "__main__":
     compression(pd.read_csv(os.path.join(RES, "final_lite_tokens.csv")))
     ablation(); llm(); utility_auc(); corpus()
     print("done")
+
+
+def corpus_fig():
+    c = pd.read_csv(os.path.join(RES, "corpus_stats.csv"), index_col=0).drop(index="oh-opus45", errors="ignore")
+    labels = {**P.MODEL_LABEL, **VERIFIED_LABEL}
+    order = list(P.MODEL_LABEL) + list(VERIFIED_LABEL)
+    c = c.reindex([o for o in order if o in c.index])
+    fig, axes = plt.subplots(1, 2, figsize=(7.2, 2.9), gridspec_kw={"width_ratios": [1.15, 1]})
+    y = np.arange(len(c))
+    left = np.zeros(len(c))
+    for col, lab, colr in [("tool_share", "tool outputs", "#2a78d6"), ("agent_share", "agent turns", "#eb6834"),
+                           ("task_share", "task", "#1baf7a")]:
+        axes[0].barh(y, 100 * c[col], left=left, color=colr, label=lab, height=0.62, edgecolor="white", linewidth=1)
+        left += 100 * c[col].values
+    axes[0].scatter(100 * c["redundancy_mean"], y, color="#0b0b0b", marker="|", s=60, zorder=4,
+                    label="repeated lines (redundancy)")
+    axes[0].set_yticks(y)
+    axes[0].set_yticklabels([labels[i] for i in c.index], fontsize=6)
+    axes[0].invert_yaxis()
+    axes[0].set_xlabel("share of context tokens (%)")
+    axes[0].legend(frameon=False, ncol=2, loc="lower center", bbox_to_anchor=(0.45, 1.0), fontsize=6)
+    axes[0].grid(axis="y", visible=False)
+    rf = pd.read_csv(os.path.join(RES, "reference_distance_raw.csv.gz"))
+    palette = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4", "#008300", "#4a3aa7", "#e34948"]
+    for i, m in enumerate(["gpt4", "claude3opus", "claude4sonnet", "oh-gpt5", "oh-qwen3coder", "swe-lm32b"]):
+        x = np.sort(rf[rf.model == m].far.values)
+        if len(x):
+            axes[1].plot(x, 1 - np.arange(len(x)) / len(x), color=palette[i], label=labels[m], lw=1.3)
+    axes[1].set_xscale("symlog", linthresh=1)
+    axes[1].set_xlabel("steps since the identifier first appeared")
+    axes[1].set_title("P(distance > x), identifiers used in actions", loc="left", fontsize=7)
+    axes[1].legend(frameon=False, fontsize=5.5)
+    fig.tight_layout()
+    P.save(fig, "corpus")
+
+
+if __name__ == "__main__":
+    corpus_fig()
+    P.synthetic()

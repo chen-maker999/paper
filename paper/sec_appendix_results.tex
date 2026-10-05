@@ -5,38 +5,157 @@
 \begin{table}[h]
 \centering
 \small
-\caption{Real trajectories at 8k, per model. Top: \% of state probes correct.
-Bottom: \% of long-range use probes (last seen $>$2 steps earlier) available.}
+\caption{State probes, \% correct at 8k, per LLM configuration (micro averages
+within each configuration). SKC and SKC-basic are best for every configuration.}
 \label{tab:by-model}
-\setlength{\tabcolsep}{5pt}
-\begin{tabular}{l rrrrr}
+\setlength{\tabcolsep}{3.2pt}
+\begin{tabular}{l rrrrr rrrrrrr}
 \toprule
-Compressor & GPT-4 & Claude 3 Opus & GPT-4o & Claude 3.7 S. & Claude 4 S. \\
+ & \multicolumn{5}{c}{SWE-bench Lite (SWE-agent)} & \multicolumn{7}{c}{SWE-bench Verified} \\
+\cmidrule(lr){2-6}\cmidrule(lr){7-13}
+ & GPT-4 & C3-Opus & GPT-4o & C3.7-S & C4-S & C4-S & GPT-5 & K2 & Qwen3-C & Devstral & LM-32B & K2 \\
+ & & & & & & (OH) & (OH) & (OH) & (OH) & (OH) & (SA) & (SA) \\
 \midrule
-\multicolumn{6}{l}{\emph{State probes: correct (\%)}} \\
-Recency window        & 61.4 & 76.9 & 54.8 & 59.4 & 41.9 \\
-Observation masking   & 59.7 & 72.6 & 51.6 & 45.8 & 30.8 \\
-Truncate observations & 61.7 & 74.6 & 58.8 & 51.6 & 45.7 \\
-BM25 selection        & 63.1 & 77.7 & 60.5 & 51.7 & 31.6 \\
-Random selection      & 75.6 & \textbf{91.6} & 73.3 & 65.3 & 52.9 \\
-SKC (ours)            & \textbf{77.0} & 90.0 & 81.5 & 76.2 & 73.0 \\
-SKC+BM25 (ours)       & 75.2 & 89.4 & \textbf{83.0} & \textbf{77.1} & \textbf{73.3} \\
-\midrule
-\multicolumn{6}{l}{\emph{Use probes, long range: available (\%)}} \\
-Recency window        & 81.1 & 87.9 & 70.0 & 84.5 & 82.5 \\
-Observation masking   & 82.4 & 89.5 & 71.9 & 78.8 & 83.8 \\
-Truncate observations & \textbf{93.7} & 85.5 & 86.0 & 79.6 & 87.5 \\
-BM25 selection        & 91.2 & 94.4 & 79.8 & 91.6 & \textbf{89.1} \\
-Random selection      & 92.9 & \textbf{96.0} & \textbf{95.6} & 86.0 & 82.7 \\
-SKC (ours)            & 93.3 & 93.5 & 94.6 & 85.6 & 80.8 \\
-SKC+BM25 (ours)       & 91.6 & 93.5 & 89.7 & \textbf{92.1} & 85.1 \\
+Recency window & 55.5 & 72.9 & 49.5 & 52.0 & 37.0 & 44.0 & 51.5 & 45.6 & 34.2 & 51.4 & 50.6 & 59.3 \\
+Observation masking & 55.2 & 69.9 & 48.3 & 44.1 & 28.8 & 39.5 & 49.1 & 42.3 & 28.6 & 46.1 & 42.3 & 52.0 \\
+Truncate observations & 58.1 & 73.4 & 55.2 & 43.1 & 41.2 & 40.8 & 51.4 & 40.3 & 32.8 & 48.3 & 38.2 & 54.8 \\
+BM25 (turns) & 58.9 & 74.9 & 55.4 & 45.2 & 27.9 & 33.7 & 48.2 & 37.5 & 25.0 & 38.6 & 39.5 & 51.0 \\
+BM25 (chunks) & 61.0 & 81.3 & 59.0 & 45.8 & 32.6 & 30.7 & 44.5 & 32.3 & 27.8 & 38.8 & 38.6 & 53.7 \\
+Self-information & 46.1 & 72.2 & 44.7 & 30.8 & 21.0 & 21.5 & 30.2 & 23.6 & 22.8 & 23.7 & 27.5 & 42.1 \\
+Random selection & 70.8 & \textbf{88.0} & 67.7 & 58.4 & 47.6 & 48.1 & 57.9 & 48.3 & 41.8 & 56.2 & 55.0 & 67.3 \\
+SKC-basic (ours) & \textbf{73.4} & 87.3 & \textbf{78.5} & \textbf{70.4} & \textbf{71.0} & \textbf{61.8} & \textbf{78.6} & \textbf{59.6} & \textbf{61.7} & \textbf{69.0} & \textbf{65.3} & \textbf{83.0} \\
+SKC (ours) & 69.9 & 87.6 & 78.1 & 65.1 & 64.3 & 52.4 & 68.4 & 49.6 & 52.8 & 60.3 & 58.0 & 80.4 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-The per-model breakdown shows that the advantage of SKC on state probes grows
-with trajectory length: it is smallest for Claude~3 Opus (median 18 steps,
-where random selection of a short history already covers most of it) and
-largest for Claude~4 Sonnet (median 59 steps). On long-range use probes no
-method dominates across models; SKC+BM25 is best or within 4 points of the best
-for four of the five models.
+\begin{table}[h]
+\centering
+\small
+\caption{In-domain state probes at 8k by key family: \% correct and \% stale.
+Probe counts: edit 21.6k, view 29.4k, cmd 44.0k, search 7.9k, task 5.2k.}
+\label{tab:by-family}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{l rrrrr rrrr}
+\toprule
+ & \multicolumn{5}{c}{Correct (\%)} & \multicolumn{4}{c}{Stale (\%)} \\
+\cmidrule(lr){2-6}\cmidrule(lr){7-10}
+ & task & edit & view & cmd & search & edit & view & cmd & search \\
+\midrule
+Recency window & 100 & 46.0 & 42.1 & 44.4 & 34.6 & 0.6 & 0.2 & 0.1 & 0.0 \\
+Observation masking & 100 & 47.3 & 35.9 & 33.9 & 31.6 & 0.8 & 0.4 & 0.1 & 0.0 \\
+Truncate observations & 100 & 51.9 & 25.5 & 50.2 & 63.1 & 1.4 & 1.4 & 0.7 & 0.2 \\
+BM25 (turns) & 100 & 52.4 & 43.3 & 30.9 & 28.8 & 2.2 & 2.5 & 1.3 & 0.3 \\
+BM25 (chunks) & 100 & 47.2 & 30.8 & 43.9 & 65.2 & 2.0 & 2.2 & 1.4 & 0.4 \\
+Self-information & 100 & 27.3 & 33.7 & 25.8 & 31.1 & 1.1 & 2.0 & 0.8 & 0.1 \\
+Random selection & 100 & 52.1 & \textbf{56.2} & 55.4 & 65.3 & 2.7 & 3.1 & 1.6 & 0.5 \\
+SKC-basic (ours) & 100 & \textbf{74.3} & 45.9 & \textbf{84.6} & \textbf{88.3} & 0.3 & 0.4 & 0.1 & 0.0 \\
+SKC (ours) & 100 & 70.3 & 43.2 & 77.0 & 87.0 & 0.3 & 0.4 & 0.1 & 0.1 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+File views are the one family where random selection keeps more: views are
+long (often a 100-line window), their ledger values are capped at 300 tokens, and
+the type prior ranks them last. Command outputs and search results, in
+contrast, are small records once the surrounding output is dropped.
+
+\begin{table}[h]
+\centering
+\small
+\caption{Compression and cost (in-domain). History: BPE tokens of the
+uncompressed history (excluding the fixed system prompt) at the evaluated
+decision points. Latency: wall-clock time of one compression call on one CPU
+core (Python), including utility-model inference.}
+\label{tab:efficiency}
+\begin{tabular}{r rrr r r}
+\toprule
+Budget & Decision points & History (mean / median) & SKC tokens & Compression & SKC latency \\
+\midrule
+4k & 7{,}886 & 18.6k / 11.6k & 3{,}984 & $4.7\times$ & 99 ms \\
+8k & 5{,}196 & 25.4k / 19.4k & 7{,}856 & $3.2\times$ & 133 ms \\
+16k & 3{,}114 & 34.9k / 30.3k & 15{,}247 & $2.3\times$ & 181 ms \\
+32k & 1{,}437 & 49.0k / 43.1k & 29{,}633 & $1.7\times$ & 250 ms \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Baselines that keep whole turns (window, masking, random) take 4--23\,ms per
+call; chunk-level BM25 takes 133--349\,ms, as it scores the same chunks as SKC.
+Window, masking and truncation leave part of the budget unused at larger budgets
+(e.g.\ masking uses 15.2k of 32k tokens) because they never split turns; SKC
+uses 93--99\% of the budget.
+
+\begin{table}[h]
+\centering
+\small
+\caption{How well item scores predict what the next action uses (held-out LLM
+and instances; averages over the ten folds).}
+\label{tab:auc}
+\begin{tabular}{l rr}
+\toprule
+Scorer & AUC & AP \\
+\midrule
+SKC utility (gradient-boosted trees, 31 features) & \textbf{0.818} & \textbf{0.301} \\
+Logistic regression (28 features) & 0.806 & 0.282 \\
+BM25 relevance to task + latest agent turn & 0.707 & 0.180 \\
+Number of later references & 0.690 & 0.161 \\
+Recency & 0.583 & 0.129 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering
+\small
+\caption{Sensitivity of state probes to the evidence threshold $\theta$
+(in-domain, 8k, \% correct; SKC with the 28 v1 features). The ordering of
+methods is unchanged.}
+\label{tab:theta}
+\begin{tabular}{l rrr}
+\toprule
+ & $\theta=0.6$ & $\theta=0.8$ & $\theta=1.0$ \\
+\midrule
+Recency window & 58.3 & 55.5 & 53.2 \\
+Observation masking & 54.3 & 50.8 & 47.9 \\
+BM25 (chunks) & 62.2 & 56.6 & 51.9 \\
+Random selection & 70.7 & 67.3 & 64.1 \\
+SKC-basic (ours) & \textbf{80.7} & \textbf{77.6} & \textbf{74.4} \\
+SKC (ours) & 79.8 & 74.9 & 70.2 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%% ---------------------------------------------------------------------------
+\section{\textsc{StateTrack} Details}
+\label{app:synthetic}
+
+The generator produces agent-like trajectories with three key families:
+\emph{pinned} constraints stated in the task and occasionally revised by the
+user ($p=0.004$ per key and step), \emph{slow} facts rewritten rarely
+($p=0.03$), and \emph{fast} status variables rewritten often ($p=0.25$). Writes
+appear as \texttt{key = value} lines inside tool outputs (80\%) or agent notes
+(20\%), among log-like distractor lines (lognormal, mean 25 lines per output).
+Values are unique, so the ideal reader is exact. Unless stated otherwise we use
+150 steps, 4 pinned, 12 slow and 6 fast keys, 30 seeds, and probe all keys at
+three checkpoints. The ledger-based compressor here is SKC-basic (there is no
+training corpus for a utility model); ``+BM25'' replaces its backward extension
+by BM25 selection.
+
+\begin{figure}[h]
+\centering
+\begin{minipage}{0.4\linewidth}
+\includegraphics[width=\linewidth]{figures/synth_capacity.pdf}
+\end{minipage}\hfill
+\begin{minipage}{0.56\linewidth}
+\includegraphics[width=\linewidth]{figures/synth_horizon.pdf}
+\end{minipage}
+\caption{\textsc{StateTrack}. Left: retention as the number of keys grows at a
+fixed 2k budget (200 steps); full retention needs space linear in the number of
+live keys (\cref{prop:sufficiency}): the ledger keeps 87\% of 20 keys and 17\% of
+400, a window 25\% and 3\%. With uniform probe probabilities and equal record
+sizes, recency-only and FIFO priorities match the default to within one point
+(\cref{prop:knapsack}). Right: accuracy and staleness vs.\ trajectory length at
+4k.}
+\label{fig:synth-capacity}
+\end{figure}

@@ -4,27 +4,27 @@ most compressors treat the history as text to be shortened---by recency,
 masking, salience or summarization. We argue that an agent's history is better
 viewed as an \emph{event log that mutates a state}, and that what compression
 must preserve is the \emph{current value of each state variable}. This view
-exposes two distinct failure modes: \emph{missing} state, and the more
-dangerous \emph{stale} state, where the newest value is dropped but an older
-one survives. We formalize compression with keyed state writes and an ideal
-reader, and prove that (i) the compacted log---the latest record per key---is a
-sufficient statistic whose size is independent of the horizon and matches an
-information-theoretic lower bound; (ii) supersession-consistent compressors,
-including recency windows, are never stale, but windows forget keys by age
-rather than importance; and (iii) supersession-blind selection is stale with
-probability $(1-\rho)(1-(1-\rho)^{m-1})$ for a key with $m$ writes when a
-fraction $\rho$ of turns is kept, a law that also governs a ledger fed by an
-extractor of recall $\rho$. Building on this, we propose State-Keyed
-Compaction (SKC), a model-free compressor that keeps a verbatim
-latest-value-per-key ledger with provenance, a raw recent window and an action
-skeleton, plus a hybrid with relevance selection that the theory shows cannot
-introduce stale state. On 1{,}478 real SWE-agent trajectories from five LLMs,
-SKC retains 66\%/76\%/83\% of agent state at 4k/8k/16k-token budgets, versus
-40\%/52\%/66\% for a recency window and 39\%/43\%/39\% for observation masking,
-with a stale rate of 0.1\% (1.2--2.4\% for salience and random selection,
-reaching 9--11\% on frequently rewritten keys). Its hybrid also comes within 4 points of the best baseline (and exceeds it at
-16k) at preserving long-range identifiers that the agent goes on to use. A
-controllable benchmark confirms each theoretical prediction, including the
-exact stale rate under imperfect extraction, which identifies extraction
-quality as the key open problem for state-keyed memory.
+exposes two failure modes: \emph{missing} state, and the more insidious
+\emph{stale} state, where the newest value is dropped but an older one survives.
+We formalize compression with keyed state writes and an ideal reader and prove
+that the compacted log (the latest record per key) is a sufficient statistic
+whose size is independent of the horizon; that supersession-consistent
+compressors are never stale while recency windows forget keys by age; and that
+supersession-blind selection is stale with probability
+$(1-\rho)(1-(1-\rho)^{m-1})$ for a key with $m$ writes, a law that also governs
+imperfect extraction. We propose State-Keyed Compaction (SKC), a model-free
+compressor with three layers: a verbatim latest-value ledger, supersession-aware
+deduplication, and a knapsack scored by a utility model trained for free from
+logged trajectories. Across 4{,}979 public trajectories from two agent scaffolds
+and twelve LLM configurations, 65--89\% of context tokens are tool outputs and
+23--55\% are repeated lines. On 2{,}479 held-out trajectories, SKC keeps
+7--9 points more state than the best of seven baselines in-domain
+(e.g.\ 65.0\% vs.\ 57.8\% at a $4.7\times$ compression) and 3--6 points more on
+unseen scaffolds and LLMs, with stale rates (0.1--0.3\%) as low as a recency
+window. With three LLM readers from two families, SKC raises the accuracy of
+questions about the agent's current state from 25--40\% to 50--77\%
+($p<10^{-3}$) without degrading next-action prediction, while LLM summaries
+answer only 2--7\%. Fine-grained lexical selection still preserves more of the
+code that agents re-type; an oracle utility shows that this gap is one of
+prediction, which our framework can absorb.
 \end{abstract}

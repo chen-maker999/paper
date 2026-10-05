@@ -5,9 +5,12 @@
 Large language model (LLM) agents now routinely run for tens to hundreds of
 steps: a software-engineering agent opens files, edits them, runs tests, reads
 tracebacks, and edits again~\citep{yang2024sweagent,wang2025openhands}. Every
-step appends an action and an observation to the context, and tool outputs
-dominate it: in the 1{,}478 SWE-agent trajectories we study, \textbf{71--89\% of
-all context tokens are tool outputs} (\cref{sec:corpus}). Even when a model's
+step appends an action and an observation to the context. In the 4{,}979 public
+trajectories we study (two agent scaffolds, twelve LLM configurations),
+\textbf{65--89\% of all context tokens are tool outputs}, a quarter to a half of
+all tokens are lines that recur later in the same history, and recent models
+reach back more than ten steps for 60--81\% of the identifiers their actions
+use (\cref{sec:corpus}). Even when a model's
 window is large enough, long contexts cost latency and money and degrade
 accuracy~\citep{liu2024lost,hsieh2024ruler,hong2025contextrot}. Every practical
 agent therefore \emph{compresses} its history---by truncating it, masking old
@@ -36,40 +39,53 @@ it.
 \begin{enumerate}[leftmargin=*,itemsep=1pt,topsep=2pt]
   \item \textbf{A state-centric formalization} of agent context compression
   (\cref{sec:formulation}): histories as event logs with keyed writes, an
-  \emph{ideal reader} that separates information loss from reader ability, and
-  three outcomes---\emph{correct}, \emph{stale}, \emph{missing}---for each
-  state probe.
+  \emph{ideal reader} that separates information loss from reader ability,
+  three outcomes---\emph{correct}, \emph{stale}, \emph{missing}---for each state
+  probe, and two key-free, behavior-grounded probes (identifiers and verbatim
+  lines that the agent's next action uses).
   \item \textbf{Theory} (\cref{sec:theory}): the compacted log is a sufficient
   statistic whose size is independent of the horizon and matches an
   information-theoretic lower bound; \emph{supersession-consistent} compressors
-  (which include recency windows and the compacted log) can never be stale;
-  recency windows lose keys at a rate governed by key age rather than
-  importance; and any compressor that keeps turns independently of supersession
-  incurs a stale rate of $(1-\rho)(1-(1-\rho)^{m-1})$ for a key with $m$ writes
-  when it keeps a fraction $\rho$ of turns---which also describes a ledger fed by
-  an extractor with recall $\rho$.
-  \item \textbf{State-Keyed Compaction (SKC)} (\cref{sec:method}): a simple,
-  model-free compressor that keeps a latest-value-per-key ledger with verbatim
-  values and provenance, a short raw window, and a skeleton of older actions,
-  allocating the budget with a knapsack-ratio priority; and a hybrid,
-  SKC+BM25, that the theory shows can add relevance-based selection without
-  creating stale state.
-  \item \textbf{An empirical study} on 1{,}478 real SWE-agent trajectories from
-  five LLMs (GPT-4, Claude~3 Opus, GPT-4o, Claude~3.7 Sonnet, Claude~4 Sonnet)
-  and on a controllable benchmark, \textsc{StateTrack}
-  (\cref{sec:setup,sec:results}). We measure, for six compressors and budgets
-  of 4k--16k tokens, how much agent state survives compression, how often a
-  compressor leaves only stale state, and how well it preserves information
-  that the agent actually goes on to use.
+  can never be stale; recency windows lose keys by age rather than importance;
+  supersession-blind selection is stale with probability
+  $(1-\rho)(1-(1-\rho)^{m-1})$---a law that also governs a ledger fed by an
+  extractor of recall $\rho$; a ledger makes any further selection safe; and
+  supersession-aware deduplication never hurts state retention.
+  \item \textbf{State-Keyed Compaction (SKC)} (\cref{sec:method}): a model-free
+  compressor with three layers---a verbatim latest-value-per-key ledger,
+  supersession-aware deduplication of repeated lines, and a knapsack over ledger
+  records and history chunks scored by a small utility model that is trained
+  \emph{for free} from logged trajectories and transfers across LLMs and agent
+  scaffolds.
+  \item \textbf{An extensive empirical study}: an ideal-reader evaluation on
+  2{,}479 held-out trajectories (SWE-agent on SWE-bench Lite with five LLMs;
+  OpenHands and SWE-agent on SWE-bench Verified with seven further LLM
+  configurations, including open-weight models) at 4k--32k-token budgets, with
+  bootstrap confidence intervals; an LLM-in-the-loop evaluation with three
+  reader models from two families; ablations, an oracle upper bound, and a
+  controllable benchmark that confirms each theoretical prediction.
 \end{enumerate}
 
-\paragraph{Scope.} This paper measures \emph{information sufficiency}: whether
-the compressed context still contains what an ideal reader would need. It does
-not run LLM agents end-to-end on compressed contexts. Sufficiency is a
-necessary condition for downstream success and isolates the compressor from
-the reader; the price is that our numbers are upper bounds on what a real model
-can recover (\cref{sec:limitations}). All code, parsed probes and results are
-released.
+\paragraph{Main findings.} At a 4k-token budget (a $4.7\times$ compression of
+the average history), SKC keeps the current value of 65\% of all state
+variables, $+7.2$ points (95\% CI $[6.7,7.7]$) over the best of seven baselines,
+and the gap grows to $+9.4$ at 32k; on unseen scaffolds and LLMs it is $+3.4$ to
+$+5.9$. Selection methods leave stale state on 1.0--2.8\% of probes (13--18\% of
+the values they keep for keys rewritten three or more times); SKC on 0.1--0.3\%, as low as
+a recency window while retaining far more. With real LLM readers, SKC raises
+state-question accuracy from 25--40\% (best baseline) to 50--77\% across three
+models ($p<10^{-3}$), while next-action prediction is statistically
+indistinguishable from the baselines; LLM summaries answer 2--7\% of state
+questions. SKC is not uniformly best: fine-grained BM25 selection preserves more
+lines that the agent later copies (by 1--8 points), which an oracle utility shows
+is a gap of prediction rather than of the framework.
+
+\paragraph{Scope.} Our main evaluation measures \emph{information sufficiency}
+with an ideal reader, which isolates the compressor from the reader; an
+LLM-in-the-loop study with three reader models checks that the preserved
+information is usable. We do not run agents end-to-end on compressed contexts
+(\cref{sec:limitations}). Code, parsed probes, trained utility models and all
+results are released.
 
 %% ---------------------------------------------------------------------------
 \section{Related Work}
@@ -164,14 +180,17 @@ Stale outcomes are strictly worse than missing ones: a missing value can be
 re-acquired (e.g.\ by re-running a command) if the agent notices the gap,
 whereas a stale value gives no signal that anything is wrong.
 
-\paragraph{Use probes.} State probes require a definition of keys, which could
-favor a method built on the same keys. We therefore also use a key-free,
-behavior-grounded measure: at each decision point we take the identifiers
-(names, dotted names, paths; \cref{app:probes}) in the agent's \emph{next
-action} that already occurred earlier in the history but not in the system
-prompt, and ask whether each is still \emph{available} somewhere in the
-compressed context. This measures whether compression removes information the
-agent actually went on to use.
+\paragraph{Use and copy probes.} State probes require a definition of keys,
+which could favor a method built on the same keys. We therefore also use two
+key-free, behavior-grounded probes. At each decision point we take (i) the
+identifiers (names, dotted names, paths) and (ii) the verbatim lines (at least 12
+characters) of the agent's \emph{next action} that already occurred earlier in
+the history but not in the system prompt, and ask whether each is still
+\emph{available} in the compressed context. We focus on \emph{long-range} probes,
+whose last occurrence is more than two steps back (outside the turns every
+compressor keeps). These probes measure whether compression removes information
+the agent actually went on to use; copied lines are typically code the agent
+re-types from an earlier view or edit.
 
 %% ---------------------------------------------------------------------------
 \section{Theory}
@@ -289,8 +308,8 @@ compaction is still correct with it, while its token cost shrinks by the size of
 the removed repeats (up to one constant-size marker per removed run).
 \end{proposition}
 
-The saving is large in practice: 20--63\% of the tokens of SWE-agent
-trajectories are lines that occur again later (\cref{sec:corpus}).
+The saving is large in practice: 23--55\% of the tokens of the agent
+trajectories we study are lines that occur again later (\cref{sec:corpus}).
 
 %% ---------------------------------------------------------------------------
 \section{State-Keyed Compaction}
@@ -330,12 +349,13 @@ the last $R{=}2$ turns are kept verbatim. Everything else becomes an
 \emph{item}: a ledger record, or a chunk of at most 12 lines (200 tokens) of a
 deduplicated older turn. A small model predicts, for every item, the
 probability $\hat p$ that the next step needs it (contains an identifier or a
-line the next action uses), from 25 model-agnostic features computed at
+line the next action uses), from 31 model-agnostic features computed at
 decision time: age, size, item type (agent/tool chunk by tool kind, ledger record
 by key kind), whether the item carries a current or a superseded value, BM25
-relevance and overlap with the latest agent turn, latest observation and task,
-the rarity of shared identifiers, and how often and how recently its identifiers
-were referred to by later agent turns. Items are admitted greedily by
+relevance to the task and the latest agent turn (jointly and to the latest turn
+alone), identifier and line overlap with the latest agent turn, observation and
+task, the rarity of shared identifiers, and how often and how recently its
+identifiers were referred to by later agent turns. Items are admitted greedily by
 \begin{equation}
   \bigl(\hat p_i + \lambda\,\mathbb{1}[i\text{ is a ledger record}]\bigr)\,/\,|i| ,
   \label{eq:ratio}
@@ -350,7 +370,7 @@ are merged in their original order, with gaps marked.
 \paragraph{Training the utility model.} Labels come for free from logged
 trajectories: an item is positive if the agent's next action uses one of its
 identifiers or copies one of its lines. We use gradient-boosted trees
-(scikit-learn \texttt{HistGradientBoostingClassifier}) and train them
+(scikit-learn's histogram-based gradient boosting) and train them
 \emph{across models}: the model applied to a trajectory of LLM $m$ on SWE-bench
 instance $x$ is trained only on the other four LLMs and on the other half of the
 instances. The utility model thus never sees the evaluated LLM or task.
@@ -377,7 +397,7 @@ instances. The utility model thus never sees the evaluated LLM or task.
 
 SKC calls no LLM: extraction is a parse of the tool call, compaction is a
 dictionary update and a set lookup, and the utility model is an ensemble of small
-trees over 25 features. It runs in tens of milliseconds per step on one CPU core,
+trees over 25 features. It runs in 0.1--0.25\,s per step on one CPU core (\cref{tab:efficiency}),
 and since it always selects from the original history (rather than from a
 previous summary) it does not compound errors over time, unlike recursive
 summarization. We also report \textbf{SKC-basic}, an earlier

@@ -111,13 +111,18 @@ number of steps since the identifier \emph{last} occurred; ``long-range'' use
 probes are those whose last occurrence is more than two steps back (i.e.\
 outside the most recent turns that every compressor keeps).
 
-\paragraph{Decision points.} For each trajectory and budget we take the
-decision points (just before an agent turn) whose uncompressed history
-(excluding the system prompt) exceeds the budget, and sample up to six of them
-evenly. Every compressor is evaluated on the same decision points. Tokens are
-counted with a model-agnostic regular expression (words and punctuation);
-the count is of the same order as BPE token counts but not identical to any
-particular tokenizer, so budgets should be read as relative sizes.
+\paragraph{Copy probes.} A copy probe is a normalized line of at least 12
+characters of the next action that occurs as a line of an earlier non-system
+turn and not in the system prompt; it is available if the line occurs in the
+compressed context.
+
+\paragraph{Decision points.} For each trajectory we take up to six evenly
+spaced decision points (just before an agent turn) whose uncompressed history
+(excluding the system prompt) exceeds 4k tokens; a budget $B$ is evaluated on
+the points whose history exceeds $B$. Every compressor is evaluated on the same
+points. Tokens are counted with a BPE tokenizer (the legacy Claude tokenizer
+shipped with version 0.28.0 of the MIT-licensed \texttt{anthropic} Python SDK);
+the system prompt, which every method keeps, is not charged to the budget.
 
 %% ---------------------------------------------------------------------------
 \section{Baseline and SKC Settings}
@@ -153,8 +158,15 @@ $V=300$, $\lambda=0.3$, supersession-aware deduplication (lines of at least 6
 normalized characters). Utility model: \texttt{HistGradientBoostingClassifier}
 (300 iterations, learning rate 0.08, 31 leaves, L2 1.0), trained on up to 8
 decision points per training trajectory with negatives subsampled at 30\% and
-re-weighted. $R$, chunk size and $\lambda$ were chosen on the development
-instances from $\{2,4\}\times\{12,24,48\}\times\{0.1,0.3\}$ (\cref{sec:setup}).
+re-weighted. Features: the 28 listed in \cref{sec:method} plus three added after
+a first evaluation and validated on the development split (BM25 against the
+latest agent turn alone, and the number of the item's lines that also occur in
+the latest agent and tool turns or in the last four turns). $R$, chunk size and
+$\lambda$ were chosen on the development instances from
+$\{2,4\}\times\{12,24,48\}\times\{0.1,0.3\}$ (\cref{sec:setup}). A variant
+trained to predict the \emph{number} of needed pieces per item (Poisson loss),
+which matches the knapsack objective more closely, was not better (within one
+point on every metric) and is not used.
 \end{itemize}
 In \textsc{StateTrack} the extractor reads the \texttt{key = value} lines that
 carry writes; on SWE-agent it is the structural parser above. Noisy extractors
