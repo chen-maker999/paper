@@ -10,6 +10,8 @@ import matplotlib.pyplot as plt  # noqa: E402
 import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
 
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+
 RES = sys.argv[1] if len(sys.argv) > 1 else "results"
 FIG = sys.argv[2] if len(sys.argv) > 2 else "paper/figures"
 os.makedirs(FIG, exist_ok=True)
@@ -34,6 +36,12 @@ plt.rcParams.update({"font.size": 8, "axes.titlesize": 8.5, "axes.labelsize": 8,
                      "grid.color": "#e6e5e0", "grid.linewidth": 0.6, "lines.linewidth": 1.6,
                      "lines.markersize": 4, "figure.dpi": 200, "savefig.bbox": "tight",
                      "pdf.fonttype": 42})
+
+
+def shared_legend(fig, ax, ncol=7):
+    h, l = ax.get_legend_handles_labels()
+    fig.legend(h, l, loc="lower center", ncol=ncol, frameon=False, bbox_to_anchor=(0.5, -0.06))
+    fig.tight_layout(rect=(0, 0.08, 1, 1))
 
 
 def save(fig, name):
@@ -134,8 +142,7 @@ def real():
         ax.set_xticklabels([f"{b // 1000}k" for b in budgets])
         ax.set_xlabel("Budget (tokens)")
         ax.set_title(t, loc="left")
-    axes[0].legend(frameon=False, loc="lower right", ncol=1)
-    fig.tight_layout()
+    shared_legend(fig, axes[0])
     save(fig, "real_budget")
 
     # Figure: correct by age bucket at B
@@ -153,8 +160,7 @@ def real():
         ax.set_title(t, loc="left")
     axes[0].set_xlabel("Age of the key's latest write (agent steps)")
     axes[1].set_xlabel("Steps since the identifier last appeared")
-    axes[0].legend(frameon=False, loc="lower left")
-    fig.tight_layout()
+    shared_legend(fig, axes[0])
     save(fig, "real_age")
 
     # Figure: stale rate vs number of writes (real data, at B)
@@ -217,8 +223,7 @@ def synthetic():
         ax.set_xticks(budgets)
         ax.set_xticklabels([f"{b // 1000}k" for b in budgets])
         ax.set_xlabel("Budget")
-    axes[0].legend(frameon=False, fontsize=5.5, loc="lower right")
-    fig.tight_layout()
+    shared_legend(fig, axes[0])
     save(fig, "synth_budget")
     t = srates(S1, ["budget", "method"])[["correct", "stale", "missing"]] * 100
     write_table(t, "table_synth_budget")
@@ -236,8 +241,7 @@ def synthetic():
         ax.set_xticklabels(Ts)
         ax.set_xlabel("Trajectory length (steps), budget 4k")
         ax.set_title(tt, loc="left")
-    axes[0].legend(frameon=False, fontsize=6)
-    fig.tight_layout()
+    shared_legend(fig, axes[0])
     save(fig, "synth_horizon")
 
     # S3: stale vs number of writes, compared with Proposition 3
@@ -257,34 +261,40 @@ def synthetic():
                 label=r"Prop. 3: $(1-\rho)(1-(1-\rho)^{m-1})$")
         ax.set_title(f"budget {B // 1000}k (random keeps $\\rho$={rho:.2f})", loc="left")
         ax.set_xlabel("writes to the key ($m$)")
+        ax.set_xticks([1, 3, 5, 7, 9, 11])
     axes[0].set_ylabel("stale (%)")
     axes[0].legend(frameon=False, fontsize=5.5)
     fig.tight_layout()
     save(fig, "synth_stale_theory")
 
-    # S4: extractor recall
+    # S4: extractor recall, with the Proposition 3 prediction for a ledger alone
     S4 = pd.read_csv(os.path.join(RES, "synth_S4.csv.gz"))
-    fig, axes = plt.subplots(1, 2, figsize=(7.0, 2.1), sharey=True)
+    S4 = S4[S4.family != "pinned"]
+    fig, axes = plt.subplots(1, 2, figsize=(7.0, 2.3), sharey=True)
     for ax, B in zip(axes, sorted(S4.budget.unique())):
-        r = srates(S4[S4.budget == B], ["recall"]).sort_index()
-        ax.plot(r.index, 100 * r.correct, color=COLOR["skc"], marker="o", label="correct")
-        ax.plot(r.index, 100 * r.stale, color="#e34948", marker="s", label="stale")
-        ax.plot(r.index, 100 * r.missing, color=MUTED, marker="^", label="missing")
+        for meth, lab, c, mk in [("skc-ledger-only", "ledger only ($R$=0)", "#9085e9", "s"),
+                                 ("skc", "SKC", COLOR["skc"], "o"),
+                                 ("skc+bm25", "SKC+BM25", COLOR["skc+bm25"], "P")]:
+            r = srates(S4[(S4.budget == B) & (S4.method == meth)], ["recall"]).sort_index()
+            ax.plot(r.index, 100 * r.correct, color=c, marker=mk, label=f"{lab}: correct")
+            ax.plot(r.index, 100 * r.stale, color=c, marker=mk, ls="--", label=f"{lab}: stale")
+        s0 = S4[(S4.budget == B) & (S4.method == "skc-ledger-only")]
+        rs = sorted(s0.recall.unique())
+        pred = [100 * ((1 - r) * (1 - (1 - r) ** (s0[s0.recall == r].n_writes - 1))).mean() for r in rs]
+        ax.plot(rs, pred, color=MUTED, ls=":", lw=1.2, label="Prop. 3 prediction (ledger stale)")
         ax.set_xlabel("extractor recall $r$")
-        ax.set_title(f"SKC, budget {B // 1000}k", loc="left")
+        ax.set_title(f"budget {B // 1000}k", loc="left")
         ax.invert_xaxis()
     axes[0].set_ylabel("% of probes")
-    axes[0].legend(frameon=False)
-    fig.tight_layout()
+    shared_legend(fig, axes[0], ncol=4)
     save(fig, "synth_recall")
-    write_table(srates(S4, ["budget", "recall"])[["correct", "stale", "missing"]] * 100, "table_synth_recall")
+    write_table(srates(S4, ["budget", "method", "recall"])[["correct", "stale", "missing"]] * 100,
+                "table_synth_recall")
 
     # S5: capacity
     S5 = pd.read_csv(os.path.join(RES, "synth_S5.csv.gz"))
     fig, ax = plt.subplots(figsize=(3.4, 2.2))
-    variants = [("skc", "SKC (knapsack priority)", COLOR["skc"], "o", "-"),
-                ("skc-recency-only", "SKC, recency-only priority", COLOR["skc"], "s", "--"),
-                ("skc-no-priority", "SKC, no priority (FIFO)", COLOR["skc"], "^", ":"),
+    variants = [("skc", "SKC", COLOR["skc"], "o", "-"),
                 ("window", LABEL["window"], COLOR["window"], "s", "-"),
                 ("obs_mask", LABEL["obs_mask"], COLOR["obs_mask"], "^", "-")]
     Ks = sorted(S5.n_keys.unique())

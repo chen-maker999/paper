@@ -1,0 +1,42 @@
+%% ---------------------------------------------------------------------------
+\section{Additional Results}
+\label{app:results}
+
+\begin{table}[h]
+\centering
+\small
+\caption{Real trajectories at 8k, per model. Top: \% of state probes correct.
+Bottom: \% of long-range use probes (last seen $>$2 steps earlier) available.}
+\label{tab:by-model}
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{l rrrrr}
+\toprule
+Compressor & GPT-4 & Claude 3 Opus & GPT-4o & Claude 3.7 S. & Claude 4 S. \\
+\midrule
+\multicolumn{6}{l}{\emph{State probes: correct (\%)}} \\
+Recency window        & 61.4 & 76.9 & 54.8 & 59.4 & 41.9 \\
+Observation masking   & 59.7 & 72.6 & 51.6 & 45.8 & 30.8 \\
+Truncate observations & 61.7 & 74.6 & 58.8 & 51.6 & 45.7 \\
+BM25 selection        & 63.1 & 77.7 & 60.5 & 51.7 & 31.6 \\
+Random selection      & 75.6 & \textbf{91.6} & 73.3 & 65.3 & 52.9 \\
+SKC (ours)            & \textbf{77.0} & 90.0 & 81.5 & 76.2 & 73.0 \\
+SKC+BM25 (ours)       & 75.2 & 89.4 & \textbf{83.0} & \textbf{77.1} & \textbf{73.3} \\
+\midrule
+\multicolumn{6}{l}{\emph{Use probes, long range: available (\%)}} \\
+Recency window        & 81.1 & 87.9 & 70.0 & 84.5 & 82.5 \\
+Observation masking   & 82.4 & 89.5 & 71.9 & 78.8 & 83.8 \\
+Truncate observations & \textbf{93.7} & 85.5 & 86.0 & 79.6 & 87.5 \\
+BM25 selection        & 91.2 & 94.4 & 79.8 & 91.6 & \textbf{89.1} \\
+Random selection      & 92.9 & \textbf{96.0} & \textbf{95.6} & 86.0 & 82.7 \\
+SKC (ours)            & 93.3 & 93.5 & 94.6 & 85.6 & 80.8 \\
+SKC+BM25 (ours)       & 91.6 & 93.5 & 89.7 & \textbf{92.1} & 85.1 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The per-model breakdown shows that the advantage of SKC on state probes grows
+with trajectory length: it is smallest for Claude~3 Opus (median 18 steps,
+where random selection of a short history already covers most of it) and
+largest for Claude~4 Sonnet (median 59 steps). On long-range use probes no
+method dominates across models; SKC+BM25 is best or within 4 points of the best
+for four of the five models.

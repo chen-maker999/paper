@@ -85,7 +85,7 @@ def job_recall(seed):
         for B in (2000, 8000):
             for comp in (StateKeyedCompaction(extractor=noisy_extractor(r, seed), name="skc"),
                          StateKeyedCompaction(extractor=noisy_extractor(r, seed), extend=False,
-                                              name="skc-ledger-only"),
+                                              recent=0, name="skc-ledger-only"),
                          StateKeyedCompaction(extractor=noisy_extractor(r, seed), extend_mode="bm25",
                                               name="skc+bm25")):
                 for end in checkpoints(turns):

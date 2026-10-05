@@ -186,7 +186,7 @@ class BM25Select(Compressor):
         pinned, hist = _split(turns)
         units, cost = _pinned_units(pinned)
         budget -= cost
-        tail = hist[-self.keep_last:]
+        tail = hist[len(hist) - self.keep_last:] if self.keep_last > 0 else []
         rest = hist[: len(hist) - len(tail)]
         rec, used = _fit_recent(tail, budget)
         scores = bm25_scores(pinned, hist, rest, self.k1, self.b)
@@ -209,7 +209,7 @@ class RandomSelect(Compressor):
         pinned, hist = _split(turns)
         units, cost = _pinned_units(pinned)
         budget -= cost
-        tail = hist[-self.keep_last:]
+        tail = hist[len(hist) - self.keep_last:] if self.keep_last > 0 else []
         rest = hist[: len(hist) - len(tail)]
         rec, used = _fit_recent(tail, budget)
         rng = random.Random(self.seed * 1000003 + len(hist))
@@ -268,7 +268,7 @@ class StateKeyedCompaction(Compressor):
         pinned, hist = _split(turns)
         units, cost = _pinned_units(pinned)
         budget -= cost
-        tail = hist[-self.recent:]
+        tail = hist[len(hist) - self.recent:] if self.recent > 0 else []
         rec, used = _fit_recent(tail, budget)
         kept_turns = {u.src for u in rec}
         led_units = []

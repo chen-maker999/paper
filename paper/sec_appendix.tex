@@ -1,5 +1,6 @@
 %% ---------------------------------------------------------------------------
 \section{Proofs}
+\sloppy
 \label{app:proofs}
 
 \paragraph{\Cref{prop:sufficiency}.} By construction $\mathrm{L}_t$ contains,
@@ -74,10 +75,11 @@ line-exact after normalization, so an edit is also present if the file view
 echoed after the edit shows the new lines.
 
 \paragraph{Key derivation for SWE-agent.} SWE-agent 0.x actions
-(\texttt{open}, \texttt{goto}, \texttt{scroll\_*}, \texttt{create},
-\texttt{edit a:b \dots end\_of\_edit}, \texttt{search\_dir},
+(\texttt{open}, \texttt{goto}, \texttt{scroll\_up}/\texttt{scroll\_down},
+\texttt{create}, \texttt{edit~a:b}, \texttt{search\_dir},
 \texttt{search\_file}, \texttt{find\_file}) and SWE-agent 1.x actions
-(\texttt{str\_replace\_editor view|create|str\_replace|insert}, bash) are parsed
+(\texttt{str\_replace\_editor} with \texttt{view}, \texttt{create},
+\texttt{str\_replace} or \texttt{insert}; bash) are parsed
 deterministically. The currently open file in 0.x is tracked from the
 \texttt{[File: \dots]} header of observations. \emph{Edit regions}: a line-range
 edit supersedes an earlier edit of the same file if their line ranges overlap;

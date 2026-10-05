@@ -1,0 +1,30 @@
+\begin{abstract}
+Long-horizon LLM agents must compress their growing interaction histories, and
+most compressors treat the history as text to be shortened---by recency,
+masking, salience or summarization. We argue that an agent's history is better
+viewed as an \emph{event log that mutates a state}, and that what compression
+must preserve is the \emph{current value of each state variable}. This view
+exposes two distinct failure modes: \emph{missing} state, and the more
+dangerous \emph{stale} state, where the newest value is dropped but an older
+one survives. We formalize compression with keyed state writes and an ideal
+reader, and prove that (i) the compacted log---the latest record per key---is a
+sufficient statistic whose size is independent of the horizon and matches an
+information-theoretic lower bound; (ii) supersession-consistent compressors,
+including recency windows, are never stale, but windows forget keys by age
+rather than importance; and (iii) supersession-blind selection is stale with
+probability $(1-\rho)(1-(1-\rho)^{m-1})$ for a key with $m$ writes when a
+fraction $\rho$ of turns is kept, a law that also governs a ledger fed by an
+extractor of recall $\rho$. Building on this, we propose State-Keyed
+Compaction (SKC), a model-free compressor that keeps a verbatim
+latest-value-per-key ledger with provenance, a raw recent window and an action
+skeleton, plus a hybrid with relevance selection that the theory shows cannot
+introduce stale state. On 1{,}478 real SWE-agent trajectories from five LLMs,
+SKC retains 66\%/76\%/83\% of agent state at 4k/8k/16k-token budgets, versus
+40\%/52\%/66\% for a recency window and 39\%/43\%/39\% for observation masking,
+with a stale rate of 0.1\% (1.2--2.4\% for salience and random selection,
+reaching 9--11\% on frequently rewritten keys). Its hybrid also comes within 4 points of the best baseline (and exceeds it at
+16k) at preserving long-range identifiers that the agent goes on to use. A
+controllable benchmark confirms each theoretical prediction, including the
+exact stale rate under imperfect extraction, which identifies extraction
+quality as the key open problem for state-keyed memory.
+\end{abstract}
