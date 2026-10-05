@@ -91,6 +91,24 @@ python experiments/llm_eval.py collect   --out $OUT           # 评分，输出�
 - `--no-think` 只对 Qwen3 这类带思考开关的聊天模板有效；其他模型去掉即可。模型若仍输出 `<think>…</think>`，脚本会自动去掉。
 - `--concurrency` 按服务端承受能力调整：vLLM 可设 16–64，Ollama 和 llama.cpp 建议 2–4。
 
+## 4.1 使用云端 API（以阿里云百炼为例）
+
+脚本的 `local` 后端适用于任何兼容 OpenAI 接口的服务，包括云端 API。密钥只从环境变量读取，不要写进代码。
+
+```bash
+export SKC_TOKENIZER=$PWD/data/tokenizer.json        # 并已设置 DASHSCOPE_API_KEY
+OUT=results/llm_qwen3.8-flash
+ARGS="--backend local --base-url https://dashscope.aliyuncs.com/compatible-mode/v1 \
+      --api-key-env DASHSCOPE_API_KEY --model qwen3.8-flash --no-think --max-context 32768 --concurrency 8"
+python experiments/llm_eval.py prepare   --cache data/cache --out $OUT --per-model 60
+python experiments/llm_eval.py summarise --out $OUT $ARGS
+python experiments/llm_eval.py submit    --out $OUT $ARGS
+python experiments/llm_eval.py collect   --out $OUT
+```
+
+`--no-think` 会关闭 qwen 的思考模式（百炼用 `enable_thinking: false`），既省钱，也避免回答被思考 token 截断。
+第二个模型可用 `--model deepseek-v4-flash`（需在百炼开通付费额度），输出目录改为 `results/llm_deepseek-v4-flash`。
+
 ## 5. 把结果交回
 
 把 `$OUT/` 目录下的这几个文件提交到仓库（或直接发给我）：

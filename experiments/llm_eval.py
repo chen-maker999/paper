@@ -162,7 +162,10 @@ def _run_local(a, reqs, out_path):
     client = OpenAI(base_url=a.base_url, api_key=os.environ.get(a.api_key_env, "local"))
     res = json.load(open(out_path)) if os.path.exists(out_path) else {}
     todo = [r for r in reqs if r["custom_id"] not in res]
-    extra = {"chat_template_kwargs": {"enable_thinking": False}} if a.no_think else None
+    extra = None
+    if a.no_think:  # DashScope (Alibaba Bailian) takes a top-level flag; vLLM/SGLang use the chat template
+        extra = ({"enable_thinking": False} if "dashscope" in a.base_url
+                 else {"chat_template_kwargs": {"enable_thinking": False}})
 
     def one(r):
         p = r["params"]
