@@ -25,9 +25,8 @@ Agent 的上下文不是“一段需要缩短的文本”，而是“一条不�
    - 与替代关系无关的选择（BM25、随机、token 重要性）过期率为
      `(1−ρ)(1−(1−ρ)^{m−1})`；同一公式也刻画了召回率为 `r` 的抽取器喂给账本时的过期率；
    - 推论：只要账本里有最新值，剩余预算可以安全地用于相关性选择（SKC+BM25）。
-3. **方法**：SKC / SKC+BM25，无需任何模型调用，可每步运行，且幂等。
-4. **实证**：5 个 LLM（GPT-4、Claude 3 Opus、GPT-4o、Claude 3.7 Sonnet、
-   Claude 4 Sonnet）共 1,478 条真实 SWE-agent 轨迹 + 可控合成基准 StateTrack。
+3. **方法**：三层压实。键级是账本（每个状态只留最新值，原文保存并带出处）；内容级是替代感知的行级去重；效用级是学习型效用背包，带替代安全约束，效用模型直接从日志中免费学习。全程不调用 LLM。
+4. **实证**：2 种 Agent 框架、12 组 LLM 配置，共 4,979 条公开轨迹，配合 bootstrap 置信区间；3 个 LLM 读取模型的在环实验；消融实验与神谕上界；可控合成基准 StateTrack。
 
 主要数字见下方“结果摘要”。详细表格在 `results/final/`，复现方法见 `docs/`。
 
@@ -49,8 +48,10 @@ Agent 的上下文不是“一段需要缩短的文本”，而是“一条不�
 ```
 skc/                 核心库
   core.py            数据模型（Turn / Write / Unit）、证据匹配、理想读取器
-  compressors.py     6 个基线 + SKC + SKC+BM25
+  compressors.py     基线（窗口、观测遮蔽、截断、BM25、随机）与 SKC-basic
+  utility.py         SKC（三层压实、效用模型特征）、BM25 切块、自信息剪枝基线
   sweagent.py        SWE-agent 轨迹解析（0.x 与 1.x 两代接口）→ 状态写入
+  openhands.py       OpenHands 轨迹解析（消息、事件流、文本函数调用三种格式）
   synthetic.py       StateTrack 合成基准生成器、带噪抽取器
   evaluate.py        状态探针与“使用探针”评测
 experiments/         下载数据、统计、主实验、消融、合成实验、作图
