@@ -66,10 +66,11 @@ def main():
     ap.add_argument("--points", type=int, default=8)
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--target", choices=["binary", "count"], default="binary")
+    ap.add_argument("--prefix", default="", help="file prefix of the saved models (default hgb / hgbc)")
     a = ap.parse_args()
     global COUNT
     COUNT = a.target == "count"
-    pre = "hgbc" if COUNT else "hgb"
+    pre = a.prefix or ("hgbc" if COUNT else "hgb")
     os.makedirs(a.out, exist_ok=True)
     data = {}
     for short in SHORT.values():
@@ -94,7 +95,7 @@ def main():
             with open(os.path.join(a.out, f"{pre}_{m}_split{s}.pkl"), "wb") as f:
                 pickle.dump(clf, f)
             mu, sd = Xtr.mean(0), Xtr.std(0) + 1e-6
-            if not COUNT:
+            if not COUNT and not a.prefix:
                 lr = LogisticRegression(max_iter=2000, C=1.0)
                 lr.fit((Xtr - mu) / sd, ytr, sample_weight=wtr)
                 with open(os.path.join(a.out, f"lr_{m}_split{s}.pkl"), "wb") as f:
@@ -105,7 +106,7 @@ def main():
                 fi = {f: j for j, f in enumerate(FEATURES)}
                 yte = (yte > 0).astype(int)
                 scores = {pre: clf.predict(Xte) if COUNT else clf.predict_proba(Xte)[:, 1]}
-                if not COUNT:
+                if not COUNT and not a.prefix:
                     scores["logreg"] = lr.predict_proba((Xte - mu) / sd)[:, 1]
                 scores.update({
                     "bm25": Xte[:, fi["bm25"]],
@@ -126,7 +127,7 @@ def main():
         pickle.dump(clf, f)
     print("trained all", flush=True)
     rep = pd.DataFrame(report)
-    rep.to_csv(os.path.join(a.out, "auc.csv" if not COUNT else "auc_count.csv"), index=False)
+    rep.to_csv(os.path.join(a.out, f"auc_{pre}.csv"), index=False)
     print(rep.groupby("scorer")[["auc", "ap"]].mean().round(3))
     hgb_imp = None
     with open(os.path.join(a.out, "features.txt"), "w") as f:

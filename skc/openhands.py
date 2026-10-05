@@ -114,12 +114,52 @@ def events_to_messages(events):
     return msgs
 
 
+_FN = re.compile(r"<function=([\w.-]+)>(.*?)(?:</function>|$)", re.S)
+_PARAM = re.compile(r"<parameter=([\w.-]+)>(.*?)</parameter>", re.S)
+_EXEC = re.compile(r"^EXECUTION RESULT of \[([\w.-]+)\]:\n?", re.S)
+
+
+def text_calls_to_messages(msgs):
+    """Convert prompt-based function calling (`<function=name><parameter=k>v</parameter></function>`
+    in assistant text, results as `EXECUTION RESULT of [name]:` user messages) into tool calls."""
+    out, pending, k = [], [], 0
+    for m in msgs:
+        txt = _text(m.get("content"))
+        if m.get("role") == "assistant" and "<function=" in txt:
+            calls = []
+            for name, body in _FN.findall(txt):
+                args = {}
+                for key, val in _PARAM.findall(body):
+                    val = val.strip("\n")
+                    if key in ("view_range", "insert_line"):
+                        try:
+                            val = json.loads(val)
+                        except json.JSONDecodeError:
+                            pass
+                    args[key] = val
+                k += 1
+                calls.append({"id": f"t{k}", "type": "function",
+                              "function": {"name": name, "arguments": json.dumps(args)}})
+            pending = [c["id"] for c in calls]
+            out.append({"role": "assistant", "content": txt.split("<function=")[0], "tool_calls": calls})
+        elif m.get("role") == "user" and _EXEC.match(txt):
+            name = _EXEC.match(txt).group(1)
+            cid = pending.pop(0) if pending else None
+            out.append({"role": "tool", "tool_call_id": cid, "name": name, "content": _EXEC.sub("", txt, count=1)})
+        else:
+            out.append(m)
+    return out
+
+
 def load_openhands(path: str):
     msgs = json.load(open(path))
     if isinstance(msgs, dict):
         msgs = msgs.get("history") or msgs.get("messages") or []
     if msgs and isinstance(msgs[0], dict) and "role" not in msgs[0] and ("action" in msgs[0] or "observation" in msgs[0]):
         msgs = events_to_messages(msgs)
+    if not any(m.get("tool_calls") for m in msgs) and any(
+            m.get("role") == "assistant" and "<function=" in _text(m.get("content")) for m in msgs):
+        msgs = text_calls_to_messages(msgs)
     sys_txt = "\n".join(_text(m.get("content")) for m in msgs if m.get("role") == "system")
     users = [m for m in msgs if m.get("role") == "user"]
     task = _task(_text(users[0].get("content"))) if users else ""

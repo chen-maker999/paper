@@ -34,7 +34,8 @@ VERIFIED = {
     "20250716_openhands_kimi_k2": ("oh-kimik2", "openhands", "Kimi K2 (OpenHands)"),
     "20250805-openhands-Qwen3-Coder-480B-A35B-Instruct": ("oh-qwen3coder", "openhands", "Qwen3-Coder-480B (OpenHands)"),
     "20250520_openhands_devstral_small": ("oh-devstral", "openhands", "Devstral-Small (OpenHands)"),
-    "20251127_openhands_claude-opus-4-5": ("oh-opus45", "openhands", "Claude Opus 4.5 (OpenHands)"),
+    # 20251127_openhands_claude-opus-4-5 is excluded: its public export records every tool call as
+    # "Action: unknown", so actions (and hence state writes and probes) cannot be recovered.
     "20250511_sweagent_lm_32b": ("swe-lm32b", "sweagent", "SWE-agent-LM-32B (SWE-agent)"),
     "20250804_codesweep_sweagent_kimi_k2_instruct": ("swe-kimik2", "sweagent", "Kimi K2 (SWE-agent)"),
 }

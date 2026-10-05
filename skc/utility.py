@@ -36,7 +36,9 @@ ITEM_TYPES = ["agent", "tool:edit", "tool:view", "tool:cmd", "tool:search", "too
 FEATURES = (["log_age", "log_tokens", "bm25", "bm25_rank", "overlap_last", "overlap_lastobs",
              "overlap_task", "shared_rare", "log_refcount",
              "log_since_ref", "is_latest", "is_superseded", "has_error", "first_chunk",
-             "last_chunk", "chunk_frac", "n_ident"] + [f"type={t}" for t in ITEM_TYPES])
+             "last_chunk", "chunk_frac", "n_ident"] + [f"type={t}" for t in ITEM_TYPES]
+            # v2 features (appended so that models trained on the first 25 features keep working)
+            + ["bm25_last", "lines_last", "lines_recent"])
 
 
 @dataclass
@@ -194,10 +196,28 @@ def featurize(items, pinned, hist):
                 idf = math.log(1 + (n - df[w] + 0.5) / (df[w] + 0.5))
                 s += idf * f * 2.2 / (f + 1.2 * (0.25 + 0.75 * dl / avgdl))
         scores.append(s)
+    # BM25 against the latest agent turn alone (the step the next action most often continues)
+    q2 = Counter(w.lower() for w in _WORD.findall(agent_turns[-1].text)) if agent_turns else Counter()
+    scores_last = []
+    for d in docs:
+        dl = sum(d.values())
+        s2 = 0.0
+        for w in q2:
+            f = d.get(w, 0)
+            if f:
+                idf = math.log(1 + (n - df[w] + 0.5) / (df[w] + 0.5))
+                s2 += idf * f * 2.2 / (f + 1.2 * (0.25 + 0.75 * dl / avgdl))
+        scores_last.append(s2)
+    last_lines = set()
+    for t in (agent_turns[-1:] + tool_turns[-1:]):
+        last_lines.update(informative_lines(t.text, min_len=12))
+    recent_lines = set()
+    for t in hist[-4:]:
+        recent_lines.update(informative_lines(t.text, min_len=12))
     order = np.argsort(-np.array(scores), kind="stable")
     rank = np.empty(n)
     rank[order] = np.arange(n) / max(n - 1, 1)
-    for it, sc, rk, ids in zip(items, scores, rank, item_ids):
+    for it, sc, rk, ids, sl in zip(items, scores, rank, item_ids, scores_last):
         ref, last_ref = 0, None
         for idx, aids in agent_ids:
             if idx > it.src and ids & aids:
@@ -222,12 +242,17 @@ def featurize(items, pinned, hist):
         f["last_chunk"] = float(it.chunk_idx == it.n_chunks - 1)
         f["chunk_frac"] = it.chunk_idx / max(it.n_chunks - 1, 1)
         f["n_ident"] = math.log1p(len(ids))
+        il = set(informative_lines(it.text, min_len=12))
+        f["bm25_last"] = math.log1p(sl)
+        f["lines_last"] = math.log1p(len(il & last_lines))
+        f["lines_recent"] = math.log1p(len(il & recent_lines))
         for tname in ITEM_TYPES:
             f[f"type={tname}"] = float(it.itype == tname)
 
 
-def feature_matrix(items):
-    return np.array([[it.feats[k] for k in FEATURES] for it in items], dtype=np.float32)
+def feature_matrix(items, n_features=None):
+    names = FEATURES[: n_features] if n_features else FEATURES
+    return np.array([[it.feats[k] for k in names] for it in items], dtype=np.float32)
 
 
 def count_items(items, need_idents, need_lines):
@@ -290,7 +315,7 @@ class UtilityCompaction(Compressor):
     def utilities(self, items):
         if self.model is None:
             return _heuristic_utility(items)
-        X = feature_matrix(items)
+        X = feature_matrix(items, getattr(self.model, "n_features_in_", None))
         if hasattr(self.model, "predict_proba"):
             return self.model.predict_proba(X)[:, 1]
         return np.maximum(self.model.predict(X), 0.0)  # expected number of needed pieces
