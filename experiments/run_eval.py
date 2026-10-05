@@ -197,8 +197,17 @@ def main():
             lite_instances |= set(load_corpus(a.cache, short))
     if a.only:
         corpora = [c for c in corpora if c in a.only.split(",")]
+    tag = (a.suite if a.corpora == "lite" else f"{a.suite}_{a.corpora}") + (f"_{a.tag}" if a.tag else "")
+    os.makedirs(a.out, exist_ok=True)
     for short in corpora:
         if not os.path.exists(os.path.join(a.cache, f"{short}.pkl")):
+            continue
+        part = os.path.join(a.out, f".partial_{tag}_{short}.pkl")
+        if os.path.exists(part):  # checkpoint from an interrupted run
+            with open(part, "rb") as f:
+                for acc, c in zip((br, pt, tok, nctx, lat), pickle.load(f)):
+                    acc.update(c)
+            print("resumed", short, flush=True)
             continue
         corpus = load_corpus(a.cache, short)
         items = [kv for kv in sorted(corpus.items())[: a.limit or None]
@@ -208,12 +217,15 @@ def main():
             pick = sorted(rs.choice(len(items), size=min(a.per_model, len(items)), replace=False))
             items = [items[i] for i in pick]
         jobs = [(short, n, t, budgets, a.suite) for n, (t, _) in items]
+        cb, cp, ct, cn, cl = Counter(), Counter(), Counter(), Counter(), Counter()
         with ProcessPoolExecutor(a.workers) as ex:
             for b, p, t, c, la in ex.map(run_traj, jobs, chunksize=1):
-                br.update(b); pt.update(p); tok.update(t); nctx.update(c); lat.update(la)
+                cb.update(b); cp.update(p); ct.update(t); cn.update(c); cl.update(la)
+        with open(part, "wb") as f:
+            pickle.dump((cb, cp, ct, cn, cl), f)
+        for acc, c in zip((br, pt, tok, nctx, lat), (cb, cp, ct, cn, cl)):
+            acc.update(c)
         print("done", short, flush=True)
-    os.makedirs(a.out, exist_ok=True)
-    tag = (a.suite if a.corpora == "lite" else f"{a.suite}_{a.corpora}") + (f"_{a.tag}" if a.tag else "")
     pd.DataFrame([dict(model=k[0], method=k[1], budget=k[2], probe=k[3], ktype=k[4], age=k[5],
                        n_writes=k[6], outcome=k[7], count=v) for k, v in br.items()]
                  ).to_csv(os.path.join(a.out, f"eval_{tag}_breakdown.csv.gz"), index=False)
