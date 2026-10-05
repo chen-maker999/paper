@@ -13,11 +13,17 @@ trajectories (same decision points and compressors as run_eval.py):
 An LLM-summarisation compressor is included as a baseline: the history outside
 the last two turns is summarised by the same LLM into at most half the budget.
 
-Phases (requests go through the Message Batches API, 50% price):
-  python experiments/llm_eval.py prepare  --cache C --out results/llm
-  python experiments/llm_eval.py summarise --out results/llm      # LLM-summary baseline
-  python experiments/llm_eval.py submit   --out results/llm
-  python experiments/llm_eval.py collect  --out results/llm
+Two backends:
+  --backend anthropic  Claude via the Message Batches API (50% price); needs ANTHROPIC_API_KEY.
+  --backend local      any OpenAI-compatible server (vLLM, Ollama, llama.cpp server, LM Studio),
+                       e.g. --base-url http://localhost:8000/v1 --model Qwen/Qwen3-14B
+
+Phases (results are cached, so an interrupted run can be resumed):
+  python experiments/llm_eval.py prepare   --cache C --out results/llm
+  python experiments/llm_eval.py summarise --out results/llm [backend options]   # LLM-summary baseline
+  python experiments/llm_eval.py submit    --out results/llm [backend options]
+  python experiments/llm_eval.py collect   --out results/llm
+See docs/LOCAL_LLM_EVAL.md.
 """
 from __future__ import annotations
 
@@ -38,7 +44,7 @@ from skc.compressors import BM25Select, ObservationMasking, RecencyWindow  # noq
 from skc.core import IDENT_RE, count_tokens, informative_lines, norm_line  # noqa: E402
 from skc.utility import UtilityCompaction  # noqa: E402
 
-MODEL = os.environ.get("SKC_LLM", "claude-opus-5-5")
+ARGS = None
 BUDGET = 8000
 SYSTEM = ("You are given the (possibly compressed) working history of a software-engineering agent "
           "that is fixing a GitHub issue. Parts of the history may have been removed. Answer only from "
@@ -145,9 +151,55 @@ def _client():
     return anthropic.Anthropic()
 
 
+_THINK = re.compile(r"<think>.*?</think>", re.S)
+
+
+def _run_local(a, reqs, out_path):
+    """OpenAI-compatible chat completions with a thread pool; resumable via out_path."""
+    from concurrent.futures import ThreadPoolExecutor
+
+    from openai import OpenAI
+    client = OpenAI(base_url=a.base_url, api_key=os.environ.get("OPENAI_API_KEY", "local"))
+    res = json.load(open(out_path)) if os.path.exists(out_path) else {}
+    todo = [r for r in reqs if r["custom_id"] not in res]
+    extra = {"chat_template_kwargs": {"enable_thinking": False}} if a.no_think else None
+
+    def one(r):
+        p = r["params"]
+        msgs = [{"role": "system", "content": p["system"]}] + p["messages"]
+        for attempt in range(3):
+            try:
+                out = client.chat.completions.create(model=a.model, messages=msgs, temperature=0,
+                                                     max_tokens=p["max_tokens"], extra_body=extra)
+                return r["custom_id"], _THINK.sub("", out.choices[0].message.content or "").strip()
+            except Exception as e:  # noqa: BLE001 - keep going on a single failed request
+                err = e
+                time.sleep(2 ** attempt)
+        print("failed", r["custom_id"], repr(err)[:200], flush=True)
+        return r["custom_id"], None
+
+    done = 0
+    with ThreadPoolExecutor(a.concurrency) as ex:
+        for cid, txt in ex.map(one, todo):
+            if txt is not None:
+                res[cid] = txt
+            done += 1
+            if done % 50 == 0:
+                json.dump(res, open(out_path, "w"))
+                print(f"{done}/{len(todo)}", flush=True)
+    json.dump(res, open(out_path, "w"))
+    return res
+
+
+def call_all(a, reqs, out_path):
+    if a.backend == "local":
+        return _run_local(a, reqs, out_path)
+    return _run_batch(_client(), reqs, out_path)
+
+
 def _req(cid, prompt, max_tokens=1024):
     return {"custom_id": cid, "params": {
-        "model": MODEL, "max_tokens": max_tokens, "system": SYSTEM,
+        "model": ARGS.model, "max_tokens": max_tokens, "system": SYSTEM,
         "output_config": {"effort": "low"},
         "messages": [{"role": "user", "content": prompt}]}}
 
@@ -171,17 +223,20 @@ def load_samples(out):
 
 
 def summarise(a):
-    client = _client()
+    from skc.compressors import truncate_text
     samples = load_samples(a.out)
     reqs = []
     for k, s in enumerate(samples):
         cap = BUDGET // 2
-        prompt = (f"<issue>\n{s['task']}\n</issue>\n<history>\n{s['older']}\n</history>\n\n"
+        older = s["older"]
+        if a.max_context:  # local models: keep head and tail of the history that fits the window
+            older = truncate_text(older, max(a.max_context - cap - 2000, 2000))
+        prompt = (f"<issue>\n{s['task']}\n</issue>\n<history>\n{older}\n</history>\n\n"
                   f"Summarise this agent history for the agent itself, so that it can continue the task "
                   f"without the original history. Keep file paths, function names, edits made, commands run "
                   f"and their latest results, errors, and open hypotheses. At most {cap} tokens.")
         reqs.append(_req(f"s{k}", prompt, max_tokens=cap))
-    res = _run_batch(client, reqs, os.path.join(a.out, "summaries.json"))
+    res = call_all(a, reqs, os.path.join(a.out, "summaries.json"))
     for k, s in enumerate(samples):
         summ = res.get(f"s{k}", "")
         s["contexts"]["llm_summary"] = f"<summary>\n{summ}\n</summary>\n{s['recent']}"
@@ -191,7 +246,6 @@ def summarise(a):
 
 
 def submit(a):
-    client = _client()
     samples = load_samples(a.out)
     reqs = []
     for k, s in enumerate(samples):
@@ -199,7 +253,7 @@ def submit(a):
             if s["probe"]:
                 reqs.append(_req(f"qa|{k}|{m}", qa_prompt(s, ctx), 256))
             reqs.append(_req(f"na|{k}|{m}", next_prompt(s, ctx), 1024))
-    _run_batch(client, reqs, os.path.join(a.out, "answers.json"))
+    call_all(a, reqs, os.path.join(a.out, "answers.json"))
 
 
 def _paths(text):
@@ -261,5 +315,13 @@ if __name__ == "__main__":
     ap.add_argument("--cache")
     ap.add_argument("--out", default="results/llm")
     ap.add_argument("--per-model", type=int, default=60)
+    ap.add_argument("--backend", choices=["anthropic", "local"], default="anthropic")
+    ap.add_argument("--model", default="claude-opus-5-5", help="model id (anthropic) or served model name (local)")
+    ap.add_argument("--base-url", default="http://localhost:8000/v1", help="OpenAI-compatible endpoint (local)")
+    ap.add_argument("--concurrency", type=int, default=8)
+    ap.add_argument("--max-context", type=int, default=0,
+                    help="context window of a local model; long inputs to the summariser are cut to fit")
+    ap.add_argument("--no-think", action="store_true", help="disable thinking mode (Qwen3-style chat templates)")
     a = ap.parse_args()
+    ARGS = a
     {"prepare": prepare, "summarise": summarise, "submit": submit, "collect": collect}[a.phase](a)
