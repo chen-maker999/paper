@@ -249,8 +249,10 @@ class StateKeyedCompaction(Compressor):
 
     def __init__(self, recent: int = 4, value_cap: int = 300, tau: float = 20.0,
                  type_weight=None, extractor=None, use_ledger=True, extend=True,
-                 extend_mode="recent", name=None):
+                 extend_mode="recent", name=None, fmt=None):
         self.recent, self.value_cap, self.tau = recent, value_cap, tau
+        # renders a ledger record; domain adapters may use a terser format
+        self.fmt = fmt or (lambda k, w, val: f"[state] {k} (as of turn {w.turn}):\n{val}")
         self.type_weight = type_weight or DEFAULT_TYPE_WEIGHT
         self.extractor = extractor or (lambda t: t.writes)
         self.use_ledger, self.extend, self.extend_mode = use_ledger, extend, extend_mode
@@ -279,8 +281,7 @@ class StateKeyedCompaction(Compressor):
                 if w.turn in kept_turns:
                     continue
                 val = truncate_text(w.value, self.value_cap, head_frac=1 / 3)
-                text = f"[state] {k} (as of turn {w.turn}):\n{val}"
-                u = Unit(w.turn, "ledger", text)
+                u = Unit(w.turn, "ledger", self.fmt(k, w, val))
                 age = max(now - w.turn, 0) / 2.0  # in agent steps
                 p = self.type_weight.get(w.ktype, 1.0) * self.tau / (self.tau + age)
                 cands.append((p / max(u.tokens, 1), u))

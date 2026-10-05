@@ -129,6 +129,42 @@ python experiments/llm_eval.py submit  --out $OUT $ARGS      # 只请求 summary
 python experiments/llm_eval.py collect --out $OUT
 ```
 
+## 4.4 下游任务：ALFWorld（端到端成功率）
+
+让 LLM Agent 在 ALFWorld 的 134 个未见过的家居文本游戏（valid_unseen）里完成任务。每一步都先用某种方法把交互历史压缩到预算以内，Agent 只能看到压缩后的上下文，指标是**任务成功率**。
+
+| 方法 | 说明 |
+|---|---|
+| `full` | 不压缩（参考上限，不受预算限制） |
+| `window` | 任务 + 能放下的最近几步 |
+| `obs_mask` | 观测遮蔽（只保留最近 10 条观测，再按时间截断） |
+| `summary` | 滚动 LLM 摘要：超出预算时，把最早的若干步交给同一个模型并入摘要，剩余预算放最近几步（Claude Code / MemGPT 的做法），会额外调用 LLM |
+| `skc` | 本文方法：账本记录每个容器的最新内容、手上物品、已加工物品，加最近几步和动作骨架，不调用 LLM |
+
+预算默认 600 和 1200 token（任务描述 + 历史，固定的系统提示不计入），每局最多 50 步。
+
+```bash
+bash experiments/alfworld_setup.sh                  # 安装 TextWorld/ALFWorld，下载游戏文件（约 36MB）
+export SKC_TOKENIZER=$PWD/data/tokenizer.json      # 没有的话先运行 python experiments/get_tokenizer.py data/tokenizer.json
+OUT=results/alfworld_qwen3.8-flash
+ARGS="--backend local --base-url https://dashscope.aliyuncs.com/compatible-mode/v1 \
+      --api-key-env DASHSCOPE_API_KEY --model qwen3.8-flash --no-think --concurrency 8"
+
+# 先跑 6 局冒烟测试（约 1–2 分钟），确认没有报错
+python experiments/alfworld_eval.py run --data data/alfworld --out $OUT $ARGS --games 6
+python experiments/alfworld_eval.py report --out $OUT
+
+# 正式运行：134 局 × 9 种配置（full + 4 种方法 × 2 个预算）
+python experiments/alfworld_eval.py run --data data/alfworld --out $OUT $ARGS
+python experiments/alfworld_eval.py report --out $OUT
+```
+
+- 规模：约 1,200 局、3–4 万次请求，每次输入约 1k token。`--concurrency` 是同时进行的局数。
+- 每局结束就写入 `$OUT/episodes/`，中断后重跑同一条命令会跳过已完成的局；冒烟测试的 6 局也会被正式运行复用。
+- 某一局失败（例如 API 连续报错）会打印 `failed`，重跑即可补上。
+- 输出：`alfworld_summary.csv`（各配置成功率、95% 置信区间、平均步数、无效命令数、上下文与输入 token、按任务类型的成功率），`alfworld_tests.csv`（SKC 与其他方法的配对精确 McNemar 检验）。
+- 思考模式无法关闭的模型（如 glm-5.3）去掉 `--no-think`，加 `--think-tokens 4096`。
+
 ## 5. 把结果交回
 
 把 `$OUT/` 目录下的这几个文件提交到仓库（或直接发给我）：
@@ -137,5 +173,6 @@ python experiments/llm_eval.py collect --out $OUT
 - `llm_eval_rows.csv`：逐样本评分，用来算置信区间；
 - `answers.json`、`summaries.json`：原始输出，便于复核；
 - `samples.jsonl`：样本与上下文，体积较大，可选。
+- ALFWorld：`$OUT/` 整个目录（`episodes/` 里是每局的完整轨迹，约几十 MB）。
 
 同时注明所用的模型名、量化方式和服务端（vLLM/Ollama/llama.cpp）。我会据此做统计检验，并写进论文。
