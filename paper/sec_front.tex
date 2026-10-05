@@ -75,8 +75,8 @@ the values they keep for keys rewritten three or more times); SKC on 0.1--0.3\%,
 a recency window while retaining far more. With real LLM readers, SKC raises
 state-question accuracy from 25--40\% (best baseline) to 50--77\% across three
 models ($p<10^{-3}$), while next-action prediction is statistically
-indistinguishable from the baselines; LLM summaries answer 2--7\% of state
-questions. SKC is not uniformly best: fine-grained BM25 selection preserves more
+indistinguishable from the baselines; a budget-matched LLM summary (summary plus
+recent turns, as in production agents) answers 18--38\%. SKC is not uniformly best: fine-grained BM25 selection preserves more
 lines that the agent later copies (by 1--8 points), which an oracle utility shows
 is a gap of prediction rather than of the framework.
 

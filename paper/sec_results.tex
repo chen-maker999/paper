@@ -251,21 +251,24 @@ the main evaluation. Numbers label $\lambda$.}
 \centering
 \small
 \caption{LLM-in-the-loop evaluation at 8k (300 decision points, 217 state
-questions). QA: \% correct / stale; next action: file-path hit and identifier
-F1 (\%). $^\ast$: SKC differs from the method with $p<0.01$ (paired bootstrap).}
+questions). QA: \% correct; F1: next-action identifier F1 (\%). ``Summ.'' is an
+LLM summary of the older history plus the last two turns ($\approx$2.4k tokens);
+``Summ.+recent'' fills the rest of the budget with the most recent turns
+($\approx$7.5k tokens), as production agents do. $^\ast$: SKC differs from the
+method with $p<0.01$ (paired bootstrap).}
 \label{tab:llm}
-\setlength{\tabcolsep}{3.4pt}
-\begin{tabular}{l rr rr rr rr rr}
+\setlength{\tabcolsep}{2.6pt}
+\begin{tabular}{l rr rr rr rr rr rr}
 \toprule
- & \multicolumn{2}{c}{Window} & \multicolumn{2}{c}{Obs.\ mask.} & \multicolumn{2}{c}{BM25} & \multicolumn{2}{c}{LLM summ.} & \multicolumn{2}{c}{SKC (ours)} \\
-\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}\cmidrule(lr){8-9}\cmidrule(lr){10-11}
-Reader & QA & F1 & QA & F1 & QA & F1 & QA & F1 & QA & F1 \\
+ & \multicolumn{2}{c}{Window} & \multicolumn{2}{c}{Obs.\ mask.} & \multicolumn{2}{c}{BM25} & \multicolumn{2}{c}{Summ.} & \multicolumn{2}{c}{Summ.+recent} & \multicolumn{2}{c}{SKC (ours)} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}\cmidrule(lr){8-9}\cmidrule(lr){10-11}\cmidrule(lr){12-13}
+Reader & QA & F1 & QA & F1 & QA & F1 & QA & F1 & QA & F1 & QA & F1 \\
 \midrule
-Qwen3.8-Flash & 40.1$^\ast$ & 47.9 & 31.8$^\ast$ & 47.9 & 31.8$^\ast$ & 46.1 & 2.3$^\ast$ & 29.9$^\ast$ & \textbf{77.0} & 45.7 \\
-Qwen3.7-Flash & 24.9$^\ast$ & 34.2 & 19.4$^\ast$ & \textbf{37.0}$^\ast$ & 20.7$^\ast$ & 30.2 & 4.1$^\ast$ & 22.2$^\ast$ & \textbf{50.2} & 31.6 \\
-DeepSeek-V4-Flash & 27.2$^\ast$ & \textbf{40.5} & 24.9$^\ast$ & 39.7 & 24.4$^\ast$ & 38.8 & 6.5$^\ast$ & 27.8$^\ast$ & \textbf{59.9} & 37.2 \\
+Qwen3.8-Flash & 40.1$^\ast$ & 47.9 & 31.8$^\ast$ & 47.9 & 31.8$^\ast$ & 46.1 & 2.3$^\ast$ & 29.9$^\ast$ & 37.8$^\ast$ & 45.1 & \textbf{77.0} & 45.7 \\
+Qwen3.7-Flash & 24.9$^\ast$ & 34.2 & 19.4$^\ast$ & \textbf{37.0}$^\ast$ & 20.7$^\ast$ & 30.2 & 4.1$^\ast$ & 22.2$^\ast$ & 18.0$^\ast$ & 34.6 & \textbf{50.2} & 31.6 \\
+DeepSeek-V4-Flash & 27.2$^\ast$ & \textbf{40.5} & 24.9$^\ast$ & 39.7 & 24.4$^\ast$ & 38.8 & 6.5$^\ast$ & 27.8$^\ast$ & 25.3$^\ast$ & 40.9 & \textbf{59.9} & 37.2 \\
 \midrule
-QA stale (\%) & \multicolumn{2}{c}{0.5--1.4} & \multicolumn{2}{c}{0.0--1.4} & \multicolumn{2}{c}{3.2--4.1} & \multicolumn{2}{c}{0.0} & \multicolumn{2}{c}{0.9--2.3} \\
+QA stale (\%) & \multicolumn{2}{c}{0.5--1.4} & \multicolumn{2}{c}{0.0--1.4} & \multicolumn{2}{c}{3.2--4.1} & \multicolumn{2}{c}{0.0} & \multicolumn{2}{c}{0.5--1.4} & \multicolumn{2}{c}{0.9--2.3} \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -287,9 +290,16 @@ come mainly from turning ``unknown'' answers into correct ones. LLM summaries,
 although written by the same model, answer only 2--7\% of the questions: they
 describe what was done (``ran the reproduction script, which still failed'')
 rather than preserving the exact state, the paraphrase drift that verbatim
-ledger values avoid. For next-action prediction, SKC is statistically
-indistinguishable from window, masking and BM25 in 17 of 18 comparisons (the
-exception: 5.3 F1 points below masking for Qwen3.7-Flash) and better than LLM
+ledger values avoid. Part of this gap is budget: the summaries use only 0.5--0.9k
+tokens. The budget-matched variant that fills the remaining budget with the most
+recent turns (\emph{Summ.+recent}, $\approx$7.5k tokens, the design of production
+agents) recovers 18--38\%---but still trails the plain recency window by 2--7
+points and SKC by 32--39 points ($p<10^{-3}$ for all readers): spending part of
+the budget on a summary loses more exact state than it preserves. For
+next-action prediction, SKC is statistically indistinguishable from window,
+masking, BM25 and Summ.+recent in 23 of 24 comparisons (exceptions: 5.3 F1
+points below masking for Qwen3.7-Flash, and 10.3 points of file-path hits below
+Summ.+recent for DeepSeek-V4-Flash, $p=0.03$) and better than the short LLM
 summaries by 9--16 F1 points ($p<10^{-3}$). SKC thus makes the agent's current
 state readable without degrading what the next step needs.
 
@@ -419,8 +429,7 @@ on the test set they change SKC by less than one point.
 typed tools, where most state writes can be extracted structurally. Agents whose
 state lives in free text (dialogue, browsing) need learned extractors, whose
 recall then governs staleness (\cref{prop:stale}). LLM summaries were evaluated
-only in the LLM-in-the-loop study, with summaries capped at half the budget and
-written once per decision point.
+only in the LLM-in-the-loop study, with one summary written per decision point.
 
 %% ---------------------------------------------------------------------------
 \section{Conclusion}

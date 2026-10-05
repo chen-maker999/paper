@@ -23,8 +23,8 @@ and twelve LLM configurations, 65--89\% of context tokens are tool outputs and
 unseen scaffolds and LLMs, with stale rates (0.1--0.3\%) as low as a recency
 window. With three LLM readers from two families, SKC raises the accuracy of
 questions about the agent's current state from 25--40\% to 50--77\%
-($p<10^{-3}$) without degrading next-action prediction, while LLM summaries
-answer only 2--7\%. Fine-grained lexical selection still preserves more of the
+($p<10^{-3}$) without degrading next-action prediction, while a budget-matched
+LLM summary with recent turns answers 18--38\%. Fine-grained lexical selection still preserves more of the
 code that agents re-type; an oracle utility shows that this gap is one of
 prediction, which our framework can absorb.
 \end{abstract}
