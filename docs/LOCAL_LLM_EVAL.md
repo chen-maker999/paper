@@ -107,7 +107,7 @@ python experiments/llm_eval.py collect   --out $OUT
 ```
 
 `--no-think` 会关闭 qwen 的思考模式（百炼用 `enable_thinking: false`），既省钱，也避免回答被思考 token 截断。
-第二个模型可用 `--model deepseek-v4-flash`（需在百炼开通付费额度），输出目录改为 `results/llm_deepseek-v4-flash`。
+第二个模型用 `--model glm-5.3`，输出目录改为 `results/llm_glm-5.3`。glm-5.3 的思考模式无法关闭（传 `enable_thinking: false` 会报错），因此去掉 `--no-think`，改加 `--think-tokens 8192`：思考 token 也计入 `max_tokens`，不留余量时问答（上限 256）会在思考阶段就被截断。百炼对该模型不支持 `thinking_budget`。思考内容在单独的 `reasoning_content` 字段里，不会混进答案。
 
 ## 5. 把结果交回
 

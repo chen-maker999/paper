@@ -173,7 +173,8 @@ def _run_local(a, reqs, out_path):
         for attempt in range(3):
             try:
                 out = client.chat.completions.create(model=a.model, messages=msgs, temperature=0,
-                                                     max_tokens=p["max_tokens"], extra_body=extra)
+                                                     max_tokens=p["max_tokens"] + a.think_tokens,
+                                                     extra_body=extra)
                 return r["custom_id"], _THINK.sub("", out.choices[0].message.content or "").strip()
             except Exception as e:  # noqa: BLE001 - keep going on a single failed request
                 err = e
@@ -328,6 +329,8 @@ if __name__ == "__main__":
     ap.add_argument("--max-context", type=int, default=0,
                     help="context window of a local model; long inputs to the summariser are cut to fit")
     ap.add_argument("--no-think", action="store_true", help="disable thinking mode (Qwen3-style chat templates)")
+    ap.add_argument("--think-tokens", type=int, default=0,
+                    help="extra max_tokens per request for models whose thinking cannot be disabled (local)")
     a = ap.parse_args()
     ARGS = a
     {"prepare": prepare, "summarise": summarise, "submit": submit, "collect": collect}[a.phase](a)
