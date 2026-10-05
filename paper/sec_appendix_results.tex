@@ -128,6 +128,48 @@ SKC (ours) & 79.8 & 74.9 & 70.2 \\
 \end{table}
 
 %% ---------------------------------------------------------------------------
+
+\section{End-to-End Evaluation on ALFWorld}
+\label{app:alfworld}
+We play the 134 unseen-split games of ALFWorld (text version, TextWorld PDDL
+files) with \texttt{qwen3.8-flash} (thinking disabled, temperature 0, at most 50
+steps). At every step the history is compressed to a budget of 600 or 1200
+tokens (task and history; the fixed system prompt is not charged), measured on
+the rendered prompt. SKC uses a domain extractor that writes the latest
+contents and open/closed state of each receptacle, the held object and
+cleaned/heated/cooled objects to the ledger; it compacts only once the history
+exceeds the budget and makes no LLM calls. The rolling summary folds the oldest
+steps into a running summary written by the same model (one extra call each
+time the budget overflows). Success is paired per game; p-values are exact
+McNemar tests of SKC against each method.
+
+\begin{table}[h]
+\centering\small
+\begin{tabular}{lcccccc}
+\toprule
+ & \multicolumn{2}{c}{Budget 600} & \multicolumn{2}{c}{Budget 1200} \\
+Method & Success (\%) & $p$ vs.\ SKC & Success (\%) & $p$ vs.\ SKC \\
+\midrule
+Window & 83.6 & 1.00 & 85.8 & 0.82 \\
+Observation masking & 83.6 & 1.00 & 88.8 & 0.82 \\
+LLM summary (rolling) & 85.8 & 0.68 & 84.3 & 0.45 \\
+SKC & 83.6 & --- & 87.3 & --- \\
+\midrule
+No compression & \multicolumn{4}{c}{90.3 (95\% CI 85.1--94.8)} \\
+\bottomrule
+\end{tabular}
+\caption{ALFWorld success rate over 134 games. No pairwise difference between
+compressors is significant; against no compression SKC is 6.7 points lower at
+600 tokens ($p=0.078$) and 3.0 lower at 1200 ($p=0.48$). Games are short (mean
+prompt 360--450 tokens), so compression changes little; the largest gaps are on
+the 23 heat tasks (SKC 39\% at 600 tokens, window 44\%, summary 61\%, no
+compression 70\%).}
+\label{tab:alfworld}
+\end{table}
+We therefore make no end-to-end claim: on short-horizon household tasks the
+state-keeping advantage measured by the probes does not translate into a
+measurable success-rate gain.
+
 \section{\textsc{StateTrack} Details}
 \label{app:synthetic}
 

@@ -409,11 +409,14 @@ much better utility prediction could still gain.
 
 \paragraph{From sufficiency to success.} The ideal reader measures whether
 information is present; the LLM-in-the-loop study shows that three different
-readers do use it. We did not run agents end-to-end on compressed contexts:
-end-to-end solve rates require containerized SWE-bench environments and many
-agent runs per method, and are the most important next step. Our analysis
-predicts that compressors with stale or missing state cause agents to repeat
-work or act on outdated results.
+readers do use it. End-to-end on ALFWorld (\cref{app:alfworld}), SKC does not
+differ significantly from a window, observation masking or an LLM summary, and
+the 134-game test is too short-horizon (mean prompt $\approx$400 tokens) for
+compression to matter much. We did not run SWE-bench agents end-to-end on
+compressed contexts: that requires containerized environments and many agent
+runs per method, and is the most important next step. Our analysis predicts
+that compressors with stale or missing state cause agents to repeat work or act
+on outdated results; the ALFWorld experiment neither confirms nor refutes this.
 
 \paragraph{Probe design.} State keys are derived by the same structural parser
 that SKC uses, which favors SKC on state probes; we therefore also report
