@@ -1,7 +1,8 @@
 """Probe-based evaluation of compressors with the ideal reader."""
 from __future__ import annotations
 
-from .core import CORRECT, IDENT_RE as _IDENT, MISSING, STALE, ContextIndex, context_tokens, read_key
+from .core import (CORRECT, IDENT_RE as _IDENT, MISSING, STALE, ContextIndex, context_tokens,
+                   informative_lines, read_key)
 _STOP = set("""python python3 pytest search_dir search_file find_file open goto edit create
 scroll_down scroll_up submit str_replace_editor view str_replace insert new_str old_str
 file_text view_range testbed import from return print self None True False class def
@@ -40,6 +41,29 @@ def use_probes(turns, prefix_end, system_text=""):
     return sorted((c, last[c]) for c in cands if c in last and c not in sys_toks)
 
 
+def copy_probes(turns, prefix_end, system_text=""):
+    """Lines the agent's next action copies verbatim from earlier in the context.
+
+    A copy probe is a normalised line (>= 12 chars) of the next action that occurs
+    as a line of some earlier non-system turn and not in the system prompt.
+    Returns (line, index of the most recent prior turn containing it) pairs.
+    """
+    nxt = prefix_end + 1
+    if nxt >= len(turns) or turns[nxt].role != "assistant":
+        return []
+    action = turns[nxt].meta.get("action", turns[nxt].text)
+    cands = set(informative_lines(action, min_len=12))
+    if not cands:
+        return []
+    sys_lines = set(informative_lines(system_text, min_len=12))
+    cands -= sys_lines
+    last = {}
+    for t in turns[1: prefix_end + 1]:
+        for ln in cands.intersection(informative_lines(t.text, min_len=12)):
+            last[ln] = t.idx
+    return sorted(last.items())
+
+
 def evaluate_prefix(turns, prefix_end, compressor, budget, key_type=None, with_use=False):
     ctx_turns = turns[: prefix_end + 1]
     units = compressor(ctx_turns, budget)
@@ -58,7 +82,10 @@ def evaluate_prefix(turns, prefix_end, compressor, budget, key_type=None, with_u
         for tok, last in use_probes(turns, prefix_end, sys_text):
             rows.append(dict(probe="use", key=tok, ktype="use", n_writes=0, age=prefix_end - last,
                              outcome=CORRECT if cidx.has_token(tok) else MISSING))
+        for ln, last in copy_probes(turns, prefix_end, sys_text):
+            rows.append(dict(probe="copy", key=ln, ktype="copy", n_writes=0, age=prefix_end - last,
+                             outcome=CORRECT if cidx.has_line(ln) else MISSING))
     return rows, used
 
 
-__all__ = ["evaluate_prefix", "state_probes", "use_probes", "CORRECT", "STALE", "MISSING"]
+__all__ = ["evaluate_prefix", "state_probes", "use_probes", "copy_probes", "CORRECT", "STALE", "MISSING"]

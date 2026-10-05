@@ -113,25 +113,34 @@ CORRECT, STALE, MISSING = "correct", "stale", "missing"
 
 
 class ContextIndex:
-    """Inverted index from normalised line -> unit ids, for fast coverage queries."""
+    """Inverted index from normalised line -> source groups, for coverage queries.
+
+    Units derived from the same source turn (e.g. several retained chunks of one
+    tool output, or a turn and its ledger record) form one evidence group: the
+    reader may combine pieces of the same original turn.
+    """
 
     def __init__(self, units: list):
         self.units = units
         self.index: dict = {}
-        for i, u in enumerate(units):
+        for u in units:
+            g = u.src
             for ln in u.lines:
-                self.index.setdefault(ln, []).append(i)
+                self.index.setdefault(ln, set()).add(g)
         self._tok = None
 
     def coverage(self, evidence) -> float:
-        """Max over units of the fraction of evidence lines found in that unit."""
+        """Max over source groups of the fraction of evidence lines found in that group."""
         if not evidence:
             return 0.0
         hits: dict = {}
         for ln in evidence:
-            for i in self.index.get(ln, ()):
-                hits[i] = hits.get(i, 0) + 1
+            for g in self.index.get(ln, ()):
+                hits[g] = hits.get(g, 0) + 1
         return max(hits.values(), default=0) / len(evidence)
+
+    def has_line(self, line: str) -> bool:
+        return line in self.index
 
     def has_token(self, tok: str) -> bool:
         if self._tok is None:

@@ -116,3 +116,18 @@ def test_sweagent_parser_old_interface(tmp_path):
     assert keys == ["edit:/repo/src/mod.py#0", "edit:/repo/src/mod.py#0", "edit:/repo/src/mod.py#1"]
     views = {w.key for t in turns for w in t.writes if w.ktype == "view"}
     assert views == {"view:/repo/src/mod.py@1", "view:/repo/src/mod.py@201"}
+
+
+def test_utility_compaction_budget_and_safety():
+    from skc.utility import ChunkBM25, SelfInfoLines, UtilityCompaction
+    turns = generate(StateTrackConfig(steps=80, seed=2, p_fast=0.4))
+    for comp in (UtilityCompaction(), UtilityCompaction(safe=False), ChunkBM25(), SelfInfoLines()):
+        units = comp(turns, 3000)
+        charged = sum(u.tokens for u in units if not (u.src == 0 and u.kind == "turn"))
+        assert charged <= 3000 + 16, comp.name
+    # with a perfect extractor and the safety constraint, chunks can never make a key stale
+    units = UtilityCompaction()(turns, 3000)
+    cidx = ContextIndex(units)
+    for key, ws in state_probes(turns, len(turns) - 1).items():
+        if ws[-1].ktype != "pinned":
+            assert read_key(cidx, ws) != STALE

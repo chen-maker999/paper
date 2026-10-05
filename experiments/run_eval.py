@@ -1,0 +1,159 @@
+"""Evaluate compressors on real SWE-agent trajectories (state, use and copy probes).
+
+Decision points: up to 6 per trajectory among those whose history exceeds 4k
+tokens; a budget B is evaluated on the points whose history exceeds B. The
+learned SKC scores items with the utility model trained on the other four LLMs
+and on the other half of the SWE-bench instances (see train_utility.py).
+
+Outputs (in --out):
+  eval_<suite>_breakdown.csv  outcome counts by model/method/budget/probe/type/age/#writes
+  eval_<suite>_pertraj.csv    outcome counts per trajectory (for bootstrap CIs)
+  eval_<suite>_tokens.csv     mean context tokens per method and budget
+"""
+from __future__ import annotations
+
+import os as _os
+_os.environ.setdefault("OMP_NUM_THREADS", "1")
+
+import argparse
+import os
+import pickle
+import sys
+from collections import Counter
+from concurrent.futures import ProcessPoolExecutor
+
+import numpy as np
+import pandas as pd
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+from common import decision_points, instance_split  # noqa: E402
+from corpus import SHORT, load_corpus  # noqa: E402
+from skc.compressors import (BM25Select, ObservationMasking, RandomSelect, RecencyWindow,  # noqa: E402
+                             StateKeyedCompaction, TruncateObservations)
+from skc.evaluate import evaluate_prefix  # noqa: E402
+from skc.synthetic import noisy_extractor  # noqa: E402
+from skc.utility import ChunkBM25, Dedup, SelfInfoLines, UtilityCompaction  # noqa: E402
+
+AGE_BINS = [-1, 2, 5, 10, 20, 40, 10**9]
+AGE_LABELS = ["0-2", "3-5", "6-10", "11-20", "21-40", ">40"]
+NW_BINS = [0, 1, 2, 4, 10**9]
+NW_LABELS = ["1", "2", "3-4", "5+"]
+UTIL_DIR = os.environ.get("SKC_UTIL_DIR", "results/utility")
+_MODELS = {}
+
+
+class _LR:
+    def __init__(self, lr, mu, sd):
+        self.lr, self.mu, self.sd = lr, mu, sd
+
+    def predict_proba(self, X):
+        return self.lr.predict_proba((X - self.mu) / self.sd)
+
+
+def utility_model(kind, model, inst):
+    key = (kind, model, instance_split(inst))
+    if key not in _MODELS:
+        with open(os.path.join(UTIL_DIR, f"{kind}_{model}_split{key[2]}.pkl"), "rb") as f:
+            obj = pickle.load(f)
+        _MODELS[key] = _LR(*obj) if kind == "lr" else obj
+    return _MODELS[key]
+
+
+def methods(suite, model, inst):
+    hgb = utility_model("hgb", model, inst)
+    if suite == "main":
+        return [RecencyWindow(), ObservationMasking(), TruncateObservations(), BM25Select(),
+                ChunkBM25(), SelfInfoLines(), RandomSelect(seed=0),
+                StateKeyedCompaction(name="skc-basic"), UtilityCompaction(model=hgb, name="skc")]
+    if suite == "dev":
+        return [RecencyWindow(), ObservationMasking(), BM25Select(), StateKeyedCompaction(name="skc-basic"),
+                Dedup(RecencyWindow()), Dedup(ObservationMasking()),
+                Dedup(StateKeyedCompaction(name="skc-basic")),
+                UtilityCompaction(model=hgb, name="skc"),
+                UtilityCompaction(model=hgb, dedup=False, name="skc-nodedup"),
+                UtilityCompaction(model=None, name="skc-heur"),
+                UtilityCompaction(model=hgb, chunk_lines=10**6, chunk_tokens=10**6, name="skc-turns"),
+                UtilityCompaction(model=hgb, lam=1.0, name="skc-lam1")]
+    if suite == "ablation":
+        return [
+            UtilityCompaction(model=hgb, name="skc"),
+            UtilityCompaction(model=hgb, use_ledger=False, name="-ledger"),
+            UtilityCompaction(model=hgb, safe=False, name="-safety"),
+            UtilityCompaction(model=None, name="-learned (heuristic utility)"),
+            UtilityCompaction(model=utility_model("lr", model, inst), name="logreg utility"),
+            UtilityCompaction(model=hgb, chunk_lines=10**6, chunk_tokens=10**6, name="-chunking (whole turns)"),
+            UtilityCompaction(model=hgb, recent=2, name="recent R=2"),
+            UtilityCompaction(model=hgb, lam=0.0, name="lambda=0"),
+            UtilityCompaction(model=hgb, lam=0.1, name="lambda=0.1"),
+            UtilityCompaction(model=hgb, lam=1.0, name="lambda=1"),
+            UtilityCompaction(model=hgb, lam=3.0, name="lambda=3"),
+            UtilityCompaction(model=hgb, extractor=noisy_extractor(0.7), name="extractor recall 0.7"),
+            UtilityCompaction(model=hgb, extractor=noisy_extractor(0.7), safe=False,
+                              name="extractor recall 0.7, -safety"),
+        ]
+    raise ValueError(suite)
+
+
+def _bucket(x, bins, labels):
+    return labels[int(np.digitize([x], bins[1:-1], right=True)[0])]
+
+
+def run_traj(args):
+    model, name, turns, budgets, suite = args
+    ms = methods(suite, model, name)
+    pts, hist_tok = decision_points(turns, n=6, min_tokens=min(budgets))
+    br, pt, tok, nctx = Counter(), Counter(), Counter(), Counter()
+    for B in budgets:
+        for i in [p for p in pts if hist_tok[p] > B]:
+            for m in ms:
+                rows, used = evaluate_prefix(turns, i, m, B, with_use=True)
+                tok[(m.name, B)] += used
+                nctx[(m.name, B)] += 1
+                for r in rows:
+                    if r["probe"] == "state":
+                        if r["ktype"] == "task":
+                            ab, nb = "task", "task"
+                        else:
+                            ab = _bucket(r["age"] / 2, AGE_BINS, AGE_LABELS)
+                            nb = _bucket(r["n_writes"], NW_BINS, NW_LABELS)
+                        long = "all"
+                    else:
+                        ab, nb = _bucket(r["age"] / 2, AGE_BINS, AGE_LABELS), "-"
+                        long = "long" if r["age"] / 2 > 2 else "short"
+                    br[(model, m.name, B, r["probe"], r["ktype"], ab, nb, r["outcome"])] += 1
+                    pt[(model, name, m.name, B, r["probe"], long, r["outcome"])] += 1
+    return br, pt, tok, nctx
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--cache", required=True)
+    ap.add_argument("--out", default="results")
+    ap.add_argument("--suite", default="main")
+    ap.add_argument("--budgets", default="4000,8000,16000")
+    ap.add_argument("--limit", type=int, default=0)
+    ap.add_argument("--workers", type=int, default=4)
+    a = ap.parse_args()
+    budgets = [int(x) for x in a.budgets.split(",")]
+    br, pt, tok, nctx = Counter(), Counter(), Counter(), Counter()
+    for short in SHORT.values():
+        corpus = load_corpus(a.cache, short)
+        items = sorted(corpus.items())[: a.limit or None]
+        jobs = [(short, n, t, budgets, a.suite) for n, (t, _) in items]
+        with ProcessPoolExecutor(a.workers) as ex:
+            for b, p, t, c in ex.map(run_traj, jobs, chunksize=1):
+                br.update(b); pt.update(p); tok.update(t); nctx.update(c)
+        print("done", short, flush=True)
+    os.makedirs(a.out, exist_ok=True)
+    pd.DataFrame([dict(model=k[0], method=k[1], budget=k[2], probe=k[3], ktype=k[4], age=k[5],
+                       n_writes=k[6], outcome=k[7], count=v) for k, v in br.items()]
+                 ).to_csv(os.path.join(a.out, f"eval_{a.suite}_breakdown.csv.gz"), index=False)
+    pd.DataFrame([dict(model=k[0], instance=k[1], method=k[2], budget=k[3], probe=k[4], range=k[5],
+                       outcome=k[6], count=v) for k, v in pt.items()]
+                 ).to_csv(os.path.join(a.out, f"eval_{a.suite}_pertraj.csv.gz"), index=False)
+    pd.DataFrame([dict(method=k[0], budget=k[1], contexts=nctx[k], mean_tokens=tok[k] / nctx[k])
+                  for k in nctx]).to_csv(os.path.join(a.out, f"eval_{a.suite}_tokens.csv"), index=False)
+
+
+if __name__ == "__main__":
+    main()
