@@ -52,6 +52,16 @@ $\rho=r$. \qed
 write of $k$ is present, so $R^\ast$ answers correctly whatever else $c'$
 contains, since every other present write of $k$ is older. \qed
 
+\paragraph{\Cref{prop:dedup}.} A line is removed from a turn only if the same
+(normalized) line occurs in a later turn, the task, or the recent window, and the
+latest occurrence of every line is never removed (processing turns from newest
+to oldest, a line is removed only once it has been seen), so the set of distinct
+lines of the history is unchanged. Turns carrying the current value of some key
+are not modified, so the evidence group of every current value is identical with
+and without content compaction, and a probe whose current value is present under
+a selection remains present under the same selection. Removed runs are replaced
+by one marker each. \qed
+
 \paragraph{\Cref{prop:knapsack}.} The expected number of correct probes is
 $\sum_k p_k\,\mathbb{1}[k\text{ kept}]$ subject to $\sum_k |\mathrm{rec}(k)|\,
 \mathbb{1}[k\text{ kept}]\le B$, a 0/1 knapsack. The ratio-greedy solution of
@@ -126,11 +136,25 @@ are cut to 200 tokens (one third head, two thirds tail); then recency window.
 greedily; original order preserved.
 \item \textbf{Random selection}: last 2 turns kept; other turns added in random
 order while they fit.
-\item \textbf{SKC}: $R=4$ recent turns, value cap $V=300$ tokens (one third
-head, two thirds tail), type weights $w_{\text{edit}}=4$, $w_{\text{cmd}}=2$,
-$w_{\text{search}}=1.5$, $w_{\text{view}}=1$, $\tau=20$ steps; extension as
-described in \cref{sec:method}. SKC+BM25 uses the same ledger and BM25
-extension.
+\item \textbf{BM25 chunks}: the same 12-line chunks of older turns as SKC (no
+ledger, no deduplication), admitted greedily by BM25 score per token against the
+task and the latest agent turn; last 2 turns kept.
+\item \textbf{Self-information}: a model-free version of Selective
+Context~\citep{li2023selective}: lines of older turns are ranked by their mean
+self-information under a unigram model of the history and kept greedily; last
+4 turns kept.
+\item \textbf{SKC-basic}: ledger with priority $p_k=w_{\mathrm{type}}\tau/(\tau+\mathrm{age}_k)$
+($w_{\text{edit}}=4$, $w_{\text{cmd}}=2$, $w_{\text{search}}=1.5$,
+$w_{\text{view}}=1$, $\tau=20$ steps), value cap 300 tokens, $R=4$ recent turns,
+remaining budget spent extending the raw window backwards and then on agent
+turns only.
+\item \textbf{SKC}: $R=2$, chunks of at most 12 lines / 200 tokens, value cap
+$V=300$, $\lambda=0.3$, supersession-aware deduplication (lines of at least 6
+normalized characters). Utility model: \texttt{HistGradientBoostingClassifier}
+(300 iterations, learning rate 0.08, 31 leaves, L2 1.0), trained on up to 8
+decision points per training trajectory with negatives subsampled at 30\% and
+re-weighted. $R$, chunk size and $\lambda$ were chosen on the development
+instances from $\{2,4\}\times\{12,24,48\}\times\{0.1,0.3\}$ (\cref{sec:setup}).
 \end{itemize}
 In \textsc{StateTrack} the extractor reads the \texttt{key = value} lines that
 carry writes; on SWE-agent it is the structural parser above. Noisy extractors

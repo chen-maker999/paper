@@ -38,6 +38,7 @@ AGE_BINS = [-1, 2, 5, 10, 20, 40, 10**9]
 AGE_LABELS = ["0-2", "3-5", "6-10", "11-20", "21-40", ">40"]
 NW_BINS = [0, 1, 2, 4, 10**9]
 NW_LABELS = ["1", "2", "3-4", "5+"]
+DEV_PER_MODEL = 10  # the first 10 instances (sorted) of every model form the development set
 UTIL_DIR = os.environ.get("SKC_UTIL_DIR", "results/utility")
 _MODELS = {}
 
@@ -74,6 +75,14 @@ def methods(suite, model, inst):
                 UtilityCompaction(model=None, name="skc-heur"),
                 UtilityCompaction(model=hgb, chunk_lines=10**6, chunk_tokens=10**6, name="skc-turns"),
                 UtilityCompaction(model=hgb, lam=1.0, name="skc-lam1")]
+    if suite == "grid":
+        out = []
+        for cl, ct in ((12, 200), (24, 400), (48, 800)):
+            for lam in (0.1, 0.3):
+                for R in (2, 4):
+                    out.append(UtilityCompaction(model=hgb, chunk_lines=cl, chunk_tokens=ct, lam=lam, recent=R,
+                                                 name=f"skc c{cl} l{lam} R{R}"))
+        return out + [Dedup(RecencyWindow()), Dedup(ObservationMasking())]
     if suite == "ablation":
         return [
             UtilityCompaction(model=hgb, name="skc"),
@@ -90,6 +99,9 @@ def methods(suite, model, inst):
             UtilityCompaction(model=hgb, extractor=noisy_extractor(0.7), name="extractor recall 0.7"),
             UtilityCompaction(model=hgb, extractor=noisy_extractor(0.7), safe=False,
                               name="extractor recall 0.7, -safety"),
+            Dedup(RecencyWindow()), Dedup(ObservationMasking()),
+            Dedup(StateKeyedCompaction(name="skc-basic")),
+            UtilityCompaction(model=hgb, dedup=False, name="-dedup"),
         ]
     raise ValueError(suite)
 
@@ -133,12 +145,24 @@ def main():
     ap.add_argument("--budgets", default="4000,8000,16000")
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--workers", type=int, default=4)
+    ap.add_argument("--exclude-dev", action="store_true",
+                    help="drop the development instances used for design and hyper-parameter choices")
+    ap.add_argument("--per-model", type=int, default=0, help="evaluate at most this many trajectories per model")
     a = ap.parse_args()
+    dev = set()
+    if a.exclude_dev:
+        for short in SHORT.values():
+            dev |= {n for n, _ in sorted(load_corpus(a.cache, short).items())[:DEV_PER_MODEL]}
+        print("excluding", len(dev), "development instances", flush=True)
     budgets = [int(x) for x in a.budgets.split(",")]
     br, pt, tok, nctx = Counter(), Counter(), Counter(), Counter()
     for short in SHORT.values():
         corpus = load_corpus(a.cache, short)
-        items = sorted(corpus.items())[: a.limit or None]
+        items = [kv for kv in sorted(corpus.items())[: a.limit or None] if kv[0] not in dev]
+        if a.per_model:
+            rs = np.random.default_rng(0)
+            pick = sorted(rs.choice(len(items), size=min(a.per_model, len(items)), replace=False))
+            items = [items[i] for i in pick]
         jobs = [(short, n, t, budgets, a.suite) for n, (t, _) in items]
         with ProcessPoolExecutor(a.workers) as ex:
             for b, p, t, c in ex.map(run_traj, jobs, chunksize=1):

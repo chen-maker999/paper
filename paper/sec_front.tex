@@ -273,63 +273,113 @@ $p_k/|\mathrm{rec}(k)|$ is optimal for the fractional relaxation and, combined
 with the best single record, a $\tfrac12$-approximation~\citep{dantzig1957knapsack}.
 \end{proposition}
 
+Key-level compaction removes \emph{superseded} values. Agent histories also
+contain \emph{repeated} content: the same file window is viewed several times,
+the same test output recurs, and agents re-type lines they wrote before. Let
+\emph{content compaction} keep every distinct line only at its latest
+occurrence, except in turns that carry the current value of some key.
+
+\begin{proposition}[Supersession-aware content compaction is safe]
+\label{prop:dedup}
+Content compaction preserves the set of distinct lines in the history, so any
+line-level evidence (e.g.\ an identifier or a line the agent later copies) is
+still present. Because turns carrying a key's current value are left intact,
+for any selection of turns a state probe that is correct without content
+compaction is still correct with it, while its token cost shrinks by the size of
+the removed repeats (up to one constant-size marker per removed run).
+\end{proposition}
+
+The saving is large in practice: 20--63\% of the tokens of SWE-agent
+trajectories are lines that occur again later (\cref{sec:corpus}).
+
 %% ---------------------------------------------------------------------------
 \section{State-Keyed Compaction}
 \label{sec:method}
 
-SKC instantiates the analysis with four parts (\cref{alg:skc}).
+SKC turns the analysis into a compressor with three layers of compaction
+(\cref{alg:skc}): \emph{key-level} (keep the current value of every state
+variable), \emph{content-level} (drop repeated lines), and \emph{utility-level}
+(spend the remaining budget on what the next step is most likely to need,
+without ever introducing stale state).
 
 \paragraph{Extraction.} An extractor maps each turn to writes. For tool-using
-agents most writes are \emph{structural}: they follow from the tool call
-itself, which the framework already has in parsed form. For SWE-agent we derive
-keys deterministically from actions: \texttt{edit:<file>\#<region>} for the text
-written by an edit (regions are tracked so that only edits to overlapping lines
-or to text produced by an earlier edit supersede each other),
-\texttt{view:<file>@<window>} for file content shown to the agent,
+agents most writes are \emph{structural}: they follow from the tool call itself,
+which the framework already has in parsed form. For SWE-agent we derive keys
+deterministically from actions: \texttt{edit:<file>\#<region>} for the text
+written by an edit (regions are tracked so that only edits to overlapping lines,
+or to text produced by an earlier edit, supersede each other),
+\texttt{view:<file>@<window>} for file content shown to the agent, and
 \texttt{search:<query>} and \texttt{cmd:<command>} for the outputs of searches
 and (normalized) shell commands. Free-text writes (e.g.\ a user revising a
-constraint) require a learned or rule-based extractor; we model its errors by
-its recall $r$.
+constraint) require a learned or rule-based extractor; we model its errors by its
+recall $r$.
 
-\paragraph{Ledger.} For every key, SKC keeps only the latest extracted write,
-rendered \emph{verbatim} (values are capped at $V$ tokens, keeping head and
-tail), with provenance (\texttt{[state] key (as of turn i)}). Verbatim values
-avoid the paraphrase drift of LLM summaries; provenance lets the reader order
-records.
+\paragraph{Layer 1: key-level compaction (ledger).} For every key, SKC keeps
+only the latest extracted write as a \emph{ledger record}, rendered
+\emph{verbatim} (values capped at $V{=}300$ tokens, keeping head and tail) with
+provenance (\texttt{[state] key (as of turn i)}). Verbatim values avoid the
+paraphrase drift of LLM summaries; provenance lets a reader order records.
 
-\paragraph{Budget allocation.} The task statement is pinned and the last $R$
-turns are kept verbatim. Ledger records whose source turn is already in the
-window are skipped. Remaining records are admitted greedily by the knapsack
-ratio of \cref{prop:knapsack}, with probe probability estimated as
-$p_k = w_{\mathrm{type}(k)}\cdot \tau/(\tau+\mathrm{age}_k)$, where the type
-prior favors edits over command outputs, searches and views
-($w=4,2,1.5,1$) and $\tau=20$ steps.
+\paragraph{Layer 2: content-level compaction.} Older turns are deduplicated as
+in \cref{prop:dedup}: a line is dropped if it occurs again later (or in the task
+or the recent window), and a dropped run is replaced by a marker
+(\texttt{[...]}); turns that carry the current value of a key are exempt.
 
-\paragraph{Skeleton.} Any budget left is spent extending the raw window
-backwards with whole turns and, once a tool output no longer fits, with agent
-turns only (older tool outputs replaced by a placeholder), as in observation
-masking. We call this variant \textbf{SKC}. A second variant,
-\textbf{SKC+BM25}, spends the leftover budget on the older turns with the highest
-BM25 score against the task and the latest agent turn, which
-\cref{cor:safe} makes safe with respect to staleness.
+\paragraph{Layer 3: utility-guided, supersession-safe selection.} The task and
+the last $R{=}2$ turns are kept verbatim. Everything else becomes an
+\emph{item}: a ledger record, or a chunk of at most 12 lines (200 tokens) of a
+deduplicated older turn. A small model predicts, for every item, the
+probability $\hat p$ that the next step needs it (contains an identifier or a
+line the next action uses), from 25 model-agnostic features computed at
+decision time: age, size, item type (agent/tool chunk by tool kind, ledger record
+by key kind), whether the item carries a current or a superseded value, BM25
+relevance and overlap with the latest agent turn, latest observation and task,
+the rarity of shared identifiers, and how often and how recently its identifiers
+were referred to by later agent turns. Items are admitted greedily by
+\begin{equation}
+  \bigl(\hat p_i + \lambda\,\mathbb{1}[i\text{ is a ledger record}]\bigr)\,/\,|i| ,
+  \label{eq:ratio}
+\end{equation}
+the knapsack ratio of \cref{prop:knapsack}, where $\lambda{=}0.3$ is the value
+of holding the current state even when the very next step does not use it.
+Selection obeys the \emph{supersession-safety constraint} of \cref{cor:safe}:
+an item that carries a superseded value of key $k$ is admitted only if the
+current value of $k$ is already in the context. Selected chunks of the same turn
+are merged in their original order, with gaps marked.
+
+\paragraph{Training the utility model.} Labels come for free from logged
+trajectories: an item is positive if the agent's next action uses one of its
+identifiers or copies one of its lines. We use gradient-boosted trees
+(scikit-learn \texttt{HistGradientBoostingClassifier}) and train them
+\emph{across models}: the model applied to a trajectory of LLM $m$ on SWE-bench
+instance $x$ is trained only on the other four LLMs and on the other half of the
+instances. The utility model thus never sees the evaluated LLM or task.
 
 \begin{algorithm}[t]
 \caption{State-Keyed Compaction (SKC)}
 \label{alg:skc}
 \small
 \begin{algorithmic}[1]
-\Require history $x_{1:t}$ (task $x_1$), budget $B$, extractor $E$, recent turns $R$, value cap $V$
-\State $c \gets [x_1]$; \quad $c_{\text{recent}} \gets$ last $R$ turns (truncate the last turn if it alone exceeds the budget)
-\State $\mathrm{L} \gets \{\}$; \textbf{for} $i=2..t$, \textbf{for} $(k,v)\in E(x_i)$: $\mathrm{L}[k]\gets(v,i)$ \Comment{log compaction}
-\State $\mathcal{C}\gets\{\textsc{Record}(k,\textsc{Cap}(v,V),i) : (k,(v,i))\in \mathrm{L},\ x_i\notin c_{\text{recent}}\}$
-\State sort $\mathcal{C}$ by $p_k/|\textsc{Record}_k|$ descending; admit records while the budget allows
-\State \textbf{SKC}: extend backwards from $x_{t-R}$ with whole turns while they fit, then agent turns only (tool outputs masked)
-\State \textbf{SKC+BM25}: instead, add older turns by BM25 score against (task, latest agent turn) while they fit
-\State \Return $c \,\Vert\, \text{ledger records (by provenance)} \,\Vert\, \text{skeleton} \,\Vert\, c_{\text{recent}}$
+\Require history $x_{1:t}$ (task $x_1$), budget $B$, extractor $E$, utility model $\hat p$, $R$, $\lambda$
+\State $c \gets [x_1] \,\Vert\, x_{t-R+1:t}$ \Comment{pinned task and recent turns}
+\State $\mathrm{L} \gets \{\}$; \textbf{for} $i=2..t$, \textbf{for} $(k,v)\in E(x_i)$: $\mathrm{L}[k]\gets(v,i)$ \Comment{layer 1: key-level}
+\State $\tilde x_i \gets \textsc{Dedup}(x_i \mid x_{i+1:t})$ for older turns not carrying a current value \Comment{layer 2: content-level}
+\State $\mathcal{I} \gets \{\textsc{Record}(k)\}_{k\in \mathrm{L}} \cup \textsc{Chunks}(\tilde x_{2:t-R})$
+\State $\mathit{have} \gets$ keys whose current value is in $c$
+\For{$i\in\mathcal{I}$ in decreasing order of \cref{eq:ratio}} \Comment{layer 3: utility}
+  \If{$|c|+|i|\le B$ \textbf{and} superseded keys of $i \subseteq \mathit{have}$}
+    \State $c\gets c\cup\{i\}$; $\mathit{have}\gets \mathit{have}\,\cup$ current keys of $i$
+  \EndIf
+\EndFor
+\State \Return $c$ in original order (ledger records first, chunks of a turn merged)
 \end{algorithmic}
 \end{algorithm}
 
-SKC needs no model calls: extraction is a parse of the tool call, compaction is
-a dictionary update, and allocation is a sort. It is therefore cheap enough to
-run before every step, and it is idempotent: recompressing a compressed history
-does not compound errors, unlike recursive summarization.
+SKC calls no LLM: extraction is a parse of the tool call, compaction is a
+dictionary update and a set lookup, and the utility model is an ensemble of small
+trees over 25 features. It runs in tens of milliseconds per step on one CPU core,
+and since it always selects from the original history (rather than from a
+previous summary) it does not compound errors over time, unlike recursive
+summarization. We also report \textbf{SKC-basic}, an earlier
+heuristic variant without layers 2--3 (ledger with a type/recency priority, a
+raw window and an action skeleton; \cref{app:settings}).
