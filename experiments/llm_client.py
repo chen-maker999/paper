@@ -1,11 +1,11 @@
-"""阿里云百炼（DashScope）DeepSeek V4 Flash 调用封装。
+"""阿里云百炼（DashScope）大模型调用封装，默认 qwen3.8-flash。
 
 走百炼的 OpenAI 兼容接口，只用标准库，不引入额外依赖。
 API key 依次读取环境变量 DASHSCOPE_API_KEY、OPENAI_API_KEY。
 
 用法示例：
   python -m experiments.llm_client "你好"
-  python -m experiments.llm_client --model deepseek-v4-flash --max-tokens 64 "回复 OK"
+  python -m experiments.llm_client --model deepseek-v4-flash（需付费额度） --max-tokens 64 "回复 OK"
 """
 from __future__ import annotations
 
@@ -19,7 +19,7 @@ import urllib.request
 BASE_URL = os.environ.get(
     "DASHSCOPE_BASE_URL", "https://dashscope.aliyuncs.com/compatible-mode/v1"
 )
-DEFAULT_MODEL = "deepseek-v4-flash"
+DEFAULT_MODEL = "qwen3.8-flash"
 # 限流和服务端错误时重试，其余错误（如 401、400）直接抛出
 RETRY_STATUS = {429, 500, 502, 503, 504}
 

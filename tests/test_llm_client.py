@@ -32,7 +32,7 @@ def test_chat_builds_request_and_parses_reply(monkeypatch):
     assert llm_client.chat("hi", system="sys", max_tokens=5) == "OK"
     assert seen["url"].endswith("/chat/completions")
     assert seen["auth"] == "Bearer sk-test"
-    assert seen["body"]["model"] == "deepseek-v4-flash"
+    assert seen["body"]["model"] == "qwen3.8-flash"
     assert seen["body"]["max_tokens"] == 5
     assert [m["role"] for m in seen["body"]["messages"]] == ["system", "user"]
 
