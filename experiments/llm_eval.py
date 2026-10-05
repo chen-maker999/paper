@@ -159,7 +159,7 @@ def _run_local(a, reqs, out_path):
     from concurrent.futures import ThreadPoolExecutor
 
     from openai import OpenAI
-    client = OpenAI(base_url=a.base_url, api_key=os.environ.get("OPENAI_API_KEY", "local"))
+    client = OpenAI(base_url=a.base_url, api_key=os.environ.get(a.api_key_env, "local"))
     res = json.load(open(out_path)) if os.path.exists(out_path) else {}
     todo = [r for r in reqs if r["custom_id"] not in res]
     extra = {"chat_template_kwargs": {"enable_thinking": False}} if a.no_think else None
@@ -319,6 +319,9 @@ if __name__ == "__main__":
     ap.add_argument("--model", default="claude-opus-5-5", help="model id (anthropic) or served model name (local)")
     ap.add_argument("--base-url", default="http://localhost:8000/v1", help="OpenAI-compatible endpoint (local)")
     ap.add_argument("--concurrency", type=int, default=8)
+    ap.add_argument("--api-key-env", default="OPENAI_API_KEY",
+                    help="environment variable holding the key of an OpenAI-compatible cloud API "
+                         "(e.g. GEMINI_API_KEY with --base-url https://generativelanguage.googleapis.com/v1beta/openai/)")
     ap.add_argument("--max-context", type=int, default=0,
                     help="context window of a local model; long inputs to the summariser are cut to fit")
     ap.add_argument("--no-think", action="store_true", help="disable thinking mode (Qwen3-style chat templates)")
