@@ -230,6 +230,22 @@ def feature_matrix(items):
     return np.array([[it.feats[k] for k in FEATURES] for it in items], dtype=np.float32)
 
 
+def count_items(items, need_idents, need_lines):
+    """Number of distinct identifiers and copied lines of the next action that the item contains.
+    This is the quantity the knapsack maximises (needed pieces covered per token)."""
+    y = np.zeros(len(items), dtype=np.float32)
+    if not need_idents and not need_lines:
+        return y
+    for i, it in enumerate(items):
+        n = 0
+        if need_idents:
+            n += len(need_idents & set(IDENT_RE.findall(it.text)))
+        if need_lines:
+            n += len(need_lines & set(informative_lines(it.text, min_len=12)))
+        y[i] = n
+    return y
+
+
 def label_items(items, need_idents, need_lines):
     """1 if the item contains an identifier or a copied line used by the next action."""
     y = np.zeros(len(items), dtype=np.int8)
@@ -274,7 +290,10 @@ class UtilityCompaction(Compressor):
     def utilities(self, items):
         if self.model is None:
             return _heuristic_utility(items)
-        return self.model.predict_proba(feature_matrix(items))[:, 1]
+        X = feature_matrix(items)
+        if hasattr(self.model, "predict_proba"):
+            return self.model.predict_proba(X)[:, 1]
+        return np.maximum(self.model.predict(X), 0.0)  # expected number of needed pieces
 
     def __call__(self, turns, budget):
         pinned, hist, tail, items = build_items(turns, self.recent, self.chunk_lines,
@@ -317,7 +336,7 @@ class OracleUtility(UtilityCompaction):
     need = (set(), set())
 
     def utilities(self, items):
-        return label_items(items, *self.need).astype(float)
+        return count_items(items, *self.need).astype(float)
 
 
 def _assemble(chosen):

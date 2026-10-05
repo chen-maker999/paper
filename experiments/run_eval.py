@@ -83,6 +83,11 @@ def methods(suite, model, inst):
                 UtilityCompaction(model=None, name="skc-heur"),
                 UtilityCompaction(model=hgb, chunk_lines=10**6, chunk_tokens=10**6, name="skc-turns"),
                 UtilityCompaction(model=hgb, lam=1.0, name="skc-lam1")]
+    if suite == "frontier":
+        hgbc = utility_model("hgbc", model, inst)
+        out = [UtilityCompaction(model=hgbc, lam=lam, name=f"skc-count l{lam}") for lam in (0.0, 0.1, 0.3, 1.0, 3.0)]
+        out += [UtilityCompaction(model=hgb, lam=lam, name=f"skc-binary l{lam}") for lam in (0.0, 1.0, 3.0)]
+        return out
     if suite == "grid":
         out = []
         for cl, ct in ((12, 200), (24, 400), (48, 800)):
