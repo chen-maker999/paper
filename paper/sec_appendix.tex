@@ -1,0 +1,136 @@
+%% ---------------------------------------------------------------------------
+\section{Proofs}
+\label{app:proofs}
+
+\paragraph{\Cref{prop:sufficiency}.} By construction $\mathrm{L}_t$ contains,
+for every written key, the record of its latest write and no other record for
+that key, so $R^\ast$ returns the value of that write, which is $S_t(k)$ by
+definition. Each key contributes exactly one record whose size depends only on
+the key name and its current value, so $|\mathrm{L}_t|$ is a function of
+$(\mathcal{K}_t, S_t)$ alone. For the lower bound, fix $K$ keys and consider the
+$|\mathcal{V}|^K$ histories that write each key once with an arbitrary value.
+If two such histories with different state vectors were mapped to the same
+context, $R^\ast$ would give the same answer on both for every key and hence be
+wrong on at least one probe of one of them. The compressor is therefore
+injective on these histories, so some context has description length at least
+$\log_2|\mathcal{V}|^K = K\log_2|\mathcal{V}|$ bits. \qed
+
+\paragraph{\Cref{prop:sc}.} Suppose an SC context has some write to $k$
+present. The present writes of $k$ form a non-empty suffix of its write
+sequence, which contains the latest write, so $R^\ast$ returns the latest value
+(correct). Otherwise no write is present (missing). A window of whole turns
+keeps a suffix of turns, hence a suffix of every key's writes. The compacted log
+keeps exactly the last write of each key (a suffix of length one). If $c_1,c_2$
+are SC, the present writes of $k$ in $c_1\cup c_2$ are a union of two suffixes,
+which is a suffix. \qed
+
+\paragraph{\Cref{prop:window}.} The window contains exactly the turns whose
+starting position lies within the last $W$ tokens, so the latest write to $k$
+is present iff it lies in that range; older writes are then absent too (no
+stale outcome), and if the latest write is outside the range so are all older
+ones (missing). For a stationary Poisson process with rate $\lambda_k$ per step,
+the time since the last event (the age $A$) is exponentially distributed with
+rate $\lambda_k$. Approximating the token distance by $\mu A$,
+$\Pr[\mu A\le W]=1-e^{-\lambda_k W/\mu}$. \qed
+
+\paragraph{\Cref{prop:stale}.} Let the writes of $k$ be in turns
+$i_1<\dots<i_m$, each kept independently with probability $\rho$. The probe is
+correct iff turn $i_m$ is kept ($\rho$). It is missing iff none is kept
+($(1-\rho)^m$). It is stale iff $i_m$ is dropped and at least one of the $m-1$
+earlier turns is kept: $(1-\rho)(1-(1-\rho)^{m-1})$ (we assume distinct
+values; equal values only turn stale outcomes into correct ones). This is
+increasing in $m$ with limit $1-\rho$. Conditioned on some write being present,
+the stale fraction is $(1-\rho)(1-(1-\rho)^{m-1})/(1-(1-\rho)^m)\to 1-\rho$.
+For an extractor with independent recall $r$ feeding a latest-wins ledger, the
+ledger record of $k$ is the latest \emph{detected} write; it equals the true
+latest write with probability $r$, is an older write with probability
+$(1-r)(1-(1-r)^{m-1})$, and is absent otherwise, which is \cref{eq:stale} with
+$\rho=r$. \qed
+
+\paragraph{\Cref{cor:safe}.} If $k$'s record is in $\mathrm{L}'$, the latest
+write of $k$ is present, so $R^\ast$ answers correctly whatever else $c'$
+contains, since every other present write of $k$ is older. \qed
+
+\paragraph{\Cref{prop:knapsack}.} The expected number of correct probes is
+$\sum_k p_k\,\mathbb{1}[k\text{ kept}]$ subject to $\sum_k |\mathrm{rec}(k)|\,
+\mathbb{1}[k\text{ kept}]\le B$, a 0/1 knapsack. The ratio-greedy solution of
+the fractional relaxation is optimal~\citep{dantzig1957knapsack}; the better of
+the greedy integral prefix and the single most valuable item achieves at least
+half of the fractional optimum. \qed
+
+%% ---------------------------------------------------------------------------
+\section{Probe and Evidence Details}
+\label{app:probes}
+
+\paragraph{Evidence lines.} Values are split into lines; each line is
+normalized by removing carriage returns and editor line-number prefixes
+(e.g.\ \texttt{123:} or \texttt{\phantom{0}123\textbackslash t}) and collapsing
+whitespace; lines shorter than 6 characters or without alphanumerics are
+discarded, and duplicates are removed. For command outputs the evidence is the
+last 12 such lines (results, tracebacks and test summaries are printed last);
+for all other keys it is 12 lines sampled evenly across the value. A write is
+present if one unit contains at least 80\% of its evidence lines. Matching is
+line-exact after normalization, so an edit is also present if the file view
+echoed after the edit shows the new lines.
+
+\paragraph{Key derivation for SWE-agent.} SWE-agent 0.x actions
+(\texttt{open}, \texttt{goto}, \texttt{scroll\_*}, \texttt{create},
+\texttt{edit a:b \dots end\_of\_edit}, \texttt{search\_dir},
+\texttt{search\_file}, \texttt{find\_file}) and SWE-agent 1.x actions
+(\texttt{str\_replace\_editor view|create|str\_replace|insert}, bash) are parsed
+deterministically. The currently open file in 0.x is tracked from the
+\texttt{[File: \dots]} header of observations. \emph{Edit regions}: a line-range
+edit supersedes an earlier edit of the same file if their line ranges overlap;
+a \texttt{str\_replace} supersedes an earlier edit if its \texttt{old\_str} is
+contained in, or shares an informative line with, the text written by that
+edit; \texttt{create} resets the file. \emph{View windows} are bucketed by
+starting line into 50-line blocks. Commands are normalized by stripping
+leading \texttt{cd \dots\ \&\&} prefixes and collapsing whitespace. The task key
+is the issue text; it is pinned by every compressor and therefore always
+correct.
+
+\paragraph{Use probes.} Identifiers are maximal matches of
+\texttt{[A-Za-z\_][\textbackslash w./-]\{3,\}[\textbackslash w]} (names, dotted names, paths
+without the leading slash). A use probe is an identifier that occurs in the
+next action, is not a stop word (interface commands, Python keywords, common
+shell tools), occurs in some earlier turn of the history, and does not occur
+in the system prompt (which every compressor keeps). We bucket use probes by the
+number of steps since the identifier \emph{last} occurred; ``long-range'' use
+probes are those whose last occurrence is more than two steps back (i.e.\
+outside the most recent turns that every compressor keeps).
+
+\paragraph{Decision points.} For each trajectory and budget we take the
+decision points (just before an agent turn) whose uncompressed history
+(excluding the system prompt) exceeds the budget, and sample up to six of them
+evenly. Every compressor is evaluated on the same decision points. Tokens are
+counted with a model-agnostic regular expression (words and punctuation);
+the count is of the same order as BPE token counts but not identical to any
+particular tokenizer, so budgets should be read as relative sizes.
+
+%% ---------------------------------------------------------------------------
+\section{Baseline and SKC Settings}
+\label{app:settings}
+
+\begin{itemize}[leftmargin=*,itemsep=1pt,topsep=2pt]
+\item \textbf{Recency window}: task pinned; most recent whole turns that fit;
+the last turn is truncated (head and tail) if it alone exceeds the budget.
+\item \textbf{Observation masking}~\citep{lindenbauer2025complexity}: all agent
+turns kept; tool outputs other than the 10 most recent replaced by a
+placeholder; then recency window.
+\item \textbf{Truncate observations}: tool outputs other than the 2 most recent
+are cut to 200 tokens (one third head, two thirds tail); then recency window.
+\item \textbf{BM25 selection}: last 2 turns kept; other turns ranked by BM25
+($k_1=1.2,b=0.75$) against the task and the latest agent turn and added
+greedily; original order preserved.
+\item \textbf{Random selection}: last 2 turns kept; other turns added in random
+order while they fit.
+\item \textbf{SKC}: $R=4$ recent turns, value cap $V=300$ tokens (one third
+head, two thirds tail), type weights $w_{\text{edit}}=4$, $w_{\text{cmd}}=2$,
+$w_{\text{search}}=1.5$, $w_{\text{view}}=1$, $\tau=20$ steps; extension as
+described in \cref{sec:method}. SKC+BM25 uses the same ledger and BM25
+extension.
+\end{itemize}
+In \textsc{StateTrack} the extractor reads the \texttt{key = value} lines that
+carry writes; on SWE-agent it is the structural parser above. Noisy extractors
+drop each write independently (deterministically by a hash of key and turn)
+with probability $1-r$.

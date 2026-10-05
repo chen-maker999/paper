@@ -1,0 +1,335 @@
+%% ---------------------------------------------------------------------------
+\section{Introduction}
+\label{sec:intro}
+
+Large language model (LLM) agents now routinely run for tens to hundreds of
+steps: a software-engineering agent opens files, edits them, runs tests, reads
+tracebacks, and edits again~\citep{yang2024sweagent,wang2025openhands}. Every
+step appends an action and an observation to the context, and tool outputs
+dominate it: in the 1{,}478 SWE-agent trajectories we study, \textbf{71--89\% of
+all context tokens are tool outputs} (\cref{sec:corpus}). Even when a model's
+window is large enough, long contexts cost latency and money and degrade
+accuracy~\citep{liu2024lost,hsieh2024ruler,hong2025contextrot}. Every practical
+agent therefore \emph{compresses} its history---by truncating it, masking old
+observations, pruning ``unimportant'' tokens, or summarizing it with an
+LLM~\citep{packer2023memgpt,lindenbauer2025complexity,kang2025acon,anthropic2025context}.
+
+Most of these methods treat the history as \emph{text to be shortened}. We argue
+that for agents it is better viewed as an \emph{event log that mutates a state}.
+An edit changes a region of a file; re-running a test replaces the previous
+result; a user's correction overrides an earlier constraint. What the agent
+must not lose is the \emph{current value of each state variable}, and a
+compressor can fail in two distinct ways: it can drop the value
+(\emph{missing}), or---worse---drop the latest value while keeping an older one,
+so that a capable reader confidently acts on an outdated state
+(\emph{stale}). Text-centric criteria such as recency or relevance do not see
+this distinction: a relevance scorer has no reason to prefer the newer of two
+test results, and a recency window has no reason to keep a constraint stated
+fifty steps ago.
+
+This view suggests borrowing a mechanism that databases have used for decades:
+\emph{log compaction}, which retains only the latest record per
+key~\citep{kreps2011kafka,kleppmann2017ddia}. We make the idea precise and test
+it.
+
+\paragraph{Contributions.}
+\begin{enumerate}[leftmargin=*,itemsep=1pt,topsep=2pt]
+  \item \textbf{A state-centric formalization} of agent context compression
+  (\cref{sec:formulation}): histories as event logs with keyed writes, an
+  \emph{ideal reader} that separates information loss from reader ability, and
+  three outcomes---\emph{correct}, \emph{stale}, \emph{missing}---for each
+  state probe.
+  \item \textbf{Theory} (\cref{sec:theory}): the compacted log is a sufficient
+  statistic whose size is independent of the horizon and matches an
+  information-theoretic lower bound; \emph{supersession-consistent} compressors
+  (which include recency windows and the compacted log) can never be stale;
+  recency windows lose keys at a rate governed by key age rather than
+  importance; and any compressor that keeps turns independently of supersession
+  incurs a stale rate of $(1-\rho)(1-(1-\rho)^{m-1})$ for a key with $m$ writes
+  when it keeps a fraction $\rho$ of turns---which also describes a ledger fed by
+  an extractor with recall $\rho$.
+  \item \textbf{State-Keyed Compaction (SKC)} (\cref{sec:method}): a simple,
+  model-free compressor that keeps a latest-value-per-key ledger with verbatim
+  values and provenance, a short raw window, and a skeleton of older actions,
+  allocating the budget with a knapsack-ratio priority; and a hybrid,
+  SKC+BM25, that the theory shows can add relevance-based selection without
+  creating stale state.
+  \item \textbf{An empirical study} on 1{,}478 real SWE-agent trajectories from
+  five LLMs (GPT-4, Claude~3 Opus, GPT-4o, Claude~3.7 Sonnet, Claude~4 Sonnet)
+  and on a controllable benchmark, \textsc{StateTrack}
+  (\cref{sec:setup,sec:results}). We measure, for six compressors and budgets
+  of 4k--16k tokens, how much agent state survives compression, how often a
+  compressor leaves only stale state, and how well it preserves information
+  that the agent actually goes on to use.
+\end{enumerate}
+
+\paragraph{Scope.} This paper measures \emph{information sufficiency}: whether
+the compressed context still contains what an ideal reader would need. It does
+not run LLM agents end-to-end on compressed contexts. Sufficiency is a
+necessary condition for downstream success and isolates the compressor from
+the reader; the price is that our numbers are upper bounds on what a real model
+can recover (\cref{sec:limitations}). All code, parsed probes and results are
+released.
+
+%% ---------------------------------------------------------------------------
+\section{Related Work}
+\label{sec:related}
+
+\paragraph{Prompt and context compression.} Token-level pruning methods drop
+tokens with low self-information or low importance under a small LM, e.g.\
+Selective Context~\citep{li2023selective} and the LLMLingua
+family~\citep{jiang2023llmlingua,jiang2024longllmlingua,pan2024llmlingua2}.
+Learned compressors map context into soft tokens~\citep{mu2023gist,chevalier2023autocompressors,ge2024icae},
+and KV-cache methods evict entries by attention statistics or position~\citep{zhang2023h2o,xiao2024streamingllm}.
+These methods score text by salience; they are not designed around
+supersession, which our analysis shows is what produces stale state. Our BM25
+baseline~\citep{robertson2009bm25} is a turn-level, model-free representative of
+salience-based selection.
+
+\paragraph{Memory for LLM agents.} MemGPT pages information between a bounded
+context and external storage~\citep{packer2023memgpt}; Generative Agents keep a
+memory stream with recency/importance/relevance retrieval and periodic
+reflection~\citep{park2023generative}; Reflexion stores verbal
+lessons~\citep{shinn2023reflexion}. MemoryBank, A-MEM and Mem0 organize long-term
+memories, and Mem0 explicitly applies add/update/delete operations to stored
+facts~\citep{zhong2024memorybank,xu2025amem,chhikara2025mem0}. Recursive or
+gist summarization compresses long documents and
+dialogues~\citep{wang2023recursively,lee2024readagent,chen2023memwalker}.
+Benchmarks such as LoCoMo and LongMemEval test long-term conversational memory
+including knowledge updates~\citep{maharana2024locomo,wu2025longmemeval}. Our
+work is complementary: rather than proposing another memory architecture, we
+give a formal account of \emph{what} must be preserved within a single
+long-horizon episode, why common compressors fail, and an evaluation that
+separates missing from stale state.
+
+\paragraph{Context management for long-horizon agents.} Closest to us,
+\citet{lindenbauer2025complexity} show that simply masking old observations in
+SWE-agent matches LLM summarization in solve rate at lower cost, and
+ACON~\citep{kang2025acon} optimizes compression guidelines for history and
+observations with failure-driven feedback. MEM1 trains agents to maintain a
+compact internal state that replaces the history~\citep{zhou2025mem1}.
+Practitioner guidance recommends ``compaction'' and structured note-taking for
+agents~\citep{anthropic2025context}. We provide the missing analytical lens:
+observation masking works because agent turns carry most state-changing
+information and because it is (nearly) supersession-consistent; it fails on
+state that only lives in observations. SKC can be seen as making the implicit
+state of these approaches explicit and keyed.
+
+\paragraph{State tracking and logs.} Language models' ability to track entity
+states through a sequence of operations is studied by
+\citet{kim2023entity}. Event sourcing and log compaction in data systems keep
+only the latest record per key so that the state can be rebuilt from a bounded
+log~\citep{kreps2011kafka,kleppmann2017ddia}; streaming lower
+bounds~\citep{alon1999space} motivate our counting argument.
+
+%% ---------------------------------------------------------------------------
+\section{Problem Formulation}
+\label{sec:formulation}
+
+\paragraph{Histories and state.} An agent history is a sequence of turns
+$h_{1:t}=(x_1,\dots,x_t)$, each a piece of text of $\ell(x_i)$ tokens with a
+role (task, agent, tool, user). Let $\mathcal{K}$ be a set of \emph{state keys}
+and $\mathcal{V}$ a set of values. Each turn carries a (possibly empty) set of
+\emph{writes} $\mathrm{W}(x_i)\subseteq\mathcal{K}\times\mathcal{V}$: evidence
+that key $k$ took value $v$ at time $i$. The state at time $t$ is the
+\emph{fold} of the log under last-writer-wins,
+\begin{equation}
+  S_t(k) = v \quad\text{where } (k,v)\in \mathrm{W}(x_i),\; i=\max\{j\le t: k \text{ written in } x_j\},
+\end{equation}
+and $S_t(k)=\bot$ if $k$ was never written. For a software agent, keys include
+the content of each edited file region, the latest output of each command, the
+latest view of each file window, the results of each code search, and the task
+itself (\cref{sec:setup}).
+
+\paragraph{Compressors.} A compressor $C$ maps a history and a budget $B$ to a
+context $c=C(h_{1:t},B)$: a sequence of \emph{units}, each either a (possibly
+truncated or masked) turn or a derived record, with total length at most $B$
+tokens (a fixed system prompt is kept and not charged).
+
+\paragraph{Ideal reader and outcomes.} To separate what a compressor removes
+from what a particular LLM can exploit, we evaluate with an \emph{ideal reader}
+$R^\ast$ that, for a key $k$, finds in $c$ the evidence of the most recent write
+to $k$ that is still present. Writes carry \emph{evidence}: a set of normalized
+lines that identify the value (\cref{sec:setup}); a write is present if some
+unit contains at least a fraction $\theta=0.8$ of its evidence lines. A
+\emph{state probe} $(k,t)$ then has one of three outcomes:
+\begin{itemize}[leftmargin=*,itemsep=1pt,topsep=2pt]
+  \item \textbf{correct}: the latest write to $k$ is present;
+  \item \textbf{stale}: the latest write is absent but an older write with a
+  different value is present---a capable reader would act on outdated state;
+  \item \textbf{missing}: no write to $k$ is present.
+\end{itemize}
+We report, for each compressor and budget, the fraction of probes in each class.
+Stale outcomes are strictly worse than missing ones: a missing value can be
+re-acquired (e.g.\ by re-running a command) if the agent notices the gap,
+whereas a stale value gives no signal that anything is wrong.
+
+\paragraph{Use probes.} State probes require a definition of keys, which could
+favor a method built on the same keys. We therefore also use a key-free,
+behavior-grounded measure: at each decision point we take the identifiers
+(names, dotted names, paths; \cref{app:probes}) in the agent's \emph{next
+action} that already occurred earlier in the history but not in the system
+prompt, and ask whether each is still \emph{available} somewhere in the
+compressed context. This measures whether compression removes information the
+agent actually went on to use.
+
+%% ---------------------------------------------------------------------------
+\section{Theory}
+\label{sec:theory}
+
+Proofs are in \cref{app:proofs}. Write $\mathrm{L}_t$ for the \emph{compacted
+log}: for every key written up to time $t$, the record of its latest write.
+
+\begin{proposition}[Sufficiency and size of the compacted log]
+\label{prop:sufficiency}
+For every key $k$, $R^\ast(\mathrm{L}_t,k)=S_t(k)$. Its size
+$|\mathrm{L}_t| = \sum_{k\in\mathcal{K}_t}|\mathrm{rec}(k)|$ depends only on the
+set $\mathcal{K}_t$ of keys written so far and on their current values, not on
+the number of turns or on the number of writes.
+Conversely, any compressor whose context lets $R^\ast$ answer every probe
+correctly, for all histories over $K$ keys with values in $\mathcal{V}$, must use
+contexts of at least $K\log_2|\mathcal{V}|$ bits for some history.
+\end{proposition}
+
+Thus the compacted log is optimal up to the encoding of keys and values, and the
+cost of a full-retention memory grows with the number of \emph{live keys}, not
+with the horizon. Long agent runs are long mostly because the same keys are
+rewritten (tests re-run, files re-viewed); compaction removes exactly this
+redundancy.
+
+\begin{definition}[Supersession consistency]
+A compressor is \emph{supersession-consistent} (SC) if, for every key, the set
+of its writes present in the context is a suffix of its write sequence: whenever
+a write to $k$ is present, every later write to $k$ is present too.
+\end{definition}
+
+\begin{proposition}[SC compressors are never stale]
+\label{prop:sc}
+If $C$ is SC, every probe outcome is correct or missing. A recency window that
+keeps whole turns is SC; so is the compacted log with a perfect extractor; and
+so is any union of SC contexts.
+\end{proposition}
+
+\begin{proposition}[Recency windows forget by age, not importance]
+\label{prop:window}
+A recency window of $W$ tokens answers a probe on $k$ correctly iff the latest
+write to $k$ lies within the last $W$ tokens. If tool steps have i.i.d.\ lengths
+with mean $\mu$ and $k$ is written as a Poisson process with rate $\lambda_k$
+per step, then, approximating the token distance by $\mu$ times the age in steps, the
+stationary probability that $k$ is retained is $1-e^{-\lambda_k W/\mu}$.
+\end{proposition}
+
+Keys that are written rarely---the task statement, a constraint, the location
+of the bug found early on---are exactly the ones a window drops first, however
+important they are. Masking observations raises the effective $W$ for keys
+written in agent turns (edits) but not for keys that live in tool outputs.
+
+\begin{proposition}[Stale rate of supersession-blind selection]
+\label{prop:stale}
+Let a compressor keep each turn independently with probability $\rho$
+(independently of which writes it carries). For a key with $m$ writes in
+distinct turns,
+\begin{equation}
+\Pr[\text{correct}]=\rho,\qquad
+\Pr[\text{stale}]=(1-\rho)\bigl(1-(1-\rho)^{m-1}\bigr),\qquad
+\Pr[\text{missing}]=(1-\rho)^m .
+\label{eq:stale}
+\end{equation}
+Hence the stale rate increases monotonically in $m$ towards $1-\rho$, and among
+probes for which \emph{some} value is present, the fraction that is stale tends
+to $1-\rho$ as $m\to\infty$.
+\end{proposition}
+
+Two consequences matter in practice. First, salience scores (BM25, token
+importance, attention) do not depend on supersession, so selection methods
+approach \cref{eq:stale}: under tight budgets, \emph{most} of the values they
+retain for frequently updated keys are outdated. Second, the same formula
+governs a ledger fed by an imperfect extractor: if each write is detected
+independently with recall $r$, the ledger behaves like independent selection
+with $\rho=r$ and stops being SC. Extraction errors therefore surface as stale
+state, not merely as missing state---the motivation for keeping a raw recent
+window next to the ledger (\cref{sec:method}).
+
+\begin{corollary}[A ledger makes selection safe]
+\label{cor:safe}
+Let $c=\mathrm{L}'\cup c'$, where $\mathrm{L}'\subseteq\mathrm{L}_t$ is any subset
+of the compacted log and $c'$ is \emph{any} other context (e.g.\ turns chosen by
+relevance). A probe on $k$ can be stale only if $k$'s record is not in
+$\mathrm{L}'$. In particular, with the full compacted log, every probe is
+correct regardless of $c'$.
+\end{corollary}
+
+The corollary licenses a hybrid: once the latest value of each key is pinned in
+the ledger, the remaining budget can be spent on supersession-blind but
+otherwise useful selection (e.g.\ relevance to the current step) without
+creating stale state.
+
+\begin{proposition}[Budgeted ledgers]
+\label{prop:knapsack}
+If the compacted log exceeds the budget and key $k$ is probed with probability
+$p_k$, maximizing the expected number of correct probes is a 0/1 knapsack with
+values $p_k$ and weights $|\mathrm{rec}(k)|$. Greedy selection by
+$p_k/|\mathrm{rec}(k)|$ is optimal for the fractional relaxation and, combined
+with the best single record, a $\tfrac12$-approximation~\citep{dantzig1957knapsack}.
+\end{proposition}
+
+%% ---------------------------------------------------------------------------
+\section{State-Keyed Compaction}
+\label{sec:method}
+
+SKC instantiates the analysis with four parts (\cref{alg:skc}).
+
+\paragraph{Extraction.} An extractor maps each turn to writes. For tool-using
+agents most writes are \emph{structural}: they follow from the tool call
+itself, which the framework already has in parsed form. For SWE-agent we derive
+keys deterministically from actions: \texttt{edit:<file>\#<region>} for the text
+written by an edit (regions are tracked so that only edits to overlapping lines
+or to text produced by an earlier edit supersede each other),
+\texttt{view:<file>@<window>} for file content shown to the agent,
+\texttt{search:<query>} and \texttt{cmd:<command>} for the outputs of searches
+and (normalized) shell commands. Free-text writes (e.g.\ a user revising a
+constraint) require a learned or rule-based extractor; we model its errors by
+its recall $r$.
+
+\paragraph{Ledger.} For every key, SKC keeps only the latest extracted write,
+rendered \emph{verbatim} (values are capped at $V$ tokens, keeping head and
+tail), with provenance (\texttt{[state] key (as of turn i)}). Verbatim values
+avoid the paraphrase drift of LLM summaries; provenance lets the reader order
+records.
+
+\paragraph{Budget allocation.} The task statement is pinned and the last $R$
+turns are kept verbatim. Ledger records whose source turn is already in the
+window are skipped. Remaining records are admitted greedily by the knapsack
+ratio of \cref{prop:knapsack}, with probe probability estimated as
+$p_k = w_{\mathrm{type}(k)}\cdot \tau/(\tau+\mathrm{age}_k)$, where the type
+prior favors edits over command outputs, searches and views
+($w=4,2,1.5,1$) and $\tau=20$ steps.
+
+\paragraph{Skeleton.} Any budget left is spent extending the raw window
+backwards with whole turns and, once a tool output no longer fits, with agent
+turns only (older tool outputs replaced by a placeholder), as in observation
+masking. We call this variant \textbf{SKC}. A second variant,
+\textbf{SKC+BM25}, spends the leftover budget on the older turns with the highest
+BM25 score against the task and the latest agent turn, which
+\cref{cor:safe} makes safe with respect to staleness.
+
+\begin{algorithm}[t]
+\caption{State-Keyed Compaction (SKC)}
+\label{alg:skc}
+\small
+\begin{algorithmic}[1]
+\Require history $x_{1:t}$ (task $x_1$), budget $B$, extractor $E$, recent turns $R$, value cap $V$
+\State $c \gets [x_1]$; \quad $c_{\text{recent}} \gets$ last $R$ turns (truncate the last turn if it alone exceeds the budget)
+\State $\mathrm{L} \gets \{\}$; \textbf{for} $i=2..t$, \textbf{for} $(k,v)\in E(x_i)$: $\mathrm{L}[k]\gets(v,i)$ \Comment{log compaction}
+\State $\mathcal{C}\gets\{\textsc{Record}(k,\textsc{Cap}(v,V),i) : (k,(v,i))\in \mathrm{L},\ x_i\notin c_{\text{recent}}\}$
+\State sort $\mathcal{C}$ by $p_k/|\textsc{Record}_k|$ descending; admit records while the budget allows
+\State \textbf{SKC}: extend backwards from $x_{t-R}$ with whole turns while they fit, then agent turns only (tool outputs masked)
+\State \textbf{SKC+BM25}: instead, add older turns by BM25 score against (task, latest agent turn) while they fit
+\State \Return $c \,\Vert\, \text{ledger records (by provenance)} \,\Vert\, \text{skeleton} \,\Vert\, c_{\text{recent}}$
+\end{algorithmic}
+\end{algorithm}
+
+SKC needs no model calls: extraction is a parse of the tool call, compaction is
+a dictionary update, and allocation is a sort. It is therefore cheap enough to
+run before every step, and it is idempotent: recompressing a compressed history
+does not compound errors, unlike recursive summarization.

@@ -1,0 +1,1479 @@
+model,instance,exit,steps,tokens,tok_task,tok_agent,tok_tool,n_keys,n_writes,overwritten,w_edit,w_view,w_search,w_cmd,age_med
+gpt4,astropy__astropy-12907,submitted (exit_cost),36,22739,307,2857,19575,14,61,10,26,31,1,3,15.25
+gpt4,astropy__astropy-14182,submitted (exit_cost),33,18596,570,4553,13473,8,50,5,18,21,1,10,24.75
+gpt4,astropy__astropy-14365,submitted,10,4455,391,722,3342,7,11,4,3,5,1,2,4.0
+gpt4,astropy__astropy-14995,submitted,17,9667,701,2096,6870,14,17,3,2,7,6,2,8.5
+gpt4,astropy__astropy-6938,submitted (exit_cost),36,19190,127,3443,15620,13,46,9,11,25,3,7,13.0
+gpt4,astropy__astropy-7746,submitted,22,13835,540,2938,10357,9,33,5,12,16,2,3,12.0
+gpt4,django__django-10914,submitted,8,6654,188,600,5866,8,9,1,2,4,3,0,4.25
+gpt4,django__django-10924,submitted,22,13725,175,3913,9637,10,31,7,11,14,2,4,13.75
+gpt4,django__django-11001,submitted,16,10406,508,2019,7879,12,19,6,4,10,2,3,7.5
+gpt4,django__django-11019,submitted,17,11337,460,2669,8208,8,20,6,5,10,1,4,7.5
+gpt4,django__django-11039,submitted (exit_cost),31,26873,158,5040,21675,7,56,3,26,29,1,0,27.0
+gpt4,django__django-11049,submitted,21,15789,161,2059,13569,10,32,4,12,16,4,0,6.75
+gpt4,django__django-11099,submitted,18,5968,168,1734,4066,14,23,6,6,11,2,4,7.5
+gpt4,django__django-11133,submitted,14,5587,163,1392,4032,8,15,4,3,7,2,3,5.5
+gpt4,django__django-11179,submitted,16,9806,64,2365,7377,8,20,4,5,9,1,5,5.25
+gpt4,django__django-11283,submitted,12,5209,228,1425,3556,6,13,4,3,7,1,2,7.25
+gpt4,django__django-11422,submitted,26,17606,186,3426,13994,18,32,7,7,19,5,1,10.5
+gpt4,django__django-11564,submitted,27,15001,193,3596,11212,11,33,6,8,15,4,6,15.5
+gpt4,django__django-11583,submitted,8,6497,1380,1036,4081,7,8,1,1,4,3,0,4.0
+gpt4,django__django-11620,submitted (exit_cost),33,23868,172,4586,19110,12,51,5,20,26,3,2,22.5
+gpt4,django__django-11630,submitted,32,21215,145,4767,16303,7,49,4,20,23,1,5,6.0
+gpt4,django__django-11742,submitted,9,4868,63,1179,3626,8,9,1,2,5,1,1,5.25
+gpt4,django__django-11797,submitted (exit_cost),31,23583,248,4617,18718,26,33,5,3,19,8,3,12.5
+gpt4,django__django-11815,submitted,24,11640,369,3384,7887,14,29,5,7,13,5,4,7.5
+gpt4,django__django-11848,submitted,27,18871,137,3542,15192,15,30,8,6,18,1,5,11.5
+gpt4,django__django-11905,submitted,22,12359,79,2594,9686,16,25,4,4,12,5,4,7.5
+gpt4,django__django-11910,submitted (exit_cost),32,19937,284,4922,14731,6,48,6,19,20,0,9,6.25
+gpt4,django__django-11964,submitted,24,10735,677,2769,7289,11,28,4,6,11,5,6,7.0
+gpt4,django__django-11999,submitted (exit_cost),35,20318,137,2427,17754,28,35,3,3,22,8,2,14.5
+gpt4,django__django-12113,submitted (exit_cost),30,26295,1319,3896,21080,13,43,7,14,22,2,5,6.5
+gpt4,django__django-12125,submitted,15,9005,392,1903,6710,13,17,3,3,9,3,2,7.0
+gpt4,django__django-12184,submitted,18,13077,268,2850,9959,17,18,1,1,11,5,1,9.0
+gpt4,django__django-12284,submitted (exit_cost),34,17773,219,3345,14209,21,37,7,6,21,3,7,20.0
+gpt4,django__django-12286,submitted,9,3254,159,844,2251,6,9,3,2,4,1,2,4.25
+gpt4,django__django-12308,submitted (exit_cost),34,19099,101,4182,14816,10,43,7,10,23,2,8,4.75
+gpt4,django__django-12453,submitted,10,9372,594,1064,7714,6,12,3,3,8,1,0,2.5
+gpt4,django__django-12470,submitted (exit_cost),31,26764,150,3709,22905,28,32,3,2,24,3,3,14.5
+gpt4,django__django-12497,submitted,13,8911,159,1372,7380,10,14,3,3,7,4,0,6.0
+gpt4,django__django-12589,submitted (exit_cost),29,27418,742,4965,21711,11,42,9,14,22,1,5,7.5
+gpt4,django__django-12700,submitted,13,6225,651,1516,4058,6,15,4,4,6,1,4,4.25
+gpt4,django__django-12708,submitted,28,21560,207,4779,16574,7,47,6,20,21,0,6,3.0
+gpt4,django__django-12747,submitted (exit_cost),32,23362,220,5351,17791,14,43,11,12,21,5,5,7.75
+gpt4,django__django-12856,submitted (exit_cost),36,19053,85,4784,14184,27,39,6,8,20,9,2,12.5
+gpt4,django__django-12908,submitted (exit_cost),36,16804,307,4067,12430,11,53,8,18,28,0,7,12.5
+gpt4,django__django-12915,submitted (exit_cost),36,17668,210,4307,13151,18,51,10,18,24,2,7,13.25
+gpt4,django__django-12983,submitted,13,7741,93,804,6844,10,13,3,2,8,1,2,6.5
+gpt4,django__django-13028,submitted (exit_cost),32,22892,699,4164,18029,6,50,4,19,22,0,9,6.75
+gpt4,django__django-13033,submitted (exit_cost),28,22957,935,5140,16882,15,35,6,8,19,3,5,10.5
+gpt4,django__django-13158,submitted (exit_cost),33,22398,263,3927,18208,19,42,5,10,22,5,5,11.0
+gpt4,django__django-13220,submitted,21,13763,111,2173,11479,9,26,6,7,14,2,3,5.0
+gpt4,django__django-13230,submitted,15,20748,55,2754,17939,6,22,3,8,12,2,0,7.25
+gpt4,django__django-13265,submitted,13,4368,458,1694,2216,11,12,1,0,0,8,4,7.0
+gpt4,django__django-13315,submitted,23,16007,50,3384,12573,18,26,6,4,14,6,2,9.5
+gpt4,django__django-13321,submitted,20,11660,1220,3021,7419,9,27,6,9,13,2,3,9.5
+gpt4,django__django-13401,submitted,23,14680,282,2487,11911,17,24,4,3,12,4,5,10.0
+gpt4,django__django-13447,submitted,12,9177,74,1177,7926,13,18,3,7,9,2,0,5.0
+gpt4,django__django-13448,submitted (exit_cost),32,23199,1420,3835,17944,3,59,3,28,29,0,2,1.5
+gpt4,django__django-13551,submitted,14,7885,113,2215,5557,6,16,4,4,8,1,3,7.75
+gpt4,django__django-13590,submitted (exit_cost),37,21526,183,2432,18911,8,66,3,30,33,2,1,32.5
+gpt4,django__django-13658,submitted,7,6217,298,451,5468,6,7,1,1,5,1,0,3.5
+gpt4,django__django-13660,submitted,12,4739,664,898,3177,6,12,3,4,7,1,0,5.25
+gpt4,django__django-13710,submitted,25,18071,169,1909,15993,9,41,5,17,21,3,0,3.5
+gpt4,django__django-13757,submitted,17,13527,195,1948,11384,16,21,3,5,11,5,0,9.5
+gpt4,django__django-13768,submitted,16,10977,126,1388,9463,8,24,3,9,13,2,0,5.0
+gpt4,django__django-13925,submitted,6,2872,876,1151,845,5,6,1,1,2,3,0,3.0
+gpt4,django__django-13933,submitted,9,5793,249,659,4885,8,10,2,2,5,3,0,3.75
+gpt4,django__django-13964,submitted,25,13206,411,3958,8837,6,30,4,9,11,0,10,6.5
+gpt4,django__django-14016,submitted,26,16416,177,2696,13543,13,33,4,9,17,3,4,18.0
+gpt4,django__django-14017,submitted (exit_cost),33,24559,447,2903,21209,24,37,6,5,24,4,4,12.5
+gpt4,django__django-14155,submitted,9,3867,107,1169,2591,6,9,3,2,4,1,2,4.25
+gpt4,django__django-14238,submitted,26,14062,690,2479,10893,15,31,5,7,16,2,6,9.0
+gpt4,django__django-14382,submitted,11,4173,142,1024,3007,7,12,3,3,5,1,3,8.0
+gpt4,django__django-14411,submitted,16,10610,78,2206,8326,12,17,3,2,9,6,0,8.0
+gpt4,django__django-14534,submitted,14,7355,386,1460,5509,9,15,4,3,8,1,3,9.0
+gpt4,django__django-14580,submitted,13,4286,369,1537,2380,8,14,5,4,7,0,3,6.0
+gpt4,django__django-14608,submitted,13,10420,120,1409,8891,10,13,3,1,8,4,0,4.5
+gpt4,django__django-14667,submitted,31,21974,291,5258,16425,21,36,9,6,19,6,5,18.0
+gpt4,django__django-14672,submitted,16,8335,1652,1550,5133,8,18,4,4,8,2,4,5.5
+gpt4,django__django-14730,submitted,14,4290,89,1077,3124,12,14,2,2,5,4,3,7.5
+gpt4,django__django-14752,submitted,5,4331,627,671,3033,3,6,2,2,3,1,0,1.5
+gpt4,django__django-14787,submitted,18,9686,173,1882,7631,8,22,5,6,11,1,4,5.25
+gpt4,django__django-14855,submitted,29,19403,222,3845,15336,11,41,7,14,17,2,8,18.5
+gpt4,django__django-14915,submitted,18,8431,247,2635,5549,11,22,4,5,9,3,5,6.0
+gpt4,django__django-14997,submitted (exit_cost),29,20298,1593,4391,14314,7,34,3,9,13,2,10,4.0
+gpt4,django__django-14999,submitted,7,4917,48,899,3970,6,8,2,2,4,2,0,3.0
+gpt4,django__django-15061,submitted,9,7136,78,1000,6058,8,9,1,1,6,2,0,4.5
+gpt4,django__django-15202,submitted,22,15208,131,2904,12173,16,22,5,2,13,5,2,10.5
+gpt4,django__django-15213,submitted,32,19433,199,4358,14876,24,39,6,8,18,10,3,16.5
+gpt4,django__django-15252,submitted,31,17333,340,3760,13233,12,44,6,15,22,3,4,9.5
+gpt4,django__django-15320,submitted,17,7964,263,2222,5479,9,20,3,5,8,2,5,5.0
+gpt4,django__django-15347,submitted,9,3374,296,765,2313,6,9,3,2,4,1,2,4.25
+gpt4,django__django-15388,submitted,17,12231,180,2841,9210,14,17,2,2,9,5,1,9.5
+gpt4,django__django-15400,submitted,11,4341,163,1032,3146,9,11,2,2,5,2,2,5.0
+gpt4,django__django-15498,submitted,15,7285,66,1918,5301,11,18,5,4,8,3,3,6.0
+gpt4,django__django-15695,submitted (exit_cost),34,20117,216,3680,16221,7,54,5,21,25,0,8,10.5
+gpt4,django__django-15738,submitted,11,9548,425,2089,7034,10,10,0,0,0,8,2,5.5
+gpt4,django__django-15781,submitted,20,14318,291,2443,11584,15,20,3,1,12,7,0,9.0
+gpt4,django__django-15789,submitted,10,8706,116,1588,7002,10,12,2,3,6,3,0,4.5
+gpt4,django__django-15790,submitted (exit_cost),32,25788,84,5053,20651,7,58,3,27,28,3,0,12.5
+gpt4,django__django-15814,submitted,14,6999,719,1847,4433,6,17,4,5,7,1,4,4.25
+gpt4,django__django-15819,submitted,8,4866,111,1269,3486,8,9,1,2,5,1,1,3.5
+gpt4,django__django-15851,exit_cost,39,20906,146,2541,18219,9,68,2,30,32,4,2,34.0
+gpt4,django__django-15902,submitted,19,12039,83,2910,9046,11,18,4,2,11,3,2,8.0
+gpt4,django__django-15996,submitted,13,5968,130,1535,4303,9,14,3,3,6,2,3,5.0
+gpt4,django__django-16041,submitted (exit_cost),35,15992,287,3829,11876,17,43,7,12,21,1,9,13.0
+gpt4,django__django-16046,submitted,17,6994,69,1462,5463,7,21,5,6,11,1,3,6.0
+gpt4,django__django-16139,submitted,6,4339,363,776,3200,5,6,1,1,3,2,0,3.0
+gpt4,django__django-16229,submitted (exit_cost),37,17264,275,3855,13134,9,58,8,22,29,0,7,10.5
+gpt4,django__django-16255,submitted,6,3795,403,460,2932,5,6,1,1,3,2,0,3.0
+gpt4,django__django-16379,submitted,10,4680,277,1276,3127,6,11,4,3,5,1,2,5.25
+gpt4,django__django-16400,submitted,26,15098,495,3867,10736,23,25,2,1,14,9,1,14.0
+gpt4,django__django-16408,submitted (exit_cost),36,20653,389,4071,16193,18,50,7,15,23,5,7,9.25
+gpt4,django__django-16527,submitted,5,2832,94,538,2200,3,6,2,2,3,1,0,1.5
+gpt4,django__django-16595,submitted,18,10372,388,1848,8136,11,21,7,5,12,2,2,8.0
+gpt4,django__django-16816,submitted,13,8914,1353,2032,5529,10,16,5,4,7,3,2,5.5
+gpt4,django__django-16820,submitted,21,10973,67,3361,7545,13,26,4,7,11,3,5,14.5
+gpt4,django__django-16873,submitted (exit_cost),35,23631,820,3505,19306,15,51,6,17,22,2,10,9.5
+gpt4,django__django-16910,submitted (exit_cost),32,19104,373,4765,13966,25,36,7,5,15,13,3,15.0
+gpt4,django__django-17051,submitted,21,16815,251,2527,14037,20,22,2,2,14,6,0,10.5
+gpt4,django__django-17087,submitted,18,8626,275,1896,6455,10,23,5,6,11,1,5,4.75
+gpt4,matplotlib__matplotlib-18869,submitted,22,12880,392,2248,10240,12,27,6,7,12,4,4,10.25
+gpt4,matplotlib__matplotlib-22711,submitted,14,7606,984,1159,5463,9,16,4,5,8,1,2,5.5
+gpt4,matplotlib__matplotlib-22835,submitted,16,8609,462,1265,6882,14,17,3,3,9,4,1,8.5
+gpt4,matplotlib__matplotlib-23299,submitted (exit_cost),33,22488,504,3956,18028,22,38,9,6,21,9,2,14.5
+gpt4,matplotlib__matplotlib-23314,submitted,23,14026,227,2700,11099,17,23,4,4,13,6,0,8.0
+gpt4,matplotlib__matplotlib-23476,submitted,10,6586,925,1334,4327,7,12,4,4,6,1,1,6.0
+gpt4,matplotlib__matplotlib-23562,submitted,10,4392,318,696,3378,7,10,3,2,5,1,2,5.0
+gpt4,matplotlib__matplotlib-23563,submitted,15,9898,1249,2174,6475,11,17,4,4,10,1,2,6.0
+gpt4,matplotlib__matplotlib-23913,submitted (exit_cost),30,25198,150,5109,19939,18,32,7,3,21,6,2,12.5
+gpt4,matplotlib__matplotlib-23964,submitted,8,9118,1083,478,7557,6,8,2,2,4,0,2,3.75
+gpt4,matplotlib__matplotlib-23987,submitted (exit_cost),33,24370,298,3694,20378,22,34,9,2,20,10,2,16.5
+gpt4,matplotlib__matplotlib-24149,submitted,12,5620,888,988,3744,9,12,3,2,5,3,2,6.0
+gpt4,matplotlib__matplotlib-24265,submitted,16,5269,305,1336,3628,11,17,4,3,7,5,2,6.0
+gpt4,matplotlib__matplotlib-24334,submitted (exit_cost),34,24663,176,2502,21985,30,32,2,1,23,7,1,15.5
+gpt4,matplotlib__matplotlib-24970,submitted,11,5306,422,879,4005,7,12,4,3,5,1,3,6.0
+gpt4,matplotlib__matplotlib-25079,submitted (exit_cost),31,23277,1046,4640,17591,29,31,2,1,18,11,1,15.0
+gpt4,matplotlib__matplotlib-25311,submitted,11,8051,213,1763,6075,8,12,2,2,7,2,1,6.0
+gpt4,matplotlib__matplotlib-25332,submitted (exit_cost),33,23703,256,3739,19708,27,42,9,10,21,9,2,16.0
+gpt4,matplotlib__matplotlib-25433,submitted,20,10949,417,2235,8297,17,19,2,1,10,8,0,10.0
+gpt4,matplotlib__matplotlib-25442,submitted,9,4642,463,925,3254,8,10,2,2,5,2,1,4.5
+gpt4,matplotlib__matplotlib-25498,submitted (exit_cost),33,26654,402,3760,22492,12,56,5,24,27,2,3,25.5
+gpt4,matplotlib__matplotlib-26011,submitted,30,18608,364,3057,15187,13,32,7,6,17,5,4,8.0
+gpt4,matplotlib__matplotlib-26020,submitted,9,6383,2800,873,2710,7,10,3,2,4,2,2,4.0
+gpt4,mwaskom__seaborn-2848,submitted (exit_cost),32,19095,1500,3771,13824,26,30,3,1,9,12,8,16.5
+gpt4,mwaskom__seaborn-3010,submitted,12,6400,1138,1424,3838,6,15,4,5,7,1,2,5.75
+gpt4,mwaskom__seaborn-3190,submitted,28,19941,520,2761,16660,16,35,7,9,20,2,4,16.0
+gpt4,mwaskom__seaborn-3407,submitted,18,14424,759,2418,11247,11,22,5,5,12,1,4,11.0
+gpt4,pallets__flask-4045,submitted,8,5184,46,1147,3991,8,9,1,2,5,1,1,4.25
+gpt4,pallets__flask-4992,submitted,15,11473,317,2245,8911,13,19,5,5,11,2,1,8.0
+gpt4,pallets__flask-5063,submitted,10,10240,569,2551,7120,7,13,3,4,6,3,0,6.0
+gpt4,psf__requests-1963,submitted (exit_cost),35,18886,141,4049,14696,8,56,5,22,23,0,11,11.5
+gpt4,psf__requests-2148,submitted,13,10800,752,1751,8297,7,19,4,7,11,1,0,6.0
+gpt4,psf__requests-2317,submitted,10,4604,206,1070,3328,9,10,1,2,5,2,1,5.5
+gpt4,psf__requests-2674,submitted (exit_cost),33,22799,111,3939,18749,17,50,6,18,27,2,3,17.0
+gpt4,psf__requests-3362,submitted,12,3670,121,1236,2313,7,11,3,2,4,0,5,6.0
+gpt4,psf__requests-863,exit_cost,32,19394,177,5744,13473,16,41,8,10,18,5,8,7.5
+gpt4,pydata__xarray-3364,submitted,31,21420,132,4300,16988,18,39,9,10,20,4,5,10.5
+gpt4,pydata__xarray-4094,submitted,23,17726,489,3357,13880,14,26,6,4,15,3,4,6.5
+gpt4,pydata__xarray-4248,submitted,15,9577,227,2136,7214,14,15,1,1,7,7,0,7.5
+gpt4,pydata__xarray-4493,submitted (exit_cost),30,21393,730,3711,16952,22,34,9,5,21,8,0,14.0
+gpt4,pydata__xarray-5131,submitted,24,15904,520,3320,12064,10,31,7,11,16,4,0,11.0
+gpt4,pylint-dev__pylint-5859,submitted,13,6202,322,1425,4455,9,13,4,2,6,3,2,6.0
+gpt4,pylint-dev__pylint-6506,submitted,27,9094,449,2267,6378,9,39,4,14,17,0,8,17.5
+gpt4,pylint-dev__pylint-7080,submitted,10,13583,6490,1066,6027,9,10,1,1,5,3,1,5.0
+gpt4,pylint-dev__pylint-7114,submitted,13,3431,562,1045,1824,3,13,3,5,6,0,2,3.0
+gpt4,pylint-dev__pylint-7228,submitted,28,22045,1213,4192,16640,26,31,4,4,19,7,1,14.5
+gpt4,pylint-dev__pylint-7993,submitted,15,9400,627,1832,6941,11,17,5,4,9,2,2,8.0
+gpt4,pytest-dev__pytest-11143,submitted,13,9303,1653,1135,6515,9,14,4,3,6,2,3,7.0
+gpt4,pytest-dev__pytest-11148,submitted,16,5554,1244,2532,1778,8,18,5,4,10,0,4,6.0
+gpt4,pytest-dev__pytest-5103,submitted,11,7354,506,1384,5464,5,6,1,0,3,3,0,8.0
+gpt4,pytest-dev__pytest-5221,submitted,14,7156,54,1891,5211,12,14,2,2,6,4,2,7.25
+gpt4,pytest-dev__pytest-5227,submitted,10,5782,297,1085,4400,7,15,4,6,8,1,0,5.5
+gpt4,pytest-dev__pytest-5413,submitted,24,18745,755,2046,15944,22,25,3,2,17,3,3,11.5
+gpt4,pytest-dev__pytest-5495,submitted (exit_cost),33,22679,178,4556,17945,22,41,8,11,19,8,3,16.75
+gpt4,pytest-dev__pytest-5692,submitted,15,8804,389,1745,6670,12,14,2,2,8,2,2,8.25
+gpt4,pytest-dev__pytest-6116,submitted,14,7552,218,1836,5498,10,17,4,5,8,3,1,5.75
+gpt4,pytest-dev__pytest-7168,submitted,8,5600,2283,581,2736,3,7,3,2,3,0,2,3.0
+gpt4,pytest-dev__pytest-7220,submitted (exit_cost),34,19909,772,4022,15115,29,36,6,4,16,14,2,17.0
+gpt4,pytest-dev__pytest-7373,submitted (exit_cost),34,26402,240,3058,23104,11,42,7,9,27,1,5,27.0
+gpt4,pytest-dev__pytest-7432,submitted,13,6514,196,1200,5118,10,14,4,3,6,2,3,6.5
+gpt4,pytest-dev__pytest-7490,submitted,15,13790,3458,2447,7885,9,16,4,3,8,2,3,9.0
+gpt4,pytest-dev__pytest-8365,submitted,14,6359,426,2184,3749,7,16,4,5,7,1,3,7.5
+gpt4,pytest-dev__pytest-8906,submitted,24,13606,480,2903,10223,22,32,7,9,15,6,2,11.5
+gpt4,pytest-dev__pytest-9359,submitted,17,16556,1157,2175,13224,16,17,1,1,14,1,1,8.5
+gpt4,scikit-learn__scikit-learn-10297,submitted,20,11148,338,1848,8962,13,23,5,5,12,3,3,9.0
+gpt4,scikit-learn__scikit-learn-10508,submitted,11,4980,469,933,3578,8,11,3,2,5,2,2,5.5
+gpt4,scikit-learn__scikit-learn-10949,submitted,16,9337,430,1542,7365,11,17,4,3,9,2,3,9.0
+gpt4,scikit-learn__scikit-learn-11040,submitted (exit_cost),34,20984,164,3786,17034,28,38,6,5,16,14,3,14.5
+gpt4,scikit-learn__scikit-learn-11281,submitted (exit_cost),29,28045,101,4120,23824,20,45,9,17,23,5,0,16.25
+gpt4,scikit-learn__scikit-learn-12471,submitted (exit_cost),27,32098,533,7830,23735,11,44,5,18,22,2,2,20.0
+gpt4,scikit-learn__scikit-learn-13142,submitted (exit_cost),32,24302,779,2723,20800,19,33,11,2,24,5,2,11.0
+gpt4,scikit-learn__scikit-learn-13241,submitted,7,1766,214,930,622,5,7,1,2,3,0,2,3.5
+gpt4,scikit-learn__scikit-learn-13439,submitted (exit_cost),35,23548,320,3386,19842,11,64,7,30,32,1,1,23.5
+gpt4,scikit-learn__scikit-learn-13496,submitted,10,13073,304,2473,10296,10,12,2,3,8,1,0,5.25
+gpt4,scikit-learn__scikit-learn-13497,submitted,24,18590,67,4064,14459,13,28,7,6,16,2,4,9.0
+gpt4,scikit-learn__scikit-learn-13584,submitted,12,7716,88,1448,6180,7,14,5,4,7,1,2,4.0
+gpt4,scikit-learn__scikit-learn-13779,submitted,12,6187,151,1163,4873,8,14,4,4,6,1,3,5.75
+gpt4,scikit-learn__scikit-learn-14087,submitted (exit_cost),36,16023,671,3538,11814,5,54,5,19,26,0,9,2.0
+gpt4,scikit-learn__scikit-learn-14092,submitted (exit_cost),34,24571,677,2860,21034,12,57,8,24,30,1,2,21.25
+gpt4,scikit-learn__scikit-learn-14894,submitted,25,15768,509,2423,12836,8,37,5,14,17,1,5,10.25
+gpt4,scikit-learn__scikit-learn-14983,submitted (exit_cost),32,25448,326,2470,22652,11,43,6,12,24,3,4,25.0
+gpt4,scikit-learn__scikit-learn-15512,submitted (exit_cost),32,23405,488,4648,18269,13,40,9,9,25,1,5,17.0
+gpt4,scikit-learn__scikit-learn-15535,submitted,19,13446,151,2211,11084,12,21,4,4,13,2,2,9.5
+gpt4,scikit-learn__scikit-learn-25500,submitted,9,5468,1271,814,3383,6,9,3,2,5,0,2,4.25
+gpt4,scikit-learn__scikit-learn-25570,submitted (exit_cost),29,25678,1377,4346,19955,9,47,5,19,25,1,2,12.0
+gpt4,scikit-learn__scikit-learn-25638,submitted,18,13859,411,1892,11556,12,21,6,5,13,1,2,8.0
+gpt4,scikit-learn__scikit-learn-25747,submitted,18,9501,1499,2218,5784,7,21,4,5,10,1,5,4.5
+gpt4,sphinx-doc__sphinx-10325,submitted (exit_cost),33,23971,217,3774,19980,24,30,5,2,16,11,1,19.0
+gpt4,sphinx-doc__sphinx-10451,submitted (exit_cost),34,20606,413,4280,15913,22,30,5,1,16,6,7,12.5
+gpt4,sphinx-doc__sphinx-11445,submitted (exit_cost),33,23184,543,4153,18488,27,33,4,2,23,4,4,14.0
+gpt4,sphinx-doc__sphinx-7686,submitted (exit_cost),31,25993,281,3466,22246,22,33,7,3,23,5,2,12.5
+gpt4,sphinx-doc__sphinx-7738,submitted,28,19588,277,4276,15035,20,37,8,10,19,5,3,10.0
+gpt4,sphinx-doc__sphinx-7975,submitted,14,11750,109,2467,9174,12,15,2,2,7,6,0,7.5
+gpt4,sphinx-doc__sphinx-8273,submitted,9,11723,232,1183,10308,7,11,3,3,6,2,0,5.0
+gpt4,sphinx-doc__sphinx-8282,submitted,16,7542,204,1396,5942,12,20,3,5,8,2,5,9.5
+gpt4,sphinx-doc__sphinx-8435,submitted (exit_cost),36,16650,208,3559,12883,25,38,8,7,20,5,6,14.0
+gpt4,sphinx-doc__sphinx-8474,submitted,19,19767,118,2445,17204,17,19,2,1,11,7,0,9.0
+gpt4,sphinx-doc__sphinx-8506,submitted,8,6655,259,1013,5383,7,9,2,2,4,2,1,4.0
+gpt4,sphinx-doc__sphinx-8595,submitted,23,8422,176,1950,6296,12,26,5,7,11,3,5,15.5
+gpt4,sphinx-doc__sphinx-8627,submitted,24,9785,353,2980,6452,12,32,6,11,14,1,6,8.0
+gpt4,sphinx-doc__sphinx-8713,submitted,11,5531,406,736,4389,9,11,2,2,5,2,2,5.0
+gpt4,sphinx-doc__sphinx-8721,submitted (exit_cost),33,20026,138,4418,15470,18,32,9,0,14,18,0,9.5
+gpt4,sphinx-doc__sphinx-8801,submitted,26,16888,225,3384,13279,23,28,5,3,14,10,1,13.0
+gpt4,sympy__sympy-11400,submitted (exit_cost),33,24505,150,4290,20065,9,50,7,18,24,1,7,12.5
+gpt4,sympy__sympy-11870,submitted,9,4380,126,1186,3068,8,9,1,2,4,2,1,4.5
+gpt4,sympy__sympy-11897,submitted (exit_cost),25,37188,258,5808,31122,16,31,5,7,17,6,1,15.5
+gpt4,sympy__sympy-12171,submitted,17,10963,164,1656,9143,6,20,5,5,10,1,4,7.75
+gpt4,sympy__sympy-12236,submitted,14,9741,736,1852,7153,11,12,1,1,8,2,1,8.0
+gpt4,sympy__sympy-12419,submitted (exit_cost),32,22193,358,4715,17120,20,40,7,9,22,3,6,17.5
+gpt4,sympy__sympy-12454,submitted,11,4410,382,767,3261,8,11,3,2,5,2,2,5.5
+gpt4,sympy__sympy-12481,submitted,24,17942,93,2599,15250,11,30,6,8,15,2,5,17.0
+gpt4,sympy__sympy-13031,submitted (exit_cost),34,25514,275,2212,23027,30,37,6,4,27,3,3,18.5
+gpt4,sympy__sympy-13043,submitted (exit_cost),32,25263,96,4336,20831,9,41,7,10,24,2,5,5.0
+gpt4,sympy__sympy-13146,submitted,30,19301,121,3288,15892,18,32,6,4,20,4,4,13.5
+gpt4,sympy__sympy-13177,submitted (exit_cost),32,22480,154,3900,18426,8,42,4,11,21,2,8,16.25
+gpt4,sympy__sympy-13437,submitted (exit_cost),32,24229,168,4685,19376,21,47,10,16,22,7,2,11.0
+gpt4,sympy__sympy-13471,submitted (exit_cost),35,23457,224,3471,19762,7,63,3,29,32,1,1,31.0
+gpt4,sympy__sympy-13480,submitted,8,3331,144,454,2733,6,8,2,2,4,0,2,3.75
+gpt4,sympy__sympy-13647,submitted,10,5477,322,967,4188,7,10,3,2,5,1,2,4.0
+gpt4,sympy__sympy-13773,submitted (exit_cost),35,19455,241,3323,15891,22,41,9,7,21,10,3,15.5
+gpt4,sympy__sympy-13895,submitted,15,10209,255,2015,7939,15,16,1,2,8,5,1,7.0
+gpt4,sympy__sympy-13915,submitted,13,9791,238,1724,7829,12,13,1,1,9,2,1,6.5
+gpt4,sympy__sympy-13971,submitted,10,6849,148,963,5738,8,11,3,2,5,2,2,4.5
+gpt4,sympy__sympy-14024,submitted (exit_cost),33,25035,351,2758,21926,33,36,3,4,18,13,1,16.5
+gpt4,sympy__sympy-14308,submitted,31,16899,96,3814,12989,16,29,6,3,18,5,3,20.5
+gpt4,sympy__sympy-14317,submitted (exit_cost),28,54946,275,2759,51912,22,31,5,4,16,7,4,13.5
+gpt4,sympy__sympy-14396,submitted (exit_cost),33,23491,619,3407,19465,16,45,8,14,23,4,4,13.25
+gpt4,sympy__sympy-14774,submitted,10,4517,183,746,3588,7,11,4,3,5,1,2,4.0
+gpt4,sympy__sympy-14817,submitted,12,6018,497,963,4558,9,13,3,3,6,2,2,5.0
+gpt4,sympy__sympy-15011,submitted (exit_cost),32,22590,189,5110,17291,17,44,7,13,20,9,2,9.0
+gpt4,sympy__sympy-15308,submitted,17,9101,89,1784,7228,15,18,3,3,8,5,2,7.0
+gpt4,sympy__sympy-15345,submitted,11,5594,76,813,4705,6,11,3,2,6,1,2,5.25
+gpt4,sympy__sympy-15346,submitted,28,29667,508,4782,24377,25,28,3,1,20,6,1,13.0
+gpt4,sympy__sympy-15609,submitted (exit_cost),34,22432,131,3914,18387,17,50,5,17,23,8,2,24.0
+gpt4,sympy__sympy-15678,submitted (exit_cost),33,23331,284,4402,18645,13,53,11,21,26,4,2,7.0
+gpt4,sympy__sympy-16106,submitted,13,8746,603,1184,6959,10,13,3,2,8,1,2,6.5
+gpt4,sympy__sympy-16281,submitted,12,7154,449,1335,5370,9,14,4,3,6,2,3,6.0
+gpt4,sympy__sympy-16503,submitted (exit_cost),31,27408,85,4361,22962,22,34,6,4,24,3,3,15.5
+gpt4,sympy__sympy-16792,submitted,17,12986,462,2221,10303,16,18,2,2,8,7,1,8.5
+gpt4,sympy__sympy-16988,submitted (exit_cost),34,28154,115,1584,26455,33,35,2,2,29,2,2,16.5
+gpt4,sympy__sympy-17022,submitted (exit_cost),34,19950,291,4072,15587,25,34,5,1,14,18,1,15.0
+gpt4,sympy__sympy-17139,submitted,13,8231,630,908,6693,9,14,3,3,6,2,3,7.0
+gpt4,sympy__sympy-17630,submitted (exit_cost),32,26067,1100,3796,21171,3,60,2,29,30,0,1,1.5
+gpt4,sympy__sympy-17655,submitted,11,6534,527,1182,4825,10,12,2,2,6,2,2,4.5
+gpt4,sympy__sympy-18057,submitted (exit_cost),34,22609,454,2911,19244,8,60,3,27,30,2,1,29.5
+gpt4,sympy__sympy-18087,submitted,26,28856,79,3221,25556,20,31,7,6,22,1,2,13.5
+gpt4,sympy__sympy-18189,submitted,15,9564,340,1544,7680,14,21,3,7,11,2,1,6.75
+gpt4,sympy__sympy-18199,submitted (exit_cost),27,30783,88,6089,24606,13,42,4,16,23,2,1,20.0
+gpt4,sympy__sympy-18532,submitted,15,7238,77,1310,5851,10,19,4,6,9,2,2,8.5
+gpt4,sympy__sympy-18621,submitted (exit_cost),31,23017,640,4178,18199,17,41,7,11,23,3,4,15.0
+gpt4,sympy__sympy-18698,submitted,20,16296,200,3343,12753,9,25,5,6,12,2,5,14.0
+gpt4,sympy__sympy-18835,submitted,12,5315,238,1272,3805,9,13,3,3,6,2,2,5.0
+gpt4,sympy__sympy-19007,submitted,24,16500,184,3101,13215,10,30,6,8,14,2,6,13.0
+gpt4,sympy__sympy-19254,submitted,9,5996,121,876,4999,8,10,2,2,5,3,0,4.25
+gpt4,sympy__sympy-19487,submitted (exit_cost),34,20317,176,4339,15802,19,41,10,8,18,9,6,17.0
+gpt4,sympy__sympy-20049,submitted,20,8455,536,2150,5769,11,16,4,3,7,3,3,13.0
+gpt4,sympy__sympy-20154,submitted (exit_cost),36,23472,114,3078,20280,10,61,4,26,32,2,1,29.25
+gpt4,sympy__sympy-20212,submitted (exit_cost),32,26473,127,3702,22644,22,37,8,6,22,7,2,15.0
+gpt4,sympy__sympy-20322,submitted,18,17900,258,3679,13963,10,22,5,5,13,3,1,10.5
+gpt4,sympy__sympy-20442,submitted,11,2597,215,1063,1319,6,11,3,2,4,1,4,4.5
+gpt4,sympy__sympy-20590,submitted,11,7258,248,1063,5947,10,11,1,1,7,2,1,5.5
+gpt4,sympy__sympy-20639,submitted (exit_cost),31,23277,153,5119,18005,12,35,6,7,19,4,5,15.25
+gpt4,sympy__sympy-21055,submitted (exit_cost),32,24648,291,6231,18126,12,54,3,23,28,2,1,25.5
+gpt4,sympy__sympy-21171,submitted,11,7515,2013,1025,4477,9,11,2,2,5,2,2,5.0
+gpt4,sympy__sympy-21379,submitted,19,10165,460,2150,7555,16,19,3,2,9,6,2,8.5
+gpt4,sympy__sympy-21612,submitted,12,7801,267,1462,6072,10,13,3,2,7,2,2,5.5
+gpt4,sympy__sympy-21614,submitted (exit_cost),33,28092,95,2306,25691,32,33,1,1,26,5,1,16.5
+gpt4,sympy__sympy-21627,submitted (exit_cost),31,30191,70,4332,25789,26,30,3,1,21,8,0,15.5
+gpt4,sympy__sympy-21847,submitted,11,5110,239,922,3949,8,11,3,2,5,2,2,5.5
+gpt4,sympy__sympy-22005,submitted,12,9115,424,974,7717,10,14,3,3,7,2,2,6.25
+gpt4,sympy__sympy-22714,submitted (exit_cost),33,23055,472,3836,18747,24,37,7,5,23,7,2,14.5
+gpt4,sympy__sympy-22840,submitted (exit_cost),28,24586,1557,3380,19649,15,35,7,8,20,4,3,17.0
+gpt4,sympy__sympy-23117,submitted (exit_cost),32,28027,381,2064,25582,8,32,4,1,28,2,1,20.0
+gpt4,sympy__sympy-23191,submitted,11,5008,502,1160,3346,9,10,1,1,4,4,1,6.0
+gpt4,sympy__sympy-23262,submitted,14,7607,269,1325,6013,10,15,4,3,7,3,2,7.5
+gpt4,sympy__sympy-24066,submitted (exit_cost),31,26478,135,5039,21304,10,45,6,15,27,1,2,22.75
+gpt4,sympy__sympy-24102,submitted (exit_cost),32,26638,374,2648,23616,23,33,10,2,24,5,2,11.0
+gpt4,sympy__sympy-24152,submitted,11,5219,527,875,3817,9,11,2,2,5,2,2,5.0
+gpt4,sympy__sympy-24213,submitted,16,8936,248,1582,7106,7,22,5,8,10,1,3,6.0
+gpt4,sympy__sympy-24909,submitted,19,11947,165,2501,9281,8,25,5,8,12,1,4,8.5
+claude3opus,astropy__astropy-12907,submitted,16,10036,307,1417,8312,12,19,4,5,8,1,5,6.25
+claude3opus,astropy__astropy-14182,submitted,9,3104,570,611,1923,6,9,3,2,4,1,2,4.25
+claude3opus,astropy__astropy-14365,submitted (exit_cost),20,8419,391,1911,6117,16,24,5,5,8,0,11,7.75
+claude3opus,astropy__astropy-14995,submitted,14,7283,701,1434,5148,11,15,3,3,6,3,3,7.0
+claude3opus,astropy__astropy-6938,submitted (exit_cost),19,9476,127,1228,8121,14,22,5,5,10,2,5,9.0
+claude3opus,astropy__astropy-7746,submitted (exit_cost),18,12993,540,1396,11057,9,27,5,10,15,1,1,12.0
+claude3opus,django__django-10914,submitted (exit_cost),18,8457,188,1480,6789,14,19,4,3,6,4,6,10.5
+claude3opus,django__django-10924,submitted (exit_cost),19,6812,175,1309,5328,15,22,5,6,11,2,3,10.0
+claude3opus,django__django-11001,submitted (exit_cost),20,9995,508,1372,8115,6,31,3,12,13,1,5,2.5
+claude3opus,django__django-11019,submitted (exit_cost),22,8672,460,994,7218,7,35,5,14,17,0,4,11.5
+claude3opus,django__django-11039,submitted,12,7508,158,1099,6251,11,13,2,2,5,1,5,5.5
+claude3opus,django__django-11049,submitted (exit_cost),25,6484,161,1074,5249,18,27,5,6,11,0,10,9.5
+claude3opus,django__django-11099,submitted,11,2642,168,688,1786,8,13,3,4,6,2,1,6.25
+claude3opus,django__django-11133,submitted,19,8136,163,1117,6856,14,20,6,3,10,3,4,8.0
+claude3opus,django__django-11179,submitted (exit_cost),24,6789,64,1140,5585,15,24,6,7,12,0,5,9.0
+claude3opus,django__django-11283,submitted (exit_cost),21,5864,228,1304,4332,8,23,6,6,9,0,8,6.25
+claude3opus,django__django-11422,submitted (exit_cost),24,6436,186,1753,4497,14,24,5,4,11,2,7,10.75
+claude3opus,django__django-11564,submitted,12,9298,193,1283,7822,10,15,3,4,7,4,0,6.5
+claude3opus,django__django-11583,submitted (exit_cost),20,5965,1380,1444,3141,16,20,4,4,8,1,7,9.75
+claude3opus,django__django-11620,submitted (exit_cost),9,87918,172,717,87029,8,8,0,0,1,3,4,4.5
+claude3opus,django__django-11630,submitted,21,9197,145,949,8103,11,28,9,10,16,0,2,6.0
+claude3opus,django__django-11742,submitted,16,6368,63,991,5314,11,16,4,2,7,5,2,8.5
+claude3opus,django__django-11797,submitted (exit_cost),22,7515,248,1699,5568,11,29,5,10,11,5,3,6.0
+claude3opus,django__django-11815,submitted (exit_cost),22,8578,369,973,7236,12,19,5,3,10,4,2,10.5
+claude3opus,django__django-11848,submitted,13,6800,137,956,5707,8,14,5,3,7,2,2,5.0
+claude3opus,django__django-11905,submitted (exit_cost),23,5520,79,1103,4338,8,32,5,10,14,0,8,6.25
+claude3opus,django__django-11910,submitted (exit_cost),25,4754,284,1633,2837,15,24,6,6,11,1,6,8.5
+claude3opus,django__django-11964,submitted (exit_cost),19,6934,677,1200,5057,18,20,2,3,5,5,7,10.5
+claude3opus,django__django-11999,submitted (exit_cost),21,8313,137,1624,6552,5,29,3,11,13,0,5,4.0
+claude3opus,django__django-12113,submitted,7,17431,1319,474,15638,4,8,3,2,3,0,3,2.25
+claude3opus,django__django-12125,submitted (exit_cost),24,6284,392,938,4954,12,16,3,3,8,2,3,8.5
+claude3opus,django__django-12184,submitted,12,2754,268,906,1580,6,11,3,3,7,0,1,3.5
+claude3opus,django__django-12284,submitted (exit_cost),22,9052,219,1187,7646,6,33,5,13,17,0,3,4.0
+claude3opus,django__django-12286,submitted,14,4071,159,805,3107,9,16,5,4,7,1,4,9.0
+claude3opus,django__django-12308,submitted,8,5443,101,562,4780,6,10,3,3,5,1,1,2.25
+claude3opus,django__django-12453,submitted,13,5997,594,724,4679,11,12,1,2,4,2,4,7.5
+claude3opus,django__django-12470,submitted (exit_cost),26,3934,150,1239,2545,14,25,6,5,10,0,10,13.5
+claude3opus,django__django-12497,submitted,9,6129,159,553,5417,8,10,1,2,5,3,0,3.75
+claude3opus,django__django-12589,submitted (exit_cost),15,15111,742,1901,12468,7,19,3,5,8,0,6,5.5
+claude3opus,django__django-12700,submitted,20,8122,651,1471,6000,12,22,5,4,12,1,5,9.0
+claude3opus,django__django-12708,submitted (exit_cost),27,4054,207,1022,2825,15,20,4,4,6,0,10,11.0
+claude3opus,django__django-12747,submitted (exit_cost),23,4855,220,3174,1461,10,24,5,15,7,0,2,13.25
+claude3opus,django__django-12856,exit_cost,13,15569,85,985,14499,13,14,1,2,7,3,2,5.5
+claude3opus,django__django-12908,submitted (exit_cost),19,7551,307,3872,3372,8,20,4,9,8,0,3,6.5
+claude3opus,django__django-12915,submitted,6,3707,210,525,2972,5,7,1,2,3,2,0,3.0
+claude3opus,django__django-12983,submitted,11,4269,93,517,3659,8,11,3,2,5,2,2,5.5
+claude3opus,django__django-13028,submitted (exit_cost),19,8985,699,1514,6772,6,28,4,10,14,0,4,4.0
+claude3opus,django__django-13033,submitted (exit_cost),21,6465,935,1127,4403,13,25,7,7,12,2,4,11.0
+claude3opus,django__django-13158,submitted (exit_cost),25,5451,263,1136,4052,13,30,8,10,15,0,5,9.0
+claude3opus,django__django-13220,submitted,12,4788,111,743,3934,8,13,4,3,6,1,3,6.5
+claude3opus,django__django-13230,submitted,18,6523,55,1188,5280,13,17,3,2,5,3,7,9.0
+claude3opus,django__django-13265,submitted (exit_cost),24,5643,458,1364,3821,10,25,5,7,11,0,7,8.0
+claude3opus,django__django-13315,exit_cost,19,8973,50,1337,7586,16,20,4,2,7,11,0,9.25
+claude3opus,django__django-13321,submitted (exit_cost),18,9894,1220,1604,7070,15,23,6,6,10,4,3,8.0
+claude3opus,django__django-13401,submitted (exit_cost),23,6013,282,1128,4603,6,30,4,11,14,0,5,11.25
+claude3opus,django__django-13447,submitted,13,8406,74,828,7504,12,18,3,6,8,1,3,6.25
+claude3opus,django__django-13448,exit_cost,19,9183,1420,1256,6507,16,17,1,0,8,5,4,8.5
+claude3opus,django__django-13551,submitted,5,3841,113,568,3160,3,6,2,2,3,1,0,1.5
+claude3opus,django__django-13590,submitted (exit_cost),23,6193,183,1090,4920,11,22,7,5,10,0,7,8.0
+claude3opus,django__django-13658,submitted (exit_cost),18,9986,298,1342,8346,14,22,2,6,10,3,3,9.5
+claude3opus,django__django-13660,submitted,10,4974,664,566,3744,7,11,3,3,5,1,2,4.5
+claude3opus,django__django-13710,submitted,15,9706,169,996,8541,11,15,4,3,7,2,3,7.5
+claude3opus,django__django-13757,submitted (exit_cost),18,12794,195,1199,11400,16,21,5,4,8,1,8,9.5
+claude3opus,django__django-13768,submitted (exit_cost),19,12149,126,1295,10728,16,25,5,7,12,1,5,9.25
+claude3opus,django__django-13925,submitted (exit_cost),19,7332,876,862,5594,8,14,3,3,5,2,4,9.75
+claude3opus,django__django-13933,submitted (exit_cost),19,8422,249,1443,6730,12,25,3,7,11,1,6,12.75
+claude3opus,django__django-13964,submitted (exit_cost),21,8063,411,1501,6151,5,32,5,12,15,0,5,2.5
+claude3opus,django__django-14016,submitted (exit_cost),18,14050,177,1841,12032,7,26,4,9,13,1,3,5.0
+claude3opus,django__django-14017,submitted (exit_cost),22,8874,447,1152,7275,13,27,4,10,12,1,4,6.0
+claude3opus,django__django-14155,submitted,10,6672,107,840,5725,8,10,1,1,5,4,0,4.5
+claude3opus,django__django-14238,submitted (exit_cost),22,5921,690,938,4293,10,21,7,6,10,1,4,10.25
+claude3opus,django__django-14382,submitted,9,3577,142,438,2997,5,7,2,2,3,0,2,4.5
+claude3opus,django__django-14411,exit_cost,19,9090,78,1306,7706,13,17,3,0,9,8,0,9.0
+claude3opus,django__django-14534,submitted (exit_cost),20,11065,386,1720,8959,9,26,6,7,12,2,5,6.5
+claude3opus,django__django-14580,submitted (exit_cost),25,6196,369,1354,4473,16,20,4,1,7,9,3,11.0
+claude3opus,django__django-14608,submitted (exit_cost),16,61887,120,983,60784,15,18,3,3,6,1,8,7.5
+claude3opus,django__django-14667,submitted (exit_cost),23,5816,291,1416,4109,14,25,7,7,11,1,6,10.5
+claude3opus,django__django-14672,submitted (exit_cost),19,7889,1652,1026,5211,12,18,4,4,7,3,4,7.0
+claude3opus,django__django-14730,submitted (exit_cost),24,4855,89,1197,3569,5,32,5,10,17,0,5,3.5
+claude3opus,django__django-14752,submitted,9,7538,627,609,6302,4,12,2,4,7,0,1,3.0
+claude3opus,django__django-14787,submitted,17,6262,173,1028,5061,8,20,5,6,9,2,3,6.25
+claude3opus,django__django-14855,submitted,6,3664,222,434,3008,5,6,1,1,3,1,1,3.0
+claude3opus,django__django-14915,submitted (exit_cost),20,8466,247,1939,6280,5,30,4,11,12,0,7,2.0
+claude3opus,django__django-14997,submitted (exit_cost),23,6569,1593,998,3978,11,21,5,7,10,0,4,13.0
+claude3opus,django__django-14999,submitted,17,10980,48,1081,9851,15,16,1,1,8,3,4,8.0
+claude3opus,django__django-15061,submitted,7,3731,78,479,3174,4,6,2,0,3,3,0,3.5
+claude3opus,django__django-15202,submitted (exit_cost),19,11157,131,1357,9669,10,24,5,6,10,2,6,12.0
+claude3opus,django__django-15213,submitted (exit_cost),23,5521,199,1145,4177,9,28,6,7,17,0,4,9.0
+claude3opus,django__django-15252,submitted,12,5382,340,959,4083,9,12,1,1,4,7,0,6.5
+claude3opus,django__django-15320,submitted (exit_cost),19,11309,263,2429,8617,5,28,5,10,15,0,3,3.0
+claude3opus,django__django-15347,submitted,12,4268,296,634,3338,8,12,3,2,5,3,2,5.5
+claude3opus,django__django-15388,submitted (exit_cost),19,10030,180,950,8900,8,21,5,6,10,3,2,5.5
+claude3opus,django__django-15400,submitted,13,4153,163,635,3355,11,13,2,2,5,5,1,7.0
+claude3opus,django__django-15498,submitted (exit_cost),20,8459,66,1214,7179,16,19,3,2,10,6,1,8.5
+claude3opus,django__django-15695,submitted (exit_cost),20,7893,216,1660,6017,13,20,4,3,8,7,2,7.0
+claude3opus,django__django-15738,submitted (exit_cost),24,3274,425,1590,1259,9,18,5,7,5,0,6,13.0
+claude3opus,django__django-15781,submitted,17,3025,291,828,1906,8,16,3,3,5,0,8,2.75
+claude3opus,django__django-15789,submitted,13,8160,116,978,7066,9,17,3,6,9,1,1,5.0
+claude3opus,django__django-15790,submitted,20,5557,84,1601,3872,14,19,4,3,8,3,5,9.0
+claude3opus,django__django-15814,submitted (exit_cost),20,8647,719,1338,6590,6,32,5,13,16,0,3,3.75
+claude3opus,django__django-15819,submitted (exit_cost),20,7215,111,1145,5959,11,16,3,3,7,3,3,11.0
+claude3opus,django__django-15851,submitted,6,2490,146,494,1850,5,6,1,1,3,1,1,3.0
+claude3opus,django__django-15902,submitted,15,5923,83,987,4853,13,17,3,4,7,5,1,6.5
+claude3opus,django__django-15996,submitted (exit_cost),22,7293,130,1125,6038,15,20,4,5,11,2,2,13.0
+claude3opus,django__django-16041,submitted (exit_cost),25,3839,287,1274,2278,19,29,7,7,16,0,6,13.5
+claude3opus,django__django-16046,submitted,12,4429,69,763,3597,8,14,4,3,6,3,2,6.25
+claude3opus,django__django-16139,submitted,8,4960,363,447,4150,6,8,1,1,4,3,0,4.5
+claude3opus,django__django-16229,submitted (exit_cost),25,4392,275,1229,2888,14,27,7,8,15,0,4,9.75
+claude3opus,django__django-16255,submitted (exit_cost),26,3146,403,1061,1682,16,27,9,7,12,0,8,13.25
+claude3opus,django__django-16379,submitted,4,2844,277,519,2048,3,4,1,1,2,0,1,1.5
+claude3opus,django__django-16400,submitted (exit_cost),21,8550,495,1818,6237,13,31,6,11,15,1,4,13.0
+claude3opus,django__django-16408,submitted (exit_cost),23,5004,389,1566,3049,11,25,6,7,10,0,8,7.5
+claude3opus,django__django-16527,submitted,4,2014,94,286,1634,3,4,1,1,2,0,1,1.5
+claude3opus,django__django-16595,submitted,15,5726,388,911,4427,9,17,5,4,8,2,3,7.0
+claude3opus,django__django-16816,submitted (exit_cost),22,5213,1353,1290,2570,11,23,8,8,12,0,3,14.0
+claude3opus,django__django-16820,submitted,7,4858,67,886,3905,6,6,0,0,3,3,0,3.5
+claude3opus,django__django-16873,submitted (exit_cost),24,3118,820,1315,983,7,22,3,15,4,0,3,19.0
+claude3opus,django__django-16910,submitted (exit_cost),21,7560,373,1290,5897,10,25,7,8,13,0,4,9.25
+claude3opus,django__django-17051,submitted (exit_cost),21,9113,251,1652,7210,6,27,4,9,14,0,4,3.75
+claude3opus,django__django-17087,submitted (exit_cost),22,7220,275,1288,5657,14,24,6,6,9,2,7,7.25
+claude3opus,matplotlib__matplotlib-18869,submitted,15,8813,392,1068,7353,13,16,3,3,9,3,1,7.5
+claude3opus,matplotlib__matplotlib-22711,submitted,18,10326,984,1109,8233,13,18,3,3,10,3,2,9.0
+claude3opus,matplotlib__matplotlib-22835,submitted,10,6306,462,1481,4363,6,10,3,2,6,0,2,4.25
+claude3opus,matplotlib__matplotlib-23299,submitted (exit_cost),21,7782,504,1528,5750,11,23,6,4,11,6,2,5.5
+claude3opus,matplotlib__matplotlib-23314,submitted (exit_cost),21,9299,227,1405,7667,15,21,4,2,11,6,2,9.0
+claude3opus,matplotlib__matplotlib-23476,submitted,5,2309,925,737,647,3,4,1,1,2,0,1,3.0
+claude3opus,matplotlib__matplotlib-23562,submitted,12,4533,318,635,3580,8,13,3,4,7,0,2,5.25
+claude3opus,matplotlib__matplotlib-23563,submitted,14,4783,1249,1391,2143,8,17,3,5,6,2,4,5.5
+claude3opus,matplotlib__matplotlib-23913,submitted,17,10963,150,1698,9115,13,18,4,4,11,2,1,8.0
+claude3opus,matplotlib__matplotlib-23964,submitted,9,9062,1083,391,7588,7,9,2,2,4,1,2,4.0
+claude3opus,matplotlib__matplotlib-23987,submitted (exit_cost),19,10226,298,1188,8740,15,19,4,1,10,7,1,9.0
+claude3opus,matplotlib__matplotlib-24149,submitted,16,6411,888,1046,4477,11,16,3,3,8,3,2,8.0
+claude3opus,matplotlib__matplotlib-24265,submitted,13,3127,305,755,2067,7,13,4,4,5,1,3,5.5
+claude3opus,matplotlib__matplotlib-24334,submitted,15,7784,176,1252,6356,8,16,4,4,7,2,3,9.5
+claude3opus,matplotlib__matplotlib-24970,submitted,9,1175,422,523,230,6,8,1,2,3,0,3,4.5
+claude3opus,matplotlib__matplotlib-25079,submitted (exit_cost),15,14837,1046,1869,11922,9,20,4,6,9,0,5,4.5
+claude3opus,matplotlib__matplotlib-25311,submitted (exit_cost),19,10204,213,1760,8231,11,25,7,7,11,3,4,8.0
+claude3opus,matplotlib__matplotlib-25332,submitted (exit_cost),21,9116,256,1268,7592,18,23,4,3,10,7,3,9.5
+claude3opus,matplotlib__matplotlib-25433,submitted,19,7401,417,1921,5063,10,21,4,5,10,3,3,8.5
+claude3opus,matplotlib__matplotlib-25442,submitted,14,5518,463,1083,3972,11,16,4,3,5,1,7,6.0
+claude3opus,matplotlib__matplotlib-25498,submitted (exit_cost),18,9979,402,1023,8554,16,18,2,1,9,7,1,9.5
+claude3opus,matplotlib__matplotlib-26011,submitted (exit_cost),19,10088,364,1384,8340,14,19,4,2,9,6,2,8.5
+claude3opus,matplotlib__matplotlib-26020,exit_cost,16,8889,2800,636,5453,7,10,3,1,4,0,5,7.0
+claude3opus,mwaskom__seaborn-2848,exit_cost,20,9267,1500,1176,6591,9,18,6,3,5,1,9,5.0
+claude3opus,mwaskom__seaborn-3010,submitted (exit_cost),20,10448,1138,1620,7690,10,31,3,12,14,4,1,14.5
+claude3opus,mwaskom__seaborn-3190,exit_cost,20,6935,520,1522,4893,9,24,4,6,10,3,5,11.5
+claude3opus,mwaskom__seaborn-3407,submitted,8,2909,759,649,1501,3,9,3,3,4,0,2,3.0
+claude3opus,pallets__flask-4045,submitted (exit_cost),21,8796,46,1371,7379,14,24,6,5,13,2,4,8.0
+claude3opus,pallets__flask-4992,submitted,14,7207,317,1726,5164,8,17,3,4,6,1,6,8.5
+claude3opus,pallets__flask-5063,submitted,12,5384,569,1006,3809,10,12,2,2,5,4,1,6.25
+claude3opus,psf__requests-1963,submitted (exit_cost),21,9497,141,1605,7751,12,28,6,8,12,2,6,8.25
+claude3opus,psf__requests-2148,submitted,11,7165,752,1276,5137,4,13,3,4,5,0,4,3.5
+claude3opus,psf__requests-2317,submitted,10,4306,206,896,3204,9,10,1,2,5,1,2,5.5
+claude3opus,psf__requests-2674,submitted,13,4941,111,1053,3777,7,15,4,3,7,2,3,5.0
+claude3opus,psf__requests-3362,submitted,8,1381,121,694,566,3,7,3,2,3,0,2,4.0
+claude3opus,psf__requests-863,exit_cost,22,7161,177,1751,5233,12,26,6,8,11,4,3,6.25
+claude3opus,pydata__xarray-3364,submitted,15,8086,132,1598,6356,9,18,5,5,8,2,3,9.0
+claude3opus,pydata__xarray-4094,submitted (exit_cost),20,9930,489,1449,7992,9,23,5,4,13,2,4,5.0
+claude3opus,pydata__xarray-4248,submitted (exit_cost),19,9172,227,1119,7826,15,21,4,3,11,5,2,8.0
+claude3opus,pydata__xarray-4493,submitted (exit_cost),19,10621,730,2041,7850,9,26,3,9,16,0,1,4.0
+claude3opus,pydata__xarray-5131,submitted,17,11914,520,2161,9233,9,22,6,8,12,2,0,9.0
+claude3opus,pylint-dev__pylint-5859,submitted (exit_cost),19,9829,322,1550,7957,11,25,4,7,9,2,7,10.5
+claude3opus,pylint-dev__pylint-6506,submitted (exit_cost),18,11420,449,854,10117,9,26,5,9,13,2,2,4.5
+claude3opus,pylint-dev__pylint-7080,submitted (exit_cost),10,36033,6490,487,29056,8,9,1,1,2,2,4,5.5
+claude3opus,pylint-dev__pylint-7114,submitted,24,5437,562,1447,3428,10,11,1,1,4,4,2,6.5
+claude3opus,pylint-dev__pylint-7228,submitted,7,14832,1213,697,12922,3,7,3,2,3,0,2,3.0
+claude3opus,pylint-dev__pylint-7993,submitted,15,11308,627,1596,9085,8,19,6,6,8,1,4,7.25
+claude3opus,pytest-dev__pytest-11143,submitted,15,10188,1653,1254,7281,11,15,3,2,7,5,1,8.0
+claude3opus,pytest-dev__pytest-11148,submitted,5,1674,1244,363,67,2,2,0,0,0,0,2,2.5
+claude3opus,pytest-dev__pytest-5103,submitted (exit_cost),17,13721,506,3156,10059,10,21,5,5,8,4,4,7.75
+claude3opus,pytest-dev__pytest-5221,submitted (exit_cost),19,13701,54,793,12854,14,21,6,3,10,6,2,9.5
+claude3opus,pytest-dev__pytest-5227,submitted,12,4175,297,666,3212,7,15,4,5,7,1,2,5.5
+claude3opus,pytest-dev__pytest-5413,submitted,10,2389,755,636,998,4,10,2,4,5,0,1,3.75
+claude3opus,pytest-dev__pytest-5495,submitted (exit_cost),19,8768,178,1850,6740,14,19,5,2,7,8,2,8.5
+claude3opus,pytest-dev__pytest-5692,submitted (exit_cost),11,65623,389,900,64334,10,12,2,2,4,4,2,4.75
+claude3opus,pytest-dev__pytest-6116,submitted,11,21682,218,676,20788,9,14,4,4,7,2,1,4.5
+claude3opus,pytest-dev__pytest-7168,submitted (exit_cost),14,15387,2283,1826,11278,8,16,4,4,8,1,3,4.25
+claude3opus,pytest-dev__pytest-7220,submitted (exit_cost),22,5781,772,1178,3831,9,28,7,7,14,0,7,7.0
+claude3opus,pytest-dev__pytest-7373,submitted,19,8539,240,1219,7080,10,21,5,4,11,3,3,12.5
+claude3opus,pytest-dev__pytest-7432,submitted (exit_cost),18,11570,196,1800,9574,11,23,6,6,10,1,6,5.5
+claude3opus,pytest-dev__pytest-7490,submitted (exit_cost),16,9756,3458,882,5416,12,15,2,1,6,7,1,8.5
+claude3opus,pytest-dev__pytest-8365,submitted,18,8291,426,1235,6630,13,21,7,4,8,5,4,7.0
+claude3opus,pytest-dev__pytest-8906,submitted,21,4577,480,1138,2959,8,26,5,6,13,0,7,7.25
+claude3opus,pytest-dev__pytest-9359,submitted (exit_cost),22,9816,1157,1320,7339,19,26,4,5,7,5,9,11.0
+claude3opus,scikit-learn__scikit-learn-10297,submitted (exit_cost),19,10802,338,1219,9245,15,25,5,7,12,3,3,8.5
+claude3opus,scikit-learn__scikit-learn-10508,submitted,14,7958,469,984,6505,6,16,5,4,8,0,4,6.25
+claude3opus,scikit-learn__scikit-learn-10949,submitted (exit_cost),19,10498,430,1218,8850,13,23,7,5,11,3,4,7.0
+claude3opus,scikit-learn__scikit-learn-11040,submitted (exit_cost),19,12494,164,1191,11139,15,23,5,5,10,4,4,8.0
+claude3opus,scikit-learn__scikit-learn-11281,submitted (exit_cost),18,12363,101,1193,11069,16,20,3,3,11,5,1,8.5
+claude3opus,scikit-learn__scikit-learn-12471,submitted,17,9763,533,1652,7578,11,17,4,4,8,1,4,8.0
+claude3opus,scikit-learn__scikit-learn-13142,submitted (exit_cost),19,10239,779,1570,7890,15,26,4,8,11,4,3,10.0
+claude3opus,scikit-learn__scikit-learn-13241,submitted,18,5985,214,1098,4673,10,19,3,3,9,3,4,6.5
+claude3opus,scikit-learn__scikit-learn-13439,submitted (exit_cost),19,10259,320,1067,8872,15,26,8,8,12,2,4,7.5
+claude3opus,scikit-learn__scikit-learn-13496,submitted,13,6847,304,1010,5533,11,12,1,1,5,5,1,5.0
+claude3opus,scikit-learn__scikit-learn-13497,submitted (exit_cost),16,16765,67,2021,14677,12,17,3,2,7,3,5,9.25
+claude3opus,scikit-learn__scikit-learn-13584,submitted (exit_cost),17,11378,88,1386,9904,7,23,5,8,10,0,5,5.0
+claude3opus,scikit-learn__scikit-learn-13779,submitted,15,7185,151,801,6233,9,18,4,5,9,0,4,5.5
+claude3opus,scikit-learn__scikit-learn-14087,submitted (exit_cost),17,11334,671,1965,8698,8,23,4,7,9,2,5,10.5
+claude3opus,scikit-learn__scikit-learn-14092,submitted,15,10257,677,978,8602,13,16,3,3,8,3,2,7.0
+claude3opus,scikit-learn__scikit-learn-14894,submitted,15,5371,509,944,3918,11,15,2,5,7,1,2,6.5
+claude3opus,scikit-learn__scikit-learn-14983,submitted (exit_cost),19,9322,326,991,8005,14,23,7,5,10,5,3,8.5
+claude3opus,scikit-learn__scikit-learn-15512,submitted (exit_cost),19,10101,488,1487,8126,14,22,5,4,9,5,4,10.25
+claude3opus,scikit-learn__scikit-learn-15535,submitted,11,4870,151,719,4000,6,12,4,3,6,0,3,4.75
+claude3opus,scikit-learn__scikit-learn-25500,submitted,10,5487,1271,657,3559,5,11,4,3,5,0,3,3.5
+claude3opus,scikit-learn__scikit-learn-25570,submitted,16,7028,1377,1198,4453,10,19,5,5,7,4,3,6.5
+claude3opus,scikit-learn__scikit-learn-25638,submitted (exit_cost),19,10631,411,1905,8315,10,25,6,7,13,2,3,5.5
+claude3opus,scikit-learn__scikit-learn-25747,submitted (exit_cost),19,10409,1499,1313,7597,7,29,5,11,14,1,3,4.0
+claude3opus,sphinx-doc__sphinx-10325,submitted,13,6929,217,1026,5686,10,12,1,1,5,5,1,5.75
+claude3opus,sphinx-doc__sphinx-10451,submitted (exit_cost),23,8476,413,879,7184,12,29,7,10,16,0,3,8.25
+claude3opus,sphinx-doc__sphinx-11445,submitted (exit_cost),19,13449,543,1856,11050,12,12,0,0,3,3,6,7.5
+claude3opus,sphinx-doc__sphinx-7686,submitted (exit_cost),26,2676,281,1100,1295,19,35,9,12,17,0,6,10.0
+claude3opus,sphinx-doc__sphinx-7738,submitted,20,3838,277,1429,2132,9,16,4,3,8,0,5,10.5
+claude3opus,sphinx-doc__sphinx-7975,submitted (exit_cost),20,11623,109,1441,10073,11,18,6,4,9,2,3,8.0
+claude3opus,sphinx-doc__sphinx-8273,submitted (exit_cost),20,6314,232,1440,4642,14,23,6,6,10,2,5,8.25
+claude3opus,sphinx-doc__sphinx-8282,submitted,11,1413,204,587,622,9,12,3,3,6,1,2,5.5
+claude3opus,sphinx-doc__sphinx-8435,submitted,13,2373,208,769,1396,9,17,5,5,8,0,4,6.5
+claude3opus,sphinx-doc__sphinx-8474,submitted,17,6591,118,1739,4734,12,13,1,0,2,0,11,10.5
+claude3opus,sphinx-doc__sphinx-8506,submitted (exit_cost),23,8593,259,1191,7143,13,18,2,1,3,1,13,9.0
+claude3opus,sphinx-doc__sphinx-8595,exit_cost,24,5484,176,1336,3972,10,16,4,2,6,0,8,11.5
+claude3opus,sphinx-doc__sphinx-8627,exit_cost,22,8380,353,1071,6956,10,22,5,5,8,0,9,10.25
+claude3opus,sphinx-doc__sphinx-8713,submitted,14,5752,406,881,4465,11,13,2,2,5,4,2,6.0
+claude3opus,sphinx-doc__sphinx-8721,submitted,18,8265,138,1368,6759,12,20,4,6,7,0,7,6.25
+claude3opus,sphinx-doc__sphinx-8801,submitted (exit_cost),12,97993,225,565,97203,10,14,4,3,6,0,5,6.25
+claude3opus,sympy__sympy-11400,submitted (exit_cost),20,11836,150,1317,10369,11,27,7,8,15,1,3,5.0
+claude3opus,sympy__sympy-11870,submitted,14,4489,126,827,3536,9,19,4,6,9,1,3,4.5
+claude3opus,sympy__sympy-11897,submitted,20,7254,258,1418,5578,11,22,4,4,9,6,3,10.0
+claude3opus,sympy__sympy-12171,submitted,24,5872,164,1039,4669,16,26,4,4,7,8,7,10.5
+claude3opus,sympy__sympy-12236,submitted (exit_cost),18,11654,736,1428,9490,11,21,6,6,10,2,3,6.5
+claude3opus,sympy__sympy-12419,submitted,15,7755,358,1234,6163,12,16,2,2,8,4,2,6.5
+claude3opus,sympy__sympy-12454,submitted,15,5016,382,738,3896,9,16,4,3,7,3,3,6.5
+claude3opus,sympy__sympy-12481,submitted,13,7197,93,935,6169,9,14,4,3,7,1,3,7.0
+claude3opus,sympy__sympy-13031,submitted,18,10979,275,1536,9168,16,21,3,4,10,4,3,9.5
+claude3opus,sympy__sympy-13043,submitted,10,4625,96,552,3977,9,11,2,2,5,3,1,4.5
+claude3opus,sympy__sympy-13146,submitted,11,1923,121,726,1076,4,13,3,4,5,0,4,3.25
+claude3opus,sympy__sympy-13177,submitted,13,5962,154,868,4940,6,14,4,3,7,1,3,6.25
+claude3opus,sympy__sympy-13437,submitted (exit_cost),22,9693,168,1367,8158,17,27,3,6,10,9,2,13.0
+claude3opus,sympy__sympy-13471,submitted,15,5828,224,990,4614,9,17,3,4,8,2,3,6.0
+claude3opus,sympy__sympy-13480,submitted,13,4562,144,618,3800,10,15,2,4,7,0,4,6.25
+claude3opus,sympy__sympy-13647,submitted,12,6823,322,1021,5480,7,13,4,3,6,1,3,6.0
+claude3opus,sympy__sympy-13773,submitted (exit_cost),20,9630,241,1089,8300,14,22,6,3,9,7,3,6.5
+claude3opus,sympy__sympy-13895,submitted (exit_cost),20,11193,255,1627,9311,11,24,5,5,13,3,3,7.0
+claude3opus,sympy__sympy-13915,submitted (exit_cost),19,11293,238,1473,9582,16,22,5,4,12,4,2,7.5
+claude3opus,sympy__sympy-13971,submitted (exit_cost),23,7489,148,1275,6066,15,27,4,5,10,8,4,8.0
+claude3opus,sympy__sympy-14024,submitted (exit_cost),20,10069,351,1457,8261,13,24,4,5,11,6,2,8.0
+claude3opus,sympy__sympy-14308,submitted (exit_cost),21,11638,96,1059,10483,14,28,8,8,11,2,7,6.75
+claude3opus,sympy__sympy-14317,submitted (exit_cost),19,11564,275,1341,9948,12,22,4,5,8,4,5,11.5
+claude3opus,sympy__sympy-14396,submitted (exit_cost),19,12508,619,1647,10242,12,28,3,10,13,3,2,12.5
+claude3opus,sympy__sympy-14774,submitted,10,4709,183,531,3995,6,12,5,4,6,0,2,3.75
+claude3opus,sympy__sympy-14817,submitted,16,7755,497,863,6395,11,18,4,4,9,2,3,7.0
+claude3opus,sympy__sympy-15011,submitted (exit_cost),19,10791,189,1134,9468,12,25,6,7,12,2,4,8.25
+claude3opus,sympy__sympy-15308,submitted,17,7141,89,1092,5960,12,18,4,5,6,3,4,8.5
+claude3opus,sympy__sympy-15345,submitted,17,8051,76,1051,6924,7,20,4,5,8,2,5,11.0
+claude3opus,sympy__sympy-15346,submitted,16,7676,508,1579,5589,8,19,5,5,9,1,4,7.25
+claude3opus,sympy__sympy-15609,submitted,17,10711,131,1195,9385,11,23,8,7,10,3,3,5.5
+claude3opus,sympy__sympy-15678,submitted (exit_cost),20,12640,284,1636,10720,8,32,6,13,16,1,2,11.75
+claude3opus,sympy__sympy-16106,submitted,20,6720,603,1044,5073,13,22,4,7,10,3,2,8.0
+claude3opus,sympy__sympy-16281,submitted (exit_cost),20,10216,449,1166,8601,17,20,3,1,9,9,1,10.0
+claude3opus,sympy__sympy-16503,submitted,18,8774,85,1121,7568,11,17,4,4,9,3,1,10.0
+claude3opus,sympy__sympy-16792,submitted,11,5930,462,1222,4246,10,11,1,1,5,4,1,5.5
+claude3opus,sympy__sympy-16988,submitted (exit_cost),21,8341,115,1275,6951,14,23,5,3,12,5,3,8.5
+claude3opus,sympy__sympy-17022,submitted (exit_cost),23,7458,291,1389,5778,17,27,6,5,9,6,7,9.0
+claude3opus,sympy__sympy-17139,submitted (exit_cost),17,15255,630,1369,13256,10,22,6,6,10,0,6,5.5
+claude3opus,sympy__sympy-17630,submitted (exit_cost),19,9193,1100,1165,6928,8,21,4,4,11,2,4,4.5
+claude3opus,sympy__sympy-17655,submitted,20,5791,527,1483,3781,8,22,6,13,6,0,3,12.5
+claude3opus,sympy__sympy-18057,submitted (exit_cost),18,13421,454,1869,11098,8,28,3,11,14,2,1,13.5
+claude3opus,sympy__sympy-18087,exit_cost,21,7271,79,1619,5573,10,24,3,5,9,5,5,11.0
+claude3opus,sympy__sympy-18189,submitted,16,9587,340,2273,6974,11,16,4,1,8,4,3,7.0
+claude3opus,sympy__sympy-18199,submitted (exit_cost),20,11967,88,1371,10508,11,27,4,9,14,4,0,12.0
+claude3opus,sympy__sympy-18532,submitted (exit_cost),21,9249,77,1025,8147,10,26,7,7,13,2,4,7.0
+claude3opus,sympy__sympy-18621,submitted,14,5462,640,791,4031,9,14,2,3,7,1,3,7.5
+claude3opus,sympy__sympy-18698,submitted (exit_cost),22,7115,200,1138,5777,17,23,5,2,8,11,2,9.0
+claude3opus,sympy__sympy-18835,submitted,12,4991,238,757,3996,8,12,3,3,6,2,1,5.5
+claude3opus,sympy__sympy-19007,submitted (exit_cost),18,11271,184,1381,9706,13,21,5,4,12,4,1,6.0
+claude3opus,sympy__sympy-19254,submitted (exit_cost),18,11361,121,1900,9340,11,27,5,10,12,5,0,11.0
+claude3opus,sympy__sympy-19487,submitted (exit_cost),19,8628,176,1041,7411,13,19,6,1,8,9,1,9.0
+claude3opus,sympy__sympy-20049,submitted,12,5281,536,1010,3735,7,13,4,3,6,1,3,5.0
+claude3opus,sympy__sympy-20154,submitted (exit_cost),21,9130,114,1230,7786,11,30,10,10,15,2,3,8.0
+claude3opus,sympy__sympy-20212,submitted (exit_cost),19,10824,127,1107,9590,8,28,3,11,15,2,0,13.5
+claude3opus,sympy__sympy-20322,submitted (exit_cost),20,9631,258,1307,8066,11,23,6,4,11,5,3,6.5
+claude3opus,sympy__sympy-20442,submitted (exit_cost),20,11828,215,1977,9636,9,27,5,8,12,1,6,8.0
+claude3opus,sympy__sympy-20590,submitted (exit_cost),21,10158,248,1127,8783,14,23,6,4,12,5,2,7.5
+claude3opus,sympy__sympy-20639,submitted,15,7483,153,1072,6258,10,17,6,4,8,2,3,7.0
+claude3opus,sympy__sympy-21055,submitted (exit_cost),19,10442,291,1693,8458,12,25,6,7,11,4,3,10.5
+claude3opus,sympy__sympy-21171,submitted (exit_cost),17,10603,2013,1068,7522,16,17,1,1,8,7,1,8.5
+claude3opus,sympy__sympy-21379,submitted (exit_cost),18,9204,460,1783,6961,11,20,4,3,10,4,3,9.0
+claude3opus,sympy__sympy-21612,submitted,15,10624,267,1716,8641,13,15,2,1,10,3,1,8.0
+claude3opus,sympy__sympy-21614,submitted (exit_cost),20,10376,95,1078,9203,18,20,2,1,8,9,2,9.5
+claude3opus,sympy__sympy-21627,submitted (exit_cost),8,56879,70,466,56343,3,10,3,3,4,0,3,2.0
+claude3opus,sympy__sympy-21847,submitted,12,6272,239,1054,4979,9,13,3,3,6,2,2,6.0
+claude3opus,sympy__sympy-22005,submitted (exit_cost),18,12179,424,1007,10748,13,22,7,5,10,2,5,7.0
+claude3opus,sympy__sympy-22714,submitted,11,5133,472,653,4008,7,12,4,3,6,1,2,5.0
+claude3opus,sympy__sympy-22840,submitted (exit_cost),17,10791,1557,1095,8139,14,17,2,1,8,6,2,8.5
+claude3opus,sympy__sympy-23117,submitted,18,8864,381,1709,6774,13,20,5,4,8,2,6,10.0
+claude3opus,sympy__sympy-23191,submitted,17,8305,502,1687,6116,11,17,4,2,8,5,2,7.0
+claude3opus,sympy__sympy-23262,submitted (exit_cost),21,7899,269,1162,6468,13,23,5,3,10,4,6,8.0
+claude3opus,sympy__sympy-24066,submitted (exit_cost),19,11221,135,1731,9355,11,27,6,9,13,1,4,12.5
+claude3opus,sympy__sympy-24102,submitted,18,10029,374,1159,8496,13,17,4,2,8,5,2,9.0
+claude3opus,sympy__sympy-24152,submitted,11,5106,527,775,3804,9,11,2,2,5,2,2,5.0
+claude3opus,sympy__sympy-24213,submitted,16,7116,248,1021,5847,9,18,4,6,9,0,3,7.0
+claude3opus,sympy__sympy-24909,submitted (exit_cost),19,9625,165,1342,8118,10,25,4,7,11,2,5,4.75
+gpt4o,astropy__astropy-12907,submitted (exit_cost),57,45932,307,6410,39215,14,102,6,46,50,3,3,47.75
+gpt4o,astropy__astropy-14182,submitted (exit_cost),63,33302,570,5052,27680,22,93,8,31,39,5,18,22.5
+gpt4o,astropy__astropy-14365,submitted,11,3564,391,483,2690,8,12,4,3,6,1,2,6.0
+gpt4o,astropy__astropy-14995,submitted,9,4244,701,791,2752,7,9,2,2,4,1,2,4.0
+gpt4o,astropy__astropy-6938,submitted,18,15707,127,1522,14058,13,21,4,4,8,5,4,11.0
+gpt4o,astropy__astropy-7746,submitted,12,4803,540,612,3651,9,12,3,2,5,2,3,6.0
+gpt4o,django__django-10914,submitted (exit_cost),60,40321,188,9416,30717,22,95,8,36,42,5,12,45.5
+gpt4o,django__django-10924,submitted (exit_cost),61,34008,175,6828,27005,22,85,10,30,33,7,15,17.75
+gpt4o,django__django-11001,submitted,63,27246,508,4138,22600,22,86,10,26,44,3,13,16.25
+gpt4o,django__django-11019,submitted (exit_cost),66,39613,460,4052,35101,6,120,6,55,59,0,6,45.5
+gpt4o,django__django-11039,submitted (exit_format),11,8622,158,1465,6999,10,15,4,4,7,1,3,4.25
+gpt4o,django__django-11049,submitted (exit_cost),54,46493,161,10925,35407,12,98,5,45,49,2,2,47.25
+gpt4o,django__django-11099,submitted,12,3324,168,1059,2097,8,14,4,4,6,2,2,7.25
+gpt4o,django__django-11133,submitted,15,5856,163,1064,4629,10,17,5,4,7,3,3,6.5
+gpt4o,django__django-11179,submitted (exit_cost),74,27552,64,3551,23937,12,132,11,59,60,0,13,17.5
+gpt4o,django__django-11283,submitted,21,8873,228,1385,7260,10,22,6,6,9,3,4,10.25
+gpt4o,django__django-11422,submitted (exit_cost),66,29127,186,4715,24226,33,67,21,5,28,27,7,39.0
+gpt4o,django__django-11564,submitted (exit_cost),62,38569,193,6736,31640,18,100,11,39,48,4,9,50.25
+gpt4o,django__django-11583,submitted (exit_cost),62,20912,1380,5061,14471,15,86,10,29,39,2,16,24.5
+gpt4o,django__django-11620,submitted (exit_cost),58,48175,172,7579,40424,19,102,13,45,48,2,7,37.0
+gpt4o,django__django-11630,submitted (exit_cost),73,20857,145,4741,15971,22,68,11,12,20,4,32,42.5
+gpt4o,django__django-11742,submitted (exit_format),29,11955,63,1939,9953,24,34,6,7,14,1,12,16.0
+gpt4o,django__django-11797,submitted (exit_cost),61,35533,248,6161,29124,16,67,10,11,37,9,10,37.75
+gpt4o,django__django-11815,submitted (exit_cost),64,33152,369,6276,26507,9,108,8,49,53,0,6,44.5
+gpt4o,django__django-11848,submitted,60,36739,137,4394,32208,20,84,13,27,41,3,13,12.5
+gpt4o,django__django-11905,exit_cost,57,45120,79,6153,38888,6,107,2,51,53,1,2,53.5
+gpt4o,django__django-11910,submitted,51,21784,284,4941,16559,20,60,11,13,19,5,23,25.25
+gpt4o,django__django-11964,submitted (exit_cost),55,43897,677,9440,33780,5,97,4,43,48,0,6,39.0
+gpt4o,django__django-11999,submitted (exit_cost),61,41727,137,4513,37077,12,88,7,29,35,3,21,44.5
+gpt4o,django__django-12113,submitted (exit_cost),58,44640,1319,4915,38406,10,101,6,44,47,7,3,44.5
+gpt4o,django__django-12125,submitted (exit_cost),67,32179,392,4454,27333,28,86,8,24,39,4,19,36.5
+gpt4o,django__django-12184,submitted,32,8267,268,2387,5612,8,44,4,14,16,0,14,6.5
+gpt4o,django__django-12284,submitted,25,7740,219,1617,5904,6,32,4,10,15,0,7,9.5
+gpt4o,django__django-12286,submitted,25,10153,159,1437,8557,9,35,5,12,16,1,6,6.5
+gpt4o,django__django-12308,submitted (exit_cost),59,43681,101,8611,34969,12,108,3,50,54,2,2,53.25
+gpt4o,django__django-12453,submitted (exit_cost),65,23320,594,5041,17685,29,71,16,16,34,6,15,27.5
+gpt4o,django__django-12470,submitted (exit_cost),60,45645,150,3723,41772,29,61,5,3,43,12,3,38.0
+gpt4o,django__django-12497,submitted,28,18412,159,2220,16033,20,30,4,6,8,4,12,12.0
+gpt4o,django__django-12589,submitted (exit_cost),58,41301,742,4706,35853,8,80,6,24,34,0,22,32.25
+gpt4o,django__django-12700,submitted,12,4979,651,1024,3304,8,13,3,3,5,2,3,4.5
+gpt4o,django__django-12708,submitted,23,8093,207,1763,6123,13,29,9,9,16,0,4,7.5
+gpt4o,django__django-12747,submitted (exit_cost),57,43802,220,8687,34895,6,100,6,47,48,0,5,44.5
+gpt4o,django__django-12856,exit_cost,53,51078,85,10678,40315,18,88,2,36,44,5,3,43.5
+gpt4o,django__django-12908,submitted (exit_cost),64,44282,307,4197,39778,24,90,11,31,43,1,15,37.0
+gpt4o,django__django-12915,submitted (exit_cost),61,38275,210,4926,33139,12,97,8,39,42,0,16,28.25
+gpt4o,django__django-12983,submitted,9,3167,93,500,2574,6,9,3,2,4,1,2,4.25
+gpt4o,django__django-13028,submitted,43,15802,699,3284,11819,19,51,10,13,25,0,13,20.5
+gpt4o,django__django-13033,submitted (exit_cost),58,35602,935,7479,27188,29,76,13,21,38,7,10,18.0
+gpt4o,django__django-13158,submitted (exit_cost),70,18986,263,4781,13942,25,88,13,22,45,0,21,17.5
+gpt4o,django__django-13220,submitted (exit_cost),49,55832,111,8222,47499,10,72,5,24,27,0,21,43.25
+gpt4o,django__django-13230,submitted (exit_cost),66,32315,55,4638,27622,27,85,15,24,37,5,19,22.0
+gpt4o,django__django-13265,submitted,72,12918,458,4316,8144,21,71,13,6,14,0,51,27.0
+gpt4o,django__django-13315,submitted (exit_cost),65,33471,50,4795,28626,28,63,7,5,10,5,43,51.5
+gpt4o,django__django-13321,submitted,21,9316,1220,1561,6535,12,31,9,12,16,1,2,13.25
+gpt4o,django__django-13401,submitted,25,9452,282,1899,7271,13,30,5,9,15,1,5,8.0
+gpt4o,django__django-13447,submitted,24,10335,74,1675,8586,17,28,6,6,11,3,8,11.0
+gpt4o,django__django-13448,submitted (exit_cost),63,39656,1420,4138,34098,21,92,8,36,46,6,4,35.0
+gpt4o,django__django-13551,submitted,32,26292,113,1908,24271,21,28,7,4,9,2,13,18.5
+gpt4o,django__django-13590,submitted (exit_format),5,1016,183,314,519,5,6,1,1,3,0,2,2.0
+gpt4o,django__django-13658,submitted,23,10647,298,1325,9024,15,28,6,7,13,3,5,11.5
+gpt4o,django__django-13660,submitted,15,4818,664,814,3340,9,15,3,4,6,2,3,7.0
+gpt4o,django__django-13710,submitted (exit_cost),54,41656,169,8736,32751,13,94,4,41,45,2,6,45.0
+gpt4o,django__django-13757,submitted (exit_cost),81,10832,195,2997,7640,13,21,4,3,8,4,6,73.0
+gpt4o,django__django-13768,submitted,22,9475,126,1251,8098,15,31,7,11,14,2,4,13.0
+gpt4o,django__django-13925,submitted (exit_cost),66,27772,876,5130,21766,41,67,13,3,23,14,27,29.0
+gpt4o,django__django-13933,submitted (exit_cost),63,35428,249,7023,28156,19,92,7,30,56,5,1,51.5
+gpt4o,django__django-13964,submitted (exit_cost),61,38598,411,4772,33415,34,83,11,24,39,3,17,18.0
+gpt4o,django__django-14016,submitted (exit_cost),69,43253,177,3754,39322,9,129,5,61,63,3,2,60.5
+gpt4o,django__django-14017,submitted,33,14500,447,2123,11930,16,42,7,11,22,3,6,9.75
+gpt4o,django__django-14155,submitted,11,3987,107,1061,2819,8,11,3,2,4,3,2,5.5
+gpt4o,django__django-14238,submitted,20,8239,690,1294,6255,10,26,6,8,11,2,5,7.5
+gpt4o,django__django-14382,submitted,8,3285,142,543,2600,7,8,1,2,4,1,1,5.0
+gpt4o,django__django-14411,submitted (exit_cost),63,39877,78,5169,34630,23,81,12,19,43,6,13,22.5
+gpt4o,django__django-14534,submitted,22,8672,386,1425,6861,11,28,8,8,13,3,4,8.0
+gpt4o,django__django-14580,submitted (exit_cost),67,31543,369,4018,27156,16,99,9,33,56,2,8,50.5
+gpt4o,django__django-14608,submitted (exit_cost),25,161211,120,1962,159129,17,27,5,4,11,0,12,12.5
+gpt4o,django__django-14667,submitted (exit_cost),60,43119,291,6140,36688,7,115,5,56,58,0,1,53.5
+gpt4o,django__django-14672,submitted (exit_cost),45,48596,1652,11850,35094,5,85,3,41,43,0,1,42.0
+gpt4o,django__django-14730,submitted (exit_cost),70,32230,89,4282,27859,32,69,10,9,19,3,38,18.0
+gpt4o,django__django-14752,submitted (exit_cost),60,39760,627,5687,33446,17,64,10,5,28,3,28,50.0
+gpt4o,django__django-14787,submitted,18,9212,173,1108,7931,8,24,4,9,11,2,2,12.25
+gpt4o,django__django-14855,submitted (exit_cost),68,36453,222,4215,32016,30,104,13,39,51,3,11,19.25
+gpt4o,django__django-14915,submitted,8,2061,247,662,1152,4,9,3,3,4,0,2,3.25
+gpt4o,django__django-14997,submitted,39,20746,1593,4707,14446,23,48,12,14,25,4,5,15.0
+gpt4o,django__django-14999,submitted (exit_cost),59,39077,48,5047,33982,18,60,8,2,5,3,50,41.0
+gpt4o,django__django-15061,submitted,39,39796,78,2131,37587,17,33,5,5,8,2,18,28.0
+gpt4o,django__django-15202,submitted (exit_cost),64,38224,131,4569,33524,18,109,13,46,49,3,11,35.25
+gpt4o,django__django-15213,submitted (exit_cost),62,41934,199,5389,36346,31,80,14,19,36,14,11,29.0
+gpt4o,django__django-15252,submitted (exit_cost),57,44138,340,5764,38034,15,94,12,38,45,1,10,28.0
+gpt4o,django__django-15320,submitted (exit_cost),64,32729,263,5742,26724,16,96,9,33,38,7,18,49.5
+gpt4o,django__django-15347,submitted,9,3156,296,585,2275,5,7,2,2,4,1,0,5.0
+gpt4o,django__django-15388,submitted,26,10834,180,1615,9039,14,24,4,5,9,0,10,8.25
+gpt4o,django__django-15400,submitted,11,3918,163,739,3016,10,11,1,2,5,2,2,5.75
+gpt4o,django__django-15498,submitted,13,5334,66,1017,4251,9,14,4,3,7,2,2,7.5
+gpt4o,django__django-15695,submitted (exit_cost),66,30156,216,5118,24822,24,69,10,7,11,31,20,50.5
+gpt4o,django__django-15738,exit_cost,28,156452,425,1629,154398,8,20,7,0,0,0,20,7.5
+gpt4o,django__django-15781,submitted (exit_cost),64,41411,291,5281,35839,15,107,8,44,54,3,6,50.5
+gpt4o,django__django-15789,submitted,40,15273,116,3107,12050,24,49,11,14,21,2,12,24.75
+gpt4o,django__django-15790,submitted,63,23755,84,3942,19729,17,77,11,26,37,3,11,22.0
+gpt4o,django__django-15814,submitted (exit_cost),65,35428,719,3714,30995,6,76,5,12,55,0,9,40.25
+gpt4o,django__django-15819,submitted (exit_cost),67,32943,111,3866,28966,15,95,5,29,35,5,26,54.0
+gpt4o,django__django-15851,submitted (exit_cost),73,18741,146,4984,13611,27,72,12,14,22,2,34,47.5
+gpt4o,django__django-15902,submitted,16,8776,83,1486,7207,8,19,4,5,8,1,5,9.25
+gpt4o,django__django-15996,submitted,25,7546,130,1414,6002,9,33,3,10,13,2,8,5.0
+gpt4o,django__django-16041,submitted (exit_cost),66,21735,287,4375,17073,23,86,14,24,42,2,18,22.0
+gpt4o,django__django-16046,submitted,11,4282,69,972,3241,7,13,4,4,6,1,2,4.5
+gpt4o,django__django-16139,submitted (exit_cost),62,31418,363,6275,24780,9,80,5,19,40,2,19,57.0
+gpt4o,django__django-16229,submitted (exit_cost),59,33012,275,7291,25446,16,77,9,20,39,0,18,45.25
+gpt4o,django__django-16255,submitted,8,3003,403,457,2143,6,7,1,2,4,1,0,5.25
+gpt4o,django__django-16379,submitted,9,3464,277,786,2401,7,8,1,2,4,1,1,6.0
+gpt4o,django__django-16400,submitted (exit_cost),60,32271,495,5700,26076,16,81,8,24,32,0,25,42.5
+gpt4o,django__django-16408,submitted (exit_cost),68,25854,389,4947,20518,28,74,17,16,29,5,24,35.5
+gpt4o,django__django-16527,submitted (exit_cost),48,80934,94,7852,72988,12,69,6,24,34,2,9,41.5
+gpt4o,django__django-16595,submitted (exit_cost),49,49721,388,10638,38695,11,86,5,38,43,0,5,42.0
+gpt4o,django__django-16816,submitted (exit_cost),49,59183,1353,8767,49063,24,70,13,25,34,3,8,27.0
+gpt4o,django__django-16820,exit_cost,81,5793,67,4160,1566,1,61,1,0,0,0,61,2.0
+gpt4o,django__django-16873,submitted (exit_cost),57,44708,820,8359,35529,18,79,6,24,31,7,17,43.25
+gpt4o,django__django-16910,submitted (exit_cost),63,34140,373,3970,29797,10,107,8,45,54,0,8,33.5
+gpt4o,django__django-17051,submitted (exit_cost),59,49335,251,5158,43926,30,71,14,14,37,9,11,30.25
+gpt4o,django__django-17087,submitted,53,19606,275,3244,16087,19,59,11,14,26,0,19,27.0
+gpt4o,matplotlib__matplotlib-22711,submitted,9,4717,984,798,2935,6,8,2,2,4,1,1,5.5
+gpt4o,mwaskom__seaborn-2848,submitted (exit_cost),61,34316,1500,3635,29181,39,84,7,25,38,16,5,38.0
+gpt4o,mwaskom__seaborn-3010,submitted,13,4208,1138,746,2324,5,13,4,5,7,1,0,7.0
+gpt4o,mwaskom__seaborn-3190,submitted,14,4795,520,907,3368,8,16,5,5,7,1,3,5.5
+gpt4o,mwaskom__seaborn-3407,submitted,14,5955,759,914,4282,9,17,4,5,7,2,3,5.0
+gpt4o,pallets__flask-4045,submitted (exit_cost),41,81369,46,9239,72084,17,70,4,30,34,5,1,33.5
+gpt4o,pallets__flask-4992,submitted,28,12564,317,2258,9989,15,36,7,10,15,3,8,19.0
+gpt4o,pallets__flask-5063,submitted,10,5056,569,1218,3269,8,10,2,2,4,2,2,5.25
+gpt4o,psf__requests-1963,submitted (exit_cost),66,33031,141,4582,28308,13,94,7,31,34,1,28,46.0
+gpt4o,psf__requests-2148,submitted,31,16727,752,2415,13560,14,46,8,17,21,3,5,10.25
+gpt4o,psf__requests-2317,submitted,11,4106,206,599,3301,9,10,1,2,5,3,0,6.0
+gpt4o,psf__requests-2674,submitted (exit_cost),65,39822,111,3852,35859,25,99,14,36,51,5,7,41.5
+gpt4o,psf__requests-3362,submitted,24,11070,121,1528,9421,17,29,6,6,13,6,4,11.0
+gpt4o,psf__requests-863,submitted (exit_cost),76,17726,177,4511,13038,4,124,4,49,50,0,25,2.25
+gpt4o,pydata__xarray-3364,submitted (exit_cost),61,45052,132,6516,38404,13,113,6,53,57,2,1,46.0
+gpt4o,pydata__xarray-4094,submitted,13,6168,489,923,4756,9,14,4,3,6,2,3,7.0
+gpt4o,pydata__xarray-4248,submitted,22,10010,227,1559,8224,20,22,2,2,10,6,4,11.5
+gpt4o,pydata__xarray-4493,submitted (exit_cost),62,34661,730,5520,28411,19,106,4,45,52,7,2,52.0
+gpt4o,pydata__xarray-5131,submitted,13,5351,520,723,4108,11,13,2,2,6,3,2,6.0
+gpt4o,pylint-dev__pylint-5859,submitted,19,9621,322,1485,7814,10,21,6,7,10,1,3,6.25
+gpt4o,pylint-dev__pylint-6506,submitted,9,3435,449,512,2474,6,9,3,2,4,1,2,4.25
+gpt4o,pylint-dev__pylint-7080,submitted (exit_cost),45,26111,6490,3693,15928,33,48,10,6,22,15,5,20.0
+gpt4o,pylint-dev__pylint-7114,submitted (exit_cost),43,76170,562,6848,68760,7,76,2,35,36,3,2,38.0
+gpt4o,pylint-dev__pylint-7228,submitted,40,23736,1213,2993,19530,30,45,7,7,20,14,4,17.5
+gpt4o,pylint-dev__pylint-7993,submitted (exit_cost),58,40628,627,7738,32263,10,85,8,28,32,1,24,45.25
+gpt4o,pytest-dev__pytest-11143,submitted,8,5611,1653,432,3526,6,8,2,2,4,0,2,3.75
+gpt4o,pytest-dev__pytest-11148,exit_cost,65,27577,1244,5331,21002,21,58,7,0,21,30,7,53.0
+gpt4o,pytest-dev__pytest-5103,submitted (exit_cost),64,18737,506,5205,13026,15,72,10,51,14,2,5,48.5
+gpt4o,pytest-dev__pytest-5221,submitted,34,27166,54,2460,24652,20,34,7,2,18,12,2,16.5
+gpt4o,pytest-dev__pytest-5227,submitted,8,3066,297,502,2267,6,8,2,2,4,1,1,4.25
+gpt4o,pytest-dev__pytest-5413,submitted,17,6877,755,993,5129,14,17,3,2,7,6,2,8.5
+gpt4o,pytest-dev__pytest-5495,submitted (exit_cost),64,43842,178,4187,39477,11,93,7,31,34,2,26,55.0
+gpt4o,pytest-dev__pytest-5692,submitted,50,38806,389,6322,32095,14,84,6,37,41,4,2,24.0
+gpt4o,pytest-dev__pytest-6116,exit_cost,65,46906,218,6102,40586,7,123,2,59,61,2,1,61.0
+gpt4o,pytest-dev__pytest-7168,submitted (exit_cost),53,39117,2283,5212,31622,12,93,4,42,46,4,1,45.5
+gpt4o,pytest-dev__pytest-7220,submitted (exit_cost),62,41733,772,4814,36147,37,81,12,23,40,14,4,40.0
+gpt4o,pytest-dev__pytest-7373,submitted,12,4960,240,672,4048,9,14,4,4,7,1,2,6.0
+gpt4o,pytest-dev__pytest-7432,submitted,11,5635,196,865,4574,7,13,5,4,6,0,3,4.0
+gpt4o,pytest-dev__pytest-7490,submitted (exit_cost),48,38769,3458,4354,30957,36,64,7,17,34,11,2,27.0
+gpt4o,pytest-dev__pytest-8365,submitted,11,4750,426,581,3743,9,11,2,2,5,2,2,6.0
+gpt4o,pytest-dev__pytest-8906,submitted,22,8150,480,1394,6276,12,24,6,7,14,1,2,8.25
+gpt4o,pytest-dev__pytest-9359,submitted,13,9569,1157,1138,7274,9,12,3,2,6,2,2,6.0
+gpt4o,scikit-learn__scikit-learn-10297,submitted (exit_cost),58,39853,338,3950,35565,16,66,8,9,41,5,11,44.5
+gpt4o,scikit-learn__scikit-learn-10508,submitted,9,3774,469,651,2654,7,8,1,2,4,1,1,5.0
+gpt4o,scikit-learn__scikit-learn-10949,submitted,40,15222,430,2596,12196,18,51,8,15,21,2,13,28.25
+gpt4o,scikit-learn__scikit-learn-11040,submitted,27,16648,164,1769,14715,16,32,6,8,17,4,3,11.25
+gpt4o,scikit-learn__scikit-learn-11281,submitted (exit_cost),63,39443,101,3663,35679,29,67,12,6,27,6,28,26.0
+gpt4o,scikit-learn__scikit-learn-12471,submitted (exit_cost),60,40696,533,4540,35623,26,77,7,19,33,5,20,34.5
+gpt4o,scikit-learn__scikit-learn-13142,submitted (exit_cost),55,46161,779,3314,42068,21,76,14,22,28,7,19,34.5
+gpt4o,scikit-learn__scikit-learn-13241,submitted,11,4700,214,691,3795,8,11,3,2,5,2,2,5.5
+gpt4o,scikit-learn__scikit-learn-13439,submitted (exit_cost),56,58786,320,2919,55547,8,106,4,51,53,1,1,49.25
+gpt4o,scikit-learn__scikit-learn-13496,submitted,13,9795,304,1149,8342,13,15,2,3,7,3,2,6.0
+gpt4o,scikit-learn__scikit-learn-13497,submitted (exit_cost),57,51344,67,3398,47879,16,94,10,38,44,2,10,36.25
+gpt4o,scikit-learn__scikit-learn-13584,submitted (exit_cost),61,50411,88,3860,46463,12,87,8,27,35,2,23,39.0
+gpt4o,scikit-learn__scikit-learn-13779,submitted,11,3964,151,691,3122,9,11,2,2,4,2,3,5.0
+gpt4o,scikit-learn__scikit-learn-14087,submitted,29,18352,671,1845,15836,7,38,5,12,14,1,11,21.5
+gpt4o,scikit-learn__scikit-learn-14092,submitted,19,11808,677,1231,9900,10,21,4,5,8,3,5,12.5
+gpt4o,scikit-learn__scikit-learn-14894,submitted,32,22498,509,1924,20065,8,42,5,12,18,1,11,18.25
+gpt4o,scikit-learn__scikit-learn-14983,submitted (exit_cost),52,48610,326,5939,42345,16,86,6,35,41,4,6,42.25
+gpt4o,scikit-learn__scikit-learn-15512,submitted (exit_cost),54,47753,488,6295,40970,14,85,8,32,37,4,12,33.5
+gpt4o,scikit-learn__scikit-learn-15535,submitted,13,4603,151,713,3739,10,12,2,2,5,3,2,7.5
+gpt4o,scikit-learn__scikit-learn-25500,submitted,13,5801,1271,768,3762,8,13,4,3,5,2,3,7.5
+gpt4o,scikit-learn__scikit-learn-25570,submitted,13,6253,1377,1041,3835,7,14,4,4,6,2,2,6.0
+gpt4o,scikit-learn__scikit-learn-25638,submitted,39,30349,411,7928,22010,13,57,9,20,24,1,12,28.0
+gpt4o,scikit-learn__scikit-learn-25747,submitted,15,8003,1499,1528,4976,4,20,3,7,9,0,4,3.25
+gpt4o,sphinx-doc__sphinx-10325,submitted,18,9017,217,1363,7437,14,19,4,3,9,4,3,10.25
+gpt4o,sphinx-doc__sphinx-10451,submitted (exit_cost),61,49904,413,3176,46315,22,59,10,7,19,1,32,33.5
+gpt4o,sphinx-doc__sphinx-11445,submitted (exit_cost),58,38446,543,7957,29946,25,86,12,33,40,3,10,39.0
+gpt4o,sphinx-doc__sphinx-7686,exit_cost,28,128733,281,1380,127072,24,30,6,5,14,7,4,12.5
+gpt4o,sphinx-doc__sphinx-7738,submitted (exit_cost),63,43456,277,4288,38891,25,81,14,20,30,6,25,23.0
+gpt4o,sphinx-doc__sphinx-7975,submitted,16,9211,109,1663,7439,14,18,4,4,8,3,3,8.25
+gpt4o,sphinx-doc__sphinx-8273,submitted (exit_cost),34,111483,232,2958,108293,11,57,6,25,29,0,3,25.0
+gpt4o,sphinx-doc__sphinx-8282,submitted (exit_cost),14,2418901,204,719,2417978,11,16,5,4,8,1,3,7.5
+gpt4o,sphinx-doc__sphinx-8435,exit_cost,42,86203,208,2283,83712,28,43,13,8,19,7,9,17.5
+gpt4o,sphinx-doc__sphinx-8474,submitted,14,12787,118,1024,11645,10,14,3,1,7,3,3,5.5
+gpt4o,sphinx-doc__sphinx-8506,submitted (exit_cost),60,55156,259,2885,52012,64,108,8,49,53,4,2,30.0
+gpt4o,sphinx-doc__sphinx-8595,submitted (exit_cost),17,185695,176,910,184609,13,17,4,2,5,1,9,8.0
+gpt4o,sphinx-doc__sphinx-8627,submitted (exit_cost),63,40706,353,4131,36222,30,83,17,21,38,11,13,33.0
+gpt4o,sphinx-doc__sphinx-8713,submitted,13,5686,406,689,4591,11,13,2,2,5,4,2,6.0
+gpt4o,sphinx-doc__sphinx-8721,exit_cost,64,22673,138,7067,15468,14,19,4,4,9,1,5,54.25
+gpt4o,sphinx-doc__sphinx-8801,exit_cost,27,115725,225,5792,109708,17,37,7,12,17,2,6,17.0
+gpt4o,sympy__sympy-11400,submitted,11,4690,150,614,3926,9,11,2,2,5,2,2,5.0
+gpt4o,sympy__sympy-11870,submitted (exit_cost),61,43458,126,6531,36801,11,111,4,51,56,3,1,55.0
+gpt4o,sympy__sympy-11897,submitted (exit_cost),54,54465,258,8961,45246,25,84,3,31,43,9,1,41.0
+gpt4o,sympy__sympy-12171,submitted,34,20029,164,2339,17526,13,48,10,15,24,1,8,6.0
+gpt4o,sympy__sympy-12236,submitted (exit_cost),57,47469,736,5441,41292,16,83,9,27,33,2,21,39.5
+gpt4o,sympy__sympy-12419,submitted (exit_cost),60,46187,358,4239,41590,35,71,13,12,35,15,9,34.0
+gpt4o,sympy__sympy-12454,submitted,9,3661,382,567,2712,6,9,3,2,4,1,2,4.25
+gpt4o,sympy__sympy-12481,submitted,15,9175,93,695,8387,12,15,3,2,9,2,2,7.5
+gpt4o,sympy__sympy-13031,submitted,13,4891,275,1079,3537,9,14,3,3,6,2,3,6.0
+gpt4o,sympy__sympy-13043,submitted (exit_cost),62,43545,96,5607,37842,21,84,11,23,36,4,21,45.0
+gpt4o,sympy__sympy-13146,submitted,29,13696,121,1846,11729,13,35,7,8,18,4,5,13.0
+gpt4o,sympy__sympy-13177,submitted (exit_cost),61,33826,154,7419,26253,10,87,4,27,30,4,26,54.5
+gpt4o,sympy__sympy-13437,submitted,20,11399,168,1010,10221,15,21,5,3,9,6,3,9.0
+gpt4o,sympy__sympy-13471,submitted,35,16075,224,2944,12907,15,48,7,15,23,1,9,20.0
+gpt4o,sympy__sympy-13480,submitted,9,3363,144,445,2774,7,9,2,2,4,1,2,4.0
+gpt4o,sympy__sympy-13647,submitted,11,5086,322,726,4038,8,11,3,2,5,2,2,4.5
+gpt4o,sympy__sympy-13773,submitted (exit_cost),59,43962,241,4615,39106,14,85,7,27,30,5,23,50.0
+gpt4o,sympy__sympy-13895,submitted (exit_cost),60,47202,255,4552,42395,15,94,8,35,39,2,18,48.5
+gpt4o,sympy__sympy-13915,submitted (exit_cost),61,39968,238,4687,35043,22,87,11,28,35,3,21,12.25
+gpt4o,sympy__sympy-13971,submitted,16,8000,148,810,7042,13,16,3,2,7,5,2,8.0
+gpt4o,sympy__sympy-14024,submitted (exit_cost),57,49751,351,5739,43661,11,81,5,25,29,3,24,50.0
+gpt4o,sympy__sympy-14308,submitted (exit_cost),55,49467,96,5302,44069,35,72,15,18,31,12,11,20.5
+gpt4o,sympy__sympy-14317,submitted (exit_cost),60,50187,275,3599,46313,13,84,5,25,31,4,24,51.0
+gpt4o,sympy__sympy-14396,submitted,26,18139,619,1952,15568,14,34,8,10,15,2,7,13.25
+gpt4o,sympy__sympy-14774,submitted,8,3744,183,542,3019,6,8,2,2,4,0,2,3.75
+gpt4o,sympy__sympy-14817,submitted,13,5997,497,805,4695,9,14,4,3,5,2,4,7.0
+gpt4o,sympy__sympy-15011,submitted,25,12100,189,1569,10342,15,32,5,10,16,4,2,13.5
+gpt4o,sympy__sympy-15308,submitted,15,6333,89,838,5406,13,15,2,2,7,4,2,7.0
+gpt4o,sympy__sympy-15345,submitted (exit_cost),59,39869,76,7628,32165,9,86,6,28,31,2,25,47.5
+gpt4o,sympy__sympy-15346,submitted (exit_format),22,15156,508,1878,12770,22,24,2,2,11,8,3,9.5
+gpt4o,sympy__sympy-15609,submitted,16,8571,131,885,7555,14,16,2,2,7,5,2,7.5
+gpt4o,sympy__sympy-15678,submitted,33,23210,284,2517,20409,13,49,7,18,24,1,6,18.5
+gpt4o,sympy__sympy-16106,submitted,18,8836,603,1373,6860,12,21,4,5,8,3,5,10.5
+gpt4o,sympy__sympy-16281,submitted,19,9596,449,1578,7569,14,19,4,3,7,6,3,9.5
+gpt4o,sympy__sympy-16503,submitted (exit_cost),56,49946,85,5609,44252,12,85,3,38,43,3,1,49.5
+gpt4o,sympy__sympy-16792,submitted (exit_cost),60,45869,462,5970,39437,19,101,4,42,48,5,6,47.0
+gpt4o,sympy__sympy-16988,submitted,11,3821,115,720,2986,8,10,2,2,5,2,1,6.5
+gpt4o,sympy__sympy-17022,submitted (exit_cost),73,17543,291,4158,13094,16,73,4,1,7,60,5,62.5
+gpt4o,sympy__sympy-17139,submitted,9,4230,630,431,3169,6,9,3,2,4,1,2,4.25
+gpt4o,sympy__sympy-17630,submitted (exit_cost),54,47585,1100,7496,38989,13,95,5,42,45,4,4,44.0
+gpt4o,sympy__sympy-17655,submitted (exit_cost),55,45289,527,8778,35984,6,104,3,50,52,1,1,51.5
+gpt4o,sympy__sympy-18057,submitted,14,38128,454,824,36850,7,17,5,6,9,0,2,7.0
+gpt4o,sympy__sympy-18087,submitted (exit_cost),38,64328,79,14506,49743,11,66,3,29,33,3,1,32.0
+gpt4o,sympy__sympy-18189,submitted,14,7092,340,767,5985,12,15,3,3,8,2,2,6.0
+gpt4o,sympy__sympy-18199,submitted,11,3850,88,534,3228,7,9,2,2,5,2,0,6.0
+gpt4o,sympy__sympy-18532,submitted,19,9595,77,1332,8186,10,24,5,7,10,2,5,12.5
+gpt4o,sympy__sympy-18621,submitted,13,5357,640,813,3904,9,13,4,3,5,2,3,7.0
+gpt4o,sympy__sympy-18698,submitted,31,19542,200,2071,17271,17,38,8,9,18,5,6,17.5
+gpt4o,sympy__sympy-18835,submitted,11,4476,238,810,3428,9,10,1,2,5,2,1,5.0
+gpt4o,sympy__sympy-19007,submitted (exit_cost),56,43452,184,7292,35976,13,100,4,45,50,4,1,48.0
+gpt4o,sympy__sympy-19254,submitted,21,7564,121,1377,6066,12,27,5,8,11,2,6,15.0
+gpt4o,sympy__sympy-19487,submitted (exit_cost),65,40689,176,4730,35783,18,113,4,49,55,7,2,54.5
+gpt4o,sympy__sympy-20049,submitted (exit_cost),59,45717,536,6391,38790,12,108,4,50,53,3,2,52.0
+gpt4o,sympy__sympy-20154,submitted,15,6658,114,787,5757,11,17,4,4,8,2,3,8.0
+gpt4o,sympy__sympy-20212,submitted,13,6601,127,616,5858,10,11,1,2,6,3,0,6.5
+gpt4o,sympy__sympy-20322,submitted,30,18085,258,2010,15817,19,35,10,7,20,3,5,19.0
+gpt4o,sympy__sympy-20442,submitted,11,4878,215,580,4083,7,12,4,3,6,1,2,6.0
+gpt4o,sympy__sympy-20590,submitted (exit_cost),66,19023,248,6966,11809,18,66,6,1,9,55,1,55.5
+gpt4o,sympy__sympy-20639,submitted (exit_cost),56,44754,153,6805,37796,17,82,5,27,34,5,16,46.0
+gpt4o,sympy__sympy-21055,submitted,11,4958,291,851,3816,9,11,2,2,5,2,2,5.0
+gpt4o,sympy__sympy-21171,submitted,13,7558,2013,813,4732,10,13,2,3,6,2,2,5.5
+gpt4o,sympy__sympy-21379,submitted (exit_cost),50,55816,460,6361,48995,11,86,4,37,41,2,6,43.0
+gpt4o,sympy__sympy-21612,submitted (exit_cost),65,30075,267,5063,24745,27,86,10,22,30,5,29,44.5
+gpt4o,sympy__sympy-21614,submitted (exit_cost),61,42373,95,7855,34423,26,95,5,35,43,15,2,44.5
+gpt4o,sympy__sympy-21627,submitted (exit_cost),34,128103,70,2298,125735,23,39,5,6,16,11,6,20.0
+gpt4o,sympy__sympy-21847,submitted,11,5357,239,652,4466,8,12,4,3,6,1,2,5.0
+gpt4o,sympy__sympy-22005,submitted,7,6568,424,657,5487,6,7,1,2,4,0,1,4.25
+gpt4o,sympy__sympy-22714,submitted,12,4259,472,594,3193,8,12,3,3,5,2,2,6.5
+gpt4o,sympy__sympy-22840,submitted (exit_cost),54,40855,1557,4050,35248,27,76,7,23,36,3,14,33.0
+gpt4o,sympy__sympy-23117,submitted,11,3495,381,657,2457,9,11,2,2,4,2,3,5.0
+gpt4o,sympy__sympy-23191,submitted (exit_cost),45,59772,502,15241,44029,21,67,5,24,30,10,3,32.0
+gpt4o,sympy__sympy-23262,submitted,12,4922,269,653,4000,9,12,3,2,5,3,2,6.0
+gpt4o,sympy__sympy-24066,submitted,9,3322,135,602,2585,6,8,2,2,4,1,1,5.5
+gpt4o,sympy__sympy-24102,submitted,20,10704,374,1113,9217,14,20,4,4,11,4,1,8.5
+gpt4o,sympy__sympy-24152,submitted,11,4902,527,631,3744,9,11,2,2,5,2,2,5.0
+gpt4o,sympy__sympy-24213,submitted,14,4037,248,819,2970,9,14,3,4,6,1,3,7.0
+gpt4o,sympy__sympy-24909,submitted (exit_cost),59,30087,165,6863,23059,16,82,10,25,28,14,15,45.25
+claude37sonnet,astropy__astropy-12907,submitted,24,12186,307,3176,8703,15,19,2,5,6,0,8,16.0
+claude37sonnet,astropy__astropy-14182,submitted (exit_cost),98,51157,570,23278,27309,70,97,8,38,17,0,42,49.75
+claude37sonnet,astropy__astropy-14365,submitted,18,12250,391,2229,9630,13,15,2,5,5,0,5,9.5
+claude37sonnet,astropy__astropy-14995,submitted,16,12047,701,2590,8756,11,13,2,3,6,0,4,9.0
+claude37sonnet,astropy__astropy-6938,submitted,16,7778,127,2809,4842,11,13,2,5,2,0,6,8.0
+claude37sonnet,astropy__astropy-7746,submitted,17,11720,540,2699,8481,12,14,2,5,3,0,6,10.0
+claude37sonnet,django__django-10914,submitted,31,26578,188,4392,21998,26,28,2,6,10,0,12,17.5
+claude37sonnet,django__django-10924,submitted,30,51307,175,6703,44429,20,26,4,9,6,0,11,14.25
+claude37sonnet,django__django-11001,submitted,25,38953,508,5621,32824,16,22,5,10,4,0,8,12.75
+claude37sonnet,django__django-11019,submitted,33,44535,460,6688,37387,15,29,6,10,8,0,11,11.5
+claude37sonnet,django__django-11039,submitted,37,18881,158,4115,14608,27,32,4,6,10,0,16,21.0
+claude37sonnet,django__django-11049,submitted,43,21887,161,5142,16584,29,35,4,8,12,0,15,18.0
+claude37sonnet,django__django-11099,submitted,14,5314,168,2237,2909,7,11,3,5,1,0,5,6.5
+claude37sonnet,django__django-11133,submitted,26,35372,163,3090,32119,18,21,2,7,3,0,11,12.75
+claude37sonnet,django__django-11179,submitted,23,40915,64,5745,35106,13,20,4,11,1,0,8,11.0
+claude37sonnet,django__django-11283,submitted,25,53870,228,11156,42486,22,22,0,9,4,0,9,13.75
+claude37sonnet,django__django-11422,submitted (exit_cost),142,42097,186,5778,36133,70,119,30,6,10,0,103,50.5
+claude37sonnet,django__django-11564,submitted,57,51807,193,7842,43772,25,43,10,16,6,0,21,31.5
+claude37sonnet,django__django-11583,submitted,26,36840,1380,2651,32809,16,22,3,7,4,0,11,16.5
+claude37sonnet,django__django-11620,submitted,35,43384,172,5287,37925,22,31,6,10,9,0,12,19.75
+claude37sonnet,django__django-11630,submitted,42,64917,145,20042,44730,17,36,7,15,7,0,14,19.0
+claude37sonnet,django__django-11742,submitted,21,36980,63,4452,32465,13,18,2,6,3,0,9,10.5
+claude37sonnet,django__django-11797,submitted (exit_cost),102,42846,248,8109,34489,51,87,20,3,60,0,24,52.0
+claude37sonnet,django__django-11815,submitted,24,42352,369,5773,36210,13,21,4,9,2,0,10,11.0
+claude37sonnet,django__django-11848,submitted,23,16489,137,5474,10878,10,18,6,7,2,0,9,9.5
+claude37sonnet,django__django-11905,submitted,19,36603,79,3325,33199,13,15,2,5,2,0,8,9.5
+claude37sonnet,django__django-11910,submitted,43,49336,284,10475,38577,24,36,6,17,7,0,12,20.75
+claude37sonnet,django__django-11964,submitted,64,45989,677,7390,37922,43,60,12,17,16,0,27,31.0
+claude37sonnet,django__django-11999,submitted,18,33309,137,2693,30479,12,15,2,4,4,0,7,11.5
+claude37sonnet,django__django-12113,submitted (exit_cost),61,74718,1319,16220,57179,37,57,13,23,18,0,16,28.0
+claude37sonnet,django__django-12125,submitted,38,52591,392,7325,44874,24,35,7,12,10,0,13,25.5
+claude37sonnet,django__django-12184,submitted,21,34285,268,3249,30768,15,19,3,4,8,0,7,9.0
+claude37sonnet,django__django-12284,submitted,30,41475,219,5830,35426,18,27,4,8,6,0,13,20.5
+claude37sonnet,django__django-12286,submitted,32,34767,159,3264,31344,19,27,2,10,6,0,11,16.0
+claude37sonnet,django__django-12308,submitted,28,10503,101,2912,7490,16,23,4,5,8,0,10,15.5
+claude37sonnet,django__django-12453,submitted,27,20824,594,6554,13676,20,23,3,9,5,0,9,14.75
+claude37sonnet,django__django-12470,submitted,34,49051,150,7044,41857,23,30,5,6,10,0,14,19.5
+claude37sonnet,django__django-12497,submitted,34,43668,159,8169,35340,16,28,6,15,4,0,9,14.75
+claude37sonnet,django__django-12589,submitted,46,54187,742,11017,42428,34,42,7,15,14,0,13,22.25
+claude37sonnet,django__django-12700,submitted,21,33596,651,2335,30610,10,17,4,7,2,0,8,14.5
+claude37sonnet,django__django-12708,submitted,27,45807,207,8405,37195,20,24,3,9,4,0,11,12.75
+claude37sonnet,django__django-12747,submitted,42,58026,220,11964,45842,22,38,8,13,8,0,17,17.5
+claude37sonnet,django__django-12856,submitted,44,40052,85,4481,35486,29,37,4,10,8,0,19,28.0
+claude37sonnet,django__django-12908,submitted,44,46570,307,6325,39938,23,41,6,10,12,0,19,31.0
+claude37sonnet,django__django-12915,submitted,23,15338,210,3348,11780,14,20,4,8,3,0,9,10.75
+claude37sonnet,django__django-12983,submitted,13,7800,93,1554,6153,8,9,1,3,1,0,5,7.5
+claude37sonnet,django__django-13028,submitted,26,47304,699,10729,35876,11,21,3,10,3,0,8,8.0
+claude37sonnet,django__django-13033,submitted,38,43489,935,4016,38538,21,29,3,9,8,0,12,27.0
+claude37sonnet,django__django-13158,submitted,41,42317,263,5414,36640,25,37,7,9,13,0,15,18.5
+claude37sonnet,django__django-13220,submitted,20,41166,111,7775,33280,10,16,5,8,1,0,7,9.25
+claude37sonnet,django__django-13230,submitted,23,46405,55,7228,39122,13,19,2,7,4,0,8,9.5
+claude37sonnet,django__django-13265,submitted,47,53765,458,8242,45065,28,44,8,10,19,0,15,28.0
+claude37sonnet,django__django-13315,submitted,46,49788,50,8015,41723,32,41,8,11,13,0,17,25.0
+claude37sonnet,django__django-13321,submitted,20,36492,1220,2906,32366,9,17,5,7,1,0,9,10.5
+claude37sonnet,django__django-13401,submitted,31,42424,282,6734,35408,12,25,5,10,2,0,13,10.75
+claude37sonnet,django__django-13447,submitted,28,38622,74,5181,33367,19,25,5,13,5,0,7,14.5
+claude37sonnet,django__django-13448,submitted,24,64556,1420,3647,59489,13,21,3,7,5,0,9,16.0
+claude37sonnet,django__django-13551,submitted,26,41795,113,6095,35587,17,23,5,9,4,0,10,14.5
+claude37sonnet,django__django-13590,submitted,23,36029,183,3634,32212,13,20,3,7,2,0,11,9.5
+claude37sonnet,django__django-13658,submitted,21,8451,298,2554,5599,12,16,2,5,4,0,7,12.5
+claude37sonnet,django__django-13660,submitted,18,7467,664,2635,4168,12,15,3,7,1,0,7,8.75
+claude37sonnet,django__django-13710,submitted,31,38772,169,4050,34553,17,26,4,7,7,0,12,19.0
+claude37sonnet,django__django-13757,submitted,39,52965,195,7394,45376,22,34,8,13,8,0,13,18.25
+claude37sonnet,django__django-13768,submitted,19,30413,126,1428,28859,13,14,1,3,1,0,10,11.0
+claude37sonnet,django__django-13925,submitted,27,37615,876,2937,33802,22,24,2,4,7,0,13,14.5
+claude37sonnet,django__django-13933,submitted,29,41824,249,5745,35830,14,25,4,7,7,0,11,19.5
+claude37sonnet,django__django-13964,submitted,46,57045,411,13887,42747,20,42,8,20,7,0,15,16.5
+claude37sonnet,django__django-14016,submitted,18,35294,177,2486,32631,13,14,1,5,2,0,7,9.0
+claude37sonnet,django__django-14017,submitted,42,40612,447,5235,34930,23,38,4,13,7,0,18,26.0
+claude37sonnet,django__django-14155,submitted,23,34772,107,2853,31812,11,19,6,7,2,0,10,11.0
+claude37sonnet,django__django-14238,submitted,31,37061,690,4294,32077,19,28,6,10,5,0,13,17.5
+claude37sonnet,django__django-14382,submitted,26,15678,142,5940,9596,14,23,7,9,4,0,10,13.0
+claude37sonnet,django__django-14411,submitted,34,45838,78,4346,41414,25,30,3,6,8,0,16,15.0
+claude37sonnet,django__django-14534,submitted,29,35858,386,3090,32382,15,24,6,7,6,0,11,19.0
+claude37sonnet,django__django-14580,submitted,24,41837,369,4887,36581,15,21,4,6,7,0,8,11.0
+claude37sonnet,django__django-14608,submitted,51,24850,120,3982,20748,33,44,6,10,10,0,24,23.5
+claude37sonnet,django__django-14667,submitted,39,46959,291,8118,38550,20,32,6,8,8,0,16,18.0
+claude37sonnet,django__django-14672,submitted,22,12191,1652,4227,6312,11,18,2,6,2,0,10,15.0
+claude37sonnet,django__django-14730,submitted,32,43317,89,5588,37640,15,28,5,8,9,0,11,22.0
+claude37sonnet,django__django-14752,submitted,22,16997,627,6643,9727,13,19,4,7,4,0,8,11.0
+claude37sonnet,django__django-14787,submitted,14,30612,173,2120,28319,10,11,1,4,1,0,6,7.75
+claude37sonnet,django__django-14855,submitted,29,42727,222,6586,35919,22,26,4,9,3,0,14,16.75
+claude37sonnet,django__django-14915,submitted,15,31939,247,1767,29925,10,12,2,3,3,0,6,8.75
+claude37sonnet,django__django-14997,submitted,34,45141,1593,5773,37775,25,28,3,10,10,0,8,17.5
+claude37sonnet,django__django-14999,submitted,28,42769,48,6213,36508,16,24,4,10,3,0,11,13.0
+claude37sonnet,django__django-15061,submitted,28,37905,78,2657,35170,15,24,4,8,5,0,11,19.0
+claude37sonnet,django__django-15202,submitted,52,24839,131,7600,17108,37,49,8,18,9,0,22,23.0
+claude37sonnet,django__django-15213,submitted,59,48731,199,8414,40118,35,53,8,12,18,0,23,32.0
+claude37sonnet,django__django-15252,submitted,24,23041,340,4955,17746,19,20,1,8,7,0,5,13.0
+claude37sonnet,django__django-15320,submitted,40,37908,263,3197,34448,21,31,4,12,5,0,14,21.5
+claude37sonnet,django__django-15347,submitted,15,32540,296,1717,30527,9,10,1,3,2,0,5,8.5
+claude37sonnet,django__django-15388,,46,45747,180,10306,35261,28,39,6,15,13,0,11,21.5
+claude37sonnet,django__django-15400,submitted,15,32637,163,2313,30161,8,12,3,5,1,0,6,8.0
+claude37sonnet,django__django-15498,submitted,42,45686,66,5470,40150,32,38,5,12,13,0,13,19.75
+claude37sonnet,django__django-15695,submitted,51,26790,216,4937,21637,31,46,7,11,17,0,18,32.0
+claude37sonnet,django__django-15738,submitted (exit_cost),45,71636,425,14869,56342,32,37,5,16,7,0,14,18.0
+claude37sonnet,django__django-15781,submitted,33,41375,291,4742,36342,17,29,7,14,4,0,11,15.5
+claude37sonnet,django__django-15789,submitted,20,15001,116,2762,12123,15,17,2,5,6,0,6,12.0
+claude37sonnet,django__django-15790,submitted,18,35993,84,3679,32230,10,15,2,5,3,0,7,10.75
+claude37sonnet,django__django-15814,submitted,47,42112,719,7593,33800,19,41,8,14,13,0,14,19.0
+claude37sonnet,django__django-15819,submitted,29,41591,111,6858,34622,21,26,3,10,5,0,11,13.5
+claude37sonnet,django__django-15851,submitted,23,34204,146,2825,31233,15,19,3,7,4,0,8,11.5
+claude37sonnet,django__django-15902,submitted,24,36195,83,2651,33461,13,18,3,6,5,0,7,15.0
+claude37sonnet,django__django-15996,submitted,23,41101,130,6211,34760,10,18,7,8,1,0,9,11.75
+claude37sonnet,django__django-16041,submitted,24,11758,287,3111,8360,13,20,3,7,5,0,8,12.5
+claude37sonnet,django__django-16046,submitted,19,7718,69,2366,5283,9,14,2,5,2,0,7,8.5
+claude37sonnet,django__django-16139,submitted,24,39614,363,4889,34362,13,21,5,9,4,0,8,12.0
+claude37sonnet,django__django-16229,submitted (exit_cost),56,58640,275,12314,46051,27,54,5,18,14,0,22,22.0
+claude37sonnet,django__django-16255,submitted,14,34524,403,1391,32730,9,10,1,3,2,0,5,8.5
+claude37sonnet,django__django-16379,submitted,17,17009,277,4120,12612,7,14,2,5,3,0,6,13.0
+claude37sonnet,django__django-16400,submitted,31,46118,495,6615,39008,22,27,4,7,11,0,9,18.5
+claude37sonnet,django__django-16408,submitted (exit_cost),70,50066,389,5293,44384,44,58,9,9,24,0,25,35.0
+claude37sonnet,django__django-16527,submitted,15,5815,94,1996,3725,12,12,0,4,2,0,6,8.75
+claude37sonnet,django__django-16595,submitted,17,33587,388,2419,30780,12,13,1,4,2,0,7,9.5
+claude37sonnet,django__django-16816,submitted,30,43746,1353,6942,35451,18,27,7,9,7,0,11,16.75
+claude37sonnet,django__django-16820,submitted,48,53129,67,10068,42994,32,42,4,12,12,0,18,27.75
+claude37sonnet,django__django-16873,submitted,28,17480,820,5016,11644,15,25,3,8,5,0,12,11.0
+claude37sonnet,django__django-16910,submitted (exit_cost),76,48752,373,7978,40401,35,72,12,14,39,0,19,53.0
+claude37sonnet,django__django-17051,submitted,42,22053,251,3804,17998,27,33,3,5,13,0,15,21.0
+claude37sonnet,django__django-17087,submitted,31,44903,275,6502,38126,21,25,3,10,4,0,11,20.5
+claude37sonnet,matplotlib__matplotlib-18869,submitted,28,16259,392,4911,10956,18,25,5,9,4,0,12,15.75
+claude37sonnet,matplotlib__matplotlib-22711,submitted,23,13081,984,2999,9098,16,18,2,5,5,0,8,13.5
+claude37sonnet,matplotlib__matplotlib-22835,submitted,23,11642,462,3164,8016,15,20,5,5,6,0,9,14.0
+claude37sonnet,matplotlib__matplotlib-23299,submitted,37,17456,504,4167,12785,26,33,5,8,11,0,14,21.0
+claude37sonnet,matplotlib__matplotlib-23314,submitted,23,10543,227,2838,7478,16,16,0,4,5,0,7,14.5
+claude37sonnet,matplotlib__matplotlib-23476,submitted,47,22517,925,6769,14823,34,42,5,12,14,0,16,23.75
+claude37sonnet,matplotlib__matplotlib-23562,submitted,27,13849,318,4188,9343,17,22,5,7,6,0,9,17.0
+claude37sonnet,matplotlib__matplotlib-23563,submitted,28,34043,1249,8061,24733,20,24,3,11,5,0,8,13.75
+claude37sonnet,matplotlib__matplotlib-23913,submitted,41,14959,150,4724,10085,31,36,5,9,11,0,16,22.0
+claude37sonnet,matplotlib__matplotlib-23964,submitted,14,9979,1083,1420,7476,10,11,1,3,3,0,5,8.75
+claude37sonnet,matplotlib__matplotlib-23987,submitted,27,12038,298,2250,9490,23,24,1,6,6,0,12,15.0
+claude37sonnet,matplotlib__matplotlib-24149,submitted,19,15421,888,2556,11977,15,15,0,4,5,0,6,11.0
+claude37sonnet,matplotlib__matplotlib-24265,submitted,20,21611,305,3399,17907,12,17,4,6,2,0,9,10.75
+claude37sonnet,matplotlib__matplotlib-24334,submitted,30,16958,176,4632,12150,16,24,3,7,7,0,10,21.5
+claude37sonnet,matplotlib__matplotlib-24970,submitted,23,23164,422,2997,19745,14,18,4,6,5,0,7,12.75
+claude37sonnet,matplotlib__matplotlib-25079,submitted,36,28766,1046,3541,24179,24,31,4,6,11,0,14,22.5
+claude37sonnet,matplotlib__matplotlib-25311,submitted,47,37665,213,8442,29010,28,41,8,15,10,0,16,22.75
+claude37sonnet,matplotlib__matplotlib-25332,submitted,29,26878,256,4470,22152,22,26,3,5,10,0,11,17.0
+claude37sonnet,matplotlib__matplotlib-25433,submitted,26,23380,417,3637,19326,14,20,5,7,9,0,4,10.25
+claude37sonnet,matplotlib__matplotlib-25442,submitted,38,27745,463,3450,23832,21,29,5,11,6,0,12,21.5
+claude37sonnet,matplotlib__matplotlib-25498,submitted (exit_cost),60,79321,402,10694,68225,30,51,6,15,14,0,22,36.5
+claude37sonnet,matplotlib__matplotlib-26011,submitted,21,11019,364,2452,8203,17,18,1,5,4,0,9,12.5
+claude37sonnet,matplotlib__matplotlib-26020,submitted,26,16287,2800,5015,8472,15,22,6,9,4,0,9,13.5
+claude37sonnet,mwaskom__seaborn-2848,submitted,48,22877,1500,7078,14299,28,38,7,9,13,0,16,26.5
+claude37sonnet,mwaskom__seaborn-3010,submitted,27,16324,1138,4197,10989,15,24,4,9,5,0,10,11.0
+claude37sonnet,mwaskom__seaborn-3190,submitted,23,15801,520,3766,11515,12,19,3,7,4,0,8,12.75
+claude37sonnet,mwaskom__seaborn-3407,submitted,32,24428,759,6069,17600,16,29,5,14,5,0,10,14.0
+claude37sonnet,pallets__flask-4045,submitted,16,9423,46,1752,7625,12,13,1,3,4,0,6,9.5
+claude37sonnet,pallets__flask-4992,submitted,16,13387,317,3124,9946,13,13,0,5,3,0,5,9.5
+claude37sonnet,pallets__flask-5063,submitted,37,21551,569,5110,15872,26,32,6,9,4,0,19,20.75
+claude37sonnet,psf__requests-1963,submitted,17,16798,141,5652,11005,11,14,2,5,4,0,5,9.5
+claude37sonnet,psf__requests-2148,submitted,19,12271,752,2982,8537,12,16,2,6,5,0,5,9.75
+claude37sonnet,psf__requests-2317,submitted,24,14730,206,4677,9847,13,21,6,7,6,0,8,16.0
+claude37sonnet,psf__requests-2674,submitted,27,20208,111,7378,12719,14,23,8,11,5,0,7,13.75
+claude37sonnet,psf__requests-3362,submitted,21,13609,121,3259,10229,14,18,4,4,8,0,6,12.5
+claude37sonnet,psf__requests-863,submitted,40,18124,177,7243,10704,15,35,10,10,12,0,13,14.5
+claude37sonnet,pydata__xarray-3364,submitted,61,53347,132,21061,32154,35,57,12,35,11,0,11,30.5
+claude37sonnet,pydata__xarray-4094,submitted,44,26236,489,7545,18202,25,40,4,11,12,0,17,18.0
+claude37sonnet,pydata__xarray-4248,submitted,29,20918,227,4956,15735,16,25,4,8,6,0,11,19.5
+claude37sonnet,pydata__xarray-4493,submitted,49,23667,730,5992,16945,30,46,9,9,22,0,15,28.5
+claude37sonnet,pydata__xarray-5131,submitted,33,14909,520,2464,11925,22,24,2,5,5,0,14,18.5
+claude37sonnet,pylint-dev__pylint-5859,submitted,28,34070,322,5952,27796,10,24,4,12,2,0,10,16.25
+claude37sonnet,pylint-dev__pylint-6506,submitted,24,9548,449,1573,7526,19,20,1,7,4,0,9,12.5
+claude37sonnet,pylint-dev__pylint-7080,submitted,22,20402,6490,2545,11367,19,19,0,3,8,0,8,12.0
+claude37sonnet,pylint-dev__pylint-7114,submitted,29,41918,562,4268,37088,20,24,4,4,11,0,9,13.5
+claude37sonnet,pylint-dev__pylint-7228,submitted,36,65878,1213,6161,58504,28,33,5,13,7,0,13,21.75
+claude37sonnet,pylint-dev__pylint-7993,submitted,24,48563,627,4789,43147,12,21,5,9,3,0,9,17.75
+claude37sonnet,pytest-dev__pytest-11143,submitted,28,17465,1653,2319,13493,16,25,3,10,4,0,11,10.5
+claude37sonnet,pytest-dev__pytest-11148,submitted,78,43448,1244,10868,31336,38,67,10,20,16,0,31,45.25
+claude37sonnet,pytest-dev__pytest-5103,submitted,50,69473,506,17307,51660,26,46,6,26,8,0,12,31.0
+claude37sonnet,pytest-dev__pytest-5221,submitted,40,24680,54,3158,21468,27,35,5,9,8,0,18,21.0
+claude37sonnet,pytest-dev__pytest-5227,submitted,27,13829,297,3658,9874,12,24,7,9,6,0,9,12.75
+claude37sonnet,pytest-dev__pytest-5413,submitted,28,14191,755,2911,10525,18,25,6,5,13,0,7,16.5
+claude37sonnet,pytest-dev__pytest-5495,submitted,25,19532,178,2950,16404,18,22,3,8,3,0,11,11.5
+claude37sonnet,pytest-dev__pytest-5692,submitted,23,12803,389,2339,10075,18,20,1,6,5,0,9,13.75
+claude37sonnet,pytest-dev__pytest-6116,submitted,26,18445,218,3492,14735,16,23,5,7,5,0,11,16.75
+claude37sonnet,pytest-dev__pytest-7168,submitted,17,14150,2283,1586,10281,13,14,1,4,2,0,8,9.0
+claude37sonnet,pytest-dev__pytest-7220,submitted,54,24742,772,5101,18869,37,47,4,13,12,0,22,32.0
+claude37sonnet,pytest-dev__pytest-7373,submitted,12,7637,240,2655,4742,8,9,1,4,1,0,4,7.0
+claude37sonnet,pytest-dev__pytest-7432,submitted,14,12492,196,2322,9974,10,11,1,4,1,0,6,7.75
+claude37sonnet,pytest-dev__pytest-7490,submitted,30,25310,3458,2942,18910,20,27,7,7,11,0,9,15.5
+claude37sonnet,pytest-dev__pytest-8365,submitted,15,13884,426,3165,10293,10,12,2,5,2,0,5,7.75
+claude37sonnet,pytest-dev__pytest-8906,submitted,41,21010,480,3324,17206,32,37,3,13,7,0,17,19.5
+claude37sonnet,pytest-dev__pytest-9359,submitted,26,24747,1157,1480,22110,21,23,2,4,13,0,6,14.0
+claude37sonnet,scikit-learn__scikit-learn-10297,submitted,22,12485,338,2545,9602,15,19,3,6,6,0,7,14.0
+claude37sonnet,scikit-learn__scikit-learn-10508,submitted,18,8625,469,2164,5992,14,15,1,4,4,0,7,10.75
+claude37sonnet,scikit-learn__scikit-learn-10949,submitted,23,14360,430,4019,9911,13,20,4,7,5,0,8,13.0
+claude37sonnet,scikit-learn__scikit-learn-11040,submitted,49,23291,164,5166,17961,29,46,11,17,17,0,12,21.0
+claude37sonnet,scikit-learn__scikit-learn-11281,submitted,51,23690,101,5553,18036,37,48,9,16,16,0,16,27.0
+claude37sonnet,scikit-learn__scikit-learn-12471,submitted,23,16771,533,4365,11873,12,20,5,5,9,0,6,8.5
+claude37sonnet,scikit-learn__scikit-learn-13142,submitted,20,9998,779,2075,7144,13,17,3,3,10,0,4,10.0
+claude37sonnet,scikit-learn__scikit-learn-13241,submitted,26,16470,214,4055,12201,17,23,3,9,3,0,11,11.0
+claude37sonnet,scikit-learn__scikit-learn-13439,submitted,22,13355,320,3404,9631,12,19,4,7,5,0,7,15.5
+claude37sonnet,scikit-learn__scikit-learn-13496,submitted,24,15111,304,2689,12118,18,21,3,7,9,0,5,14.75
+claude37sonnet,scikit-learn__scikit-learn-13497,submitted,16,12524,67,2263,10194,10,13,2,4,3,0,6,9.75
+claude37sonnet,scikit-learn__scikit-learn-13584,submitted,31,12369,88,2865,9416,20,28,6,5,15,0,8,18.5
+claude37sonnet,scikit-learn__scikit-learn-13779,submitted,14,13311,151,1941,11219,9,11,2,3,4,0,4,8.5
+claude37sonnet,scikit-learn__scikit-learn-14087,submitted,44,23636,671,6939,16026,21,41,7,13,9,0,19,31.0
+claude37sonnet,scikit-learn__scikit-learn-14092,submitted,30,33488,677,9889,22922,20,25,4,9,6,0,10,17.5
+claude37sonnet,scikit-learn__scikit-learn-14894,submitted,14,7940,509,2185,5246,10,11,1,3,3,0,5,7.75
+claude37sonnet,scikit-learn__scikit-learn-14983,submitted,37,17135,326,4979,11830,17,34,7,13,8,0,13,26.0
+claude37sonnet,scikit-learn__scikit-learn-15512,submitted,19,23252,488,4770,17994,14,16,2,9,3,0,4,10.0
+claude37sonnet,scikit-learn__scikit-learn-15535,submitted,27,15531,151,3459,11921,17,24,4,5,11,0,8,15.5
+claude37sonnet,scikit-learn__scikit-learn-25500,submitted,23,24826,1271,2058,21497,17,20,3,3,10,0,7,13.0
+claude37sonnet,scikit-learn__scikit-learn-25570,submitted,36,17964,1377,6492,10095,18,33,6,12,9,0,12,22.75
+claude37sonnet,scikit-learn__scikit-learn-25638,submitted,39,39538,411,11386,27741,23,36,6,11,10,0,15,18.0
+claude37sonnet,scikit-learn__scikit-learn-25747,submitted,27,30642,1499,4717,24426,13,23,4,8,4,0,11,17.5
+claude37sonnet,sphinx-doc__sphinx-10325,submitted,64,82401,217,6776,75408,44,55,6,20,10,0,25,31.75
+claude37sonnet,sphinx-doc__sphinx-10451,submitted,64,90029,413,6747,82869,45,56,8,14,15,0,27,37.5
+claude37sonnet,sphinx-doc__sphinx-11445,submitted (exit_cost),69,62793,543,22637,39613,47,67,10,21,20,0,26,38.0
+claude37sonnet,sphinx-doc__sphinx-7686,submitted (exit_cost),77,65972,281,23536,42155,49,72,12,31,11,0,30,39.0
+claude37sonnet,sphinx-doc__sphinx-7738,submitted,32,51600,277,4021,47302,20,27,6,9,6,0,12,19.75
+claude37sonnet,sphinx-doc__sphinx-7975,submitted,31,27155,109,7320,19726,17,23,3,8,6,0,9,17.0
+claude37sonnet,sphinx-doc__sphinx-8273,submitted,27,42092,232,4968,36892,13,24,5,9,6,0,9,15.0
+claude37sonnet,sphinx-doc__sphinx-8282,submitted,74,51847,204,14231,37412,40,69,12,23,21,0,25,40.5
+claude37sonnet,sphinx-doc__sphinx-8435,submitted (exit_cost),91,45068,208,15779,29081,53,88,15,29,27,0,32,52.0
+claude37sonnet,sphinx-doc__sphinx-8474,submitted,33,30265,118,6442,23705,19,30,3,6,10,0,14,22.0
+claude37sonnet,sphinx-doc__sphinx-8506,submitted,42,40723,259,6603,33861,21,39,7,15,5,0,19,16.5
+claude37sonnet,sphinx-doc__sphinx-8595,submitted,25,121533,176,2254,119103,19,21,2,8,4,0,9,15.5
+claude37sonnet,sphinx-doc__sphinx-8627,submitted (exit_cost),58,40680,353,11792,28535,34,50,9,19,22,0,9,33.75
+claude37sonnet,sphinx-doc__sphinx-8713,submitted,27,15638,406,1632,13600,14,22,4,4,5,0,13,10.5
+claude37sonnet,sphinx-doc__sphinx-8721,submitted,20,34228,138,7879,26211,11,17,2,6,3,0,8,10.5
+claude37sonnet,sphinx-doc__sphinx-8801,submitted,29,24397,225,3185,20987,21,26,4,3,14,0,9,16.0
+claude37sonnet,sympy__sympy-11400,submitted,31,27254,150,3233,23871,22,27,4,8,7,0,12,18.75
+claude37sonnet,sympy__sympy-11870,submitted (exit_cost),48,64955,126,24175,40654,26,47,8,18,7,0,22,30.25
+claude37sonnet,sympy__sympy-11897,submitted,54,40149,258,10774,29117,43,51,5,15,10,0,26,26.5
+claude37sonnet,sympy__sympy-12171,submitted,43,15718,164,4755,10799,33,39,4,14,5,0,20,23.5
+claude37sonnet,sympy__sympy-12236,submitted,64,52941,736,14070,38135,27,61,10,23,9,0,29,37.0
+claude37sonnet,sympy__sympy-12419,submitted,40,47891,358,6909,40624,22,36,6,12,11,0,13,20.25
+claude37sonnet,sympy__sympy-12454,submitted,21,12912,382,2441,10089,15,18,2,4,6,0,8,13.0
+claude37sonnet,sympy__sympy-12481,submitted,33,34812,93,2456,32263,23,27,4,6,8,0,13,18.0
+claude37sonnet,sympy__sympy-13031,submitted,36,31737,275,5710,25752,23,33,5,8,10,0,15,22.0
+claude37sonnet,sympy__sympy-13043,submitted,30,26951,96,2816,24039,17,27,8,10,4,0,13,17.5
+claude37sonnet,sympy__sympy-13146,submitted (exit_cost),71,48370,121,6655,41594,55,66,9,17,36,0,13,37.0
+claude37sonnet,sympy__sympy-13177,submitted,14,7235,154,2624,4457,10,11,1,4,1,0,6,7.75
+claude37sonnet,sympy__sympy-13437,submitted,21,17752,168,1624,15960,16,17,1,4,5,0,8,11.25
+claude37sonnet,sympy__sympy-13471,submitted,46,17702,224,5301,12177,34,40,6,14,5,0,21,25.75
+claude37sonnet,sympy__sympy-13480,submitted,14,4991,144,1624,3223,6,11,4,3,4,0,4,7.75
+claude37sonnet,sympy__sympy-13647,submitted,38,24732,322,6660,17750,27,35,5,13,4,0,18,18.0
+claude37sonnet,sympy__sympy-13773,submitted,26,25090,241,2298,22551,16,23,5,5,9,0,9,13.5
+claude37sonnet,sympy__sympy-13895,submitted (exit_cost),60,72596,255,2256,70085,54,59,4,1,56,0,2,28.5
+claude37sonnet,sympy__sympy-13915,submitted,44,54430,238,11291,42901,31,41,8,14,10,0,17,22.0
+claude37sonnet,sympy__sympy-13971,submitted,34,33731,148,3628,29955,25,29,3,6,10,0,13,20.5
+claude37sonnet,sympy__sympy-14024,submitted (exit_cost),63,71359,351,6413,64595,40,62,10,10,43,0,9,39.5
+claude37sonnet,sympy__sympy-14308,submitted,43,33595,96,8438,25061,27,38,3,10,11,0,17,27.0
+claude37sonnet,sympy__sympy-14317,submitted,35,17091,275,2242,14574,24,31,6,4,11,0,16,19.5
+claude37sonnet,sympy__sympy-14396,submitted,25,16959,619,4049,12291,15,22,5,9,7,0,6,16.0
+claude37sonnet,sympy__sympy-14774,submitted,17,6974,183,2181,4610,11,14,2,5,3,0,6,8.0
+claude37sonnet,sympy__sympy-14817,submitted,24,11148,497,1907,8744,19,20,1,3,6,0,11,13.0
+claude37sonnet,sympy__sympy-15011,submitted,49,35347,189,5771,29387,42,44,1,11,19,0,14,24.75
+claude37sonnet,sympy__sympy-15308,submitted,29,6795,89,2046,4660,21,22,1,4,5,0,13,15.5
+claude37sonnet,sympy__sympy-15345,submitted,33,34588,76,5230,29282,15,30,5,11,5,0,14,19.0
+claude37sonnet,sympy__sympy-15346,submitted,51,41662,508,8216,32938,42,47,5,9,24,0,14,23.5
+claude37sonnet,sympy__sympy-15609,submitted,48,19083,131,3020,15932,31,40,4,7,9,0,24,25.0
+claude37sonnet,sympy__sympy-15678,submitted,13,8160,284,3213,4663,8,9,1,3,2,0,4,8.5
+claude37sonnet,sympy__sympy-16106,submitted,51,31451,603,7906,22942,25,44,8,18,9,0,17,31.0
+claude37sonnet,sympy__sympy-16281,submitted,21,32211,449,2135,29627,17,18,1,3,6,0,9,12.0
+claude37sonnet,sympy__sympy-16503,submitted,22,14684,85,4206,10393,13,19,3,6,4,0,9,15.0
+claude37sonnet,sympy__sympy-16792,submitted,49,20421,462,3703,16256,34,46,7,6,22,0,18,27.0
+claude37sonnet,sympy__sympy-16988,submitted,40,39243,115,8352,30776,22,37,7,9,12,0,16,23.75
+claude37sonnet,sympy__sympy-17022,submitted,46,27434,291,4592,22551,34,41,4,8,18,0,15,22.5
+claude37sonnet,sympy__sympy-17139,submitted,17,10022,630,1930,7462,12,14,1,4,3,0,7,10.5
+claude37sonnet,sympy__sympy-17630,submitted,48,22011,1100,4703,16208,33,42,8,10,16,0,16,24.0
+claude37sonnet,sympy__sympy-17655,submitted,23,12595,527,3912,8156,10,19,3,7,4,0,8,12.75
+claude37sonnet,sympy__sympy-18057,submitted,27,15295,454,4708,10133,15,24,5,7,7,0,10,19.0
+claude37sonnet,sympy__sympy-18087,submitted,49,47768,79,10420,37269,35,46,7,11,24,0,11,25.0
+claude37sonnet,sympy__sympy-18189,submitted,23,33182,340,2769,30073,15,20,4,5,7,0,8,13.5
+claude37sonnet,sympy__sympy-18199,submitted,26,34679,88,5890,28701,18,22,3,7,6,0,9,11.75
+claude37sonnet,sympy__sympy-18532,submitted,28,40416,77,7824,32515,14,21,4,7,4,0,10,17.75
+claude37sonnet,sympy__sympy-18621,submitted,36,17973,640,3184,14149,24,33,7,5,19,0,9,18.0
+claude37sonnet,sympy__sympy-18698,submitted (exit_cost),93,41830,200,5229,36401,42,77,12,12,39,0,26,38.5
+claude37sonnet,sympy__sympy-18835,submitted,18,25306,238,3025,22043,13,15,2,6,2,0,7,9.0
+claude37sonnet,sympy__sympy-19007,submitted,18,28211,184,2858,25169,11,15,3,5,2,0,8,9.5
+claude37sonnet,sympy__sympy-19254,submitted,32,17396,121,4414,12861,23,27,3,9,7,0,11,16.5
+claude37sonnet,sympy__sympy-19487,submitted,34,26799,176,3441,23182,14,30,4,9,7,0,14,19.0
+claude37sonnet,sympy__sympy-20049,submitted,53,58636,536,18043,40057,16,50,7,20,9,0,21,43.75
+claude37sonnet,sympy__sympy-20154,submitted,18,8700,114,2092,6494,10,12,2,5,2,0,5,9.0
+claude37sonnet,sympy__sympy-20212,submitted,29,14826,127,2843,11856,18,26,4,6,9,0,11,15.5
+claude37sonnet,sympy__sympy-20322,submitted (exit_cost),88,46956,258,15548,31150,64,86,4,32,10,0,44,44.0
+claude37sonnet,sympy__sympy-20442,submitted,30,27199,215,3730,23254,20,27,5,7,12,0,8,18.0
+claude37sonnet,sympy__sympy-20590,submitted,36,12655,248,2838,9569,30,32,2,5,12,0,15,20.75
+claude37sonnet,sympy__sympy-20639,submitted,23,11079,153,2176,8750,11,20,5,6,4,0,10,11.5
+claude37sonnet,sympy__sympy-21055,submitted,23,15075,291,2979,11805,17,20,3,4,7,0,9,14.0
+claude37sonnet,sympy__sympy-21171,submitted,22,15897,2013,2146,11738,18,19,1,4,6,0,9,12.5
+claude37sonnet,sympy__sympy-21379,submitted,53,44568,460,6232,37876,31,44,8,8,20,0,16,24.0
+claude37sonnet,sympy__sympy-21612,submitted,71,25744,267,9732,15745,57,68,2,31,7,0,30,36.0
+claude37sonnet,sympy__sympy-21614,submitted,83,38096,95,4556,33445,51,54,2,6,26,0,22,49.0
+claude37sonnet,sympy__sympy-21627,submitted,43,48793,70,3374,45349,23,32,4,8,4,0,20,23.0
+claude37sonnet,sympy__sympy-21847,submitted,19,7497,239,2022,5236,11,16,3,6,5,0,5,8.5
+claude37sonnet,sympy__sympy-22005,submitted,17,9360,424,1826,7110,10,13,3,5,2,0,6,10.75
+claude37sonnet,sympy__sympy-22714,submitted,48,14535,472,2869,11194,31,42,7,3,22,0,17,22.0
+claude37sonnet,sympy__sympy-22840,submitted,59,46249,1557,5878,38814,33,52,10,12,18,0,22,39.0
+claude37sonnet,sympy__sympy-23117,submitted,42,20792,381,3945,16466,28,36,7,8,15,0,13,20.75
+claude37sonnet,sympy__sympy-23191,submitted (exit_cost),99,42251,502,10069,31680,18,89,6,9,69,0,11,84.5
+claude37sonnet,sympy__sympy-23262,submitted,32,17108,269,1824,15015,22,25,3,3,11,0,11,19.5
+claude37sonnet,sympy__sympy-24066,submitted,25,20238,135,3163,16940,14,22,4,7,7,0,8,17.5
+claude37sonnet,sympy__sympy-24102,submitted,27,13243,374,2731,10138,15,24,4,8,7,0,9,10.5
+claude37sonnet,sympy__sympy-24152,submitted,11,8264,527,1772,5965,7,8,1,3,1,0,4,6.5
+claude37sonnet,sympy__sympy-24213,submitted,23,14432,248,4625,9559,17,20,2,8,3,0,9,11.0
+claude37sonnet,sympy__sympy-24909,submitted,22,15382,165,2978,12239,10,19,4,7,5,0,7,13.75
+claude4sonnet,astropy__astropy-12907,submitted,48,36885,307,6636,29942,35,43,5,10,8,0,25,22.0
+claude4sonnet,astropy__astropy-14182,submitted,56,24856,570,6083,18203,38,52,10,12,8,0,32,30.5
+claude4sonnet,astropy__astropy-14365,submitted,55,33148,391,5872,26885,29,46,9,9,4,0,33,29.0
+claude4sonnet,astropy__astropy-14995,submitted,54,36319,701,7855,27763,42,48,2,10,8,0,30,28.5
+claude4sonnet,astropy__astropy-6938,submitted,72,51295,127,13311,37857,60,67,6,12,4,0,51,37.5
+claude4sonnet,astropy__astropy-7746,submitted,53,24188,540,10062,13586,40,48,5,12,6,0,30,24.75
+claude4sonnet,django__django-10914,submitted,53,34449,188,9015,25246,39,50,9,12,6,0,32,28.0
+claude4sonnet,django__django-10924,submitted,71,47566,175,12958,34433,53,67,7,16,8,0,43,40.5
+claude4sonnet,django__django-11001,submitted,48,32611,508,11430,20673,33,45,7,14,5,0,26,22.0
+claude4sonnet,django__django-11019,submitted,65,49126,460,16111,32555,42,60,9,14,7,0,39,36.75
+claude4sonnet,django__django-11039,submitted,51,33368,158,8750,24460,38,47,7,12,12,0,23,27.75
+claude4sonnet,django__django-11049,submitted,44,27123,161,7562,19400,35,40,4,7,9,0,24,22.0
+claude4sonnet,django__django-11099,submitted,58,41933,168,11779,29986,44,55,10,14,8,0,33,28.75
+claude4sonnet,django__django-11133,submitted,55,27653,163,8530,18960,42,51,6,15,5,0,31,26.75
+claude4sonnet,django__django-11179,submitted,65,33990,64,10416,23510,44,58,11,11,10,0,37,30.0
+claude4sonnet,django__django-11283,submitted,70,53017,228,15390,37399,42,65,13,18,22,0,25,35.5
+claude4sonnet,django__django-11422,submitted (exit_error),68,25516,186,12021,13309,47,62,10,20,9,0,33,33.0
+claude4sonnet,django__django-11564,submitted,68,47152,193,14610,32349,43,61,9,17,13,0,31,27.5
+claude4sonnet,django__django-11583,submitted,73,25492,1380,8775,15337,41,51,4,13,10,0,28,44.0
+claude4sonnet,django__django-11620,submitted,65,30746,172,8477,22097,51,61,5,11,12,0,38,30.0
+claude4sonnet,django__django-11630,submitted,80,45007,145,13596,31266,51,73,13,16,15,0,42,37.5
+claude4sonnet,django__django-11742,submitted,66,46154,63,12665,33426,50,61,6,15,8,0,38,32.5
+claude4sonnet,django__django-11797,submitted,55,33447,248,8139,25060,42,50,5,8,8,0,34,28.5
+claude4sonnet,django__django-11815,submitted,72,42973,369,11439,31165,44,63,11,14,9,0,40,36.5
+claude4sonnet,django__django-11848,submitted,43,32432,137,7202,25093,29,39,8,9,6,0,24,22.0
+claude4sonnet,django__django-11905,submitted,58,32706,79,7355,25272,43,53,7,8,8,0,37,28.0
+claude4sonnet,django__django-11910,submitted,111,79265,284,36376,42605,74,103,16,33,8,0,62,55.0
+claude4sonnet,django__django-11964,submitted,65,40135,677,9382,30076,48,59,6,10,10,0,39,34.75
+claude4sonnet,django__django-11999,submitted,47,31807,137,9704,21966,36,44,4,10,6,0,28,23.5
+claude4sonnet,django__django-12113,submitted,52,61319,1319,9378,50622,34,46,6,11,13,0,22,24.75
+claude4sonnet,django__django-12125,submitted,82,44299,392,13825,30082,55,76,15,20,9,0,47,40.0
+claude4sonnet,django__django-12184,submitted,51,36407,268,10631,25508,35,46,6,13,6,0,27,28.0
+claude4sonnet,django__django-12284,submitted,80,47666,219,14818,32629,47,77,11,17,8,0,52,44.5
+claude4sonnet,django__django-12286,submitted,64,33680,159,11320,22201,49,60,7,13,9,0,38,30.0
+claude4sonnet,django__django-12308,submitted,49,28562,101,7504,20957,35,46,7,9,7,0,30,25.0
+claude4sonnet,django__django-12453,submitted,64,41451,594,14597,26260,45,60,8,16,9,0,35,36.0
+claude4sonnet,django__django-12470,submitted,99,45842,150,18667,27025,72,93,9,19,11,0,63,55.0
+claude4sonnet,django__django-12497,submitted,53,24161,159,6154,17848,32,45,8,9,6,0,30,26.25
+claude4sonnet,django__django-12589,submitted,122,56570,742,20445,35383,85,112,15,31,11,0,70,61.0
+claude4sonnet,django__django-12700,submitted,66,42937,651,16400,25886,37,62,14,20,8,0,34,31.5
+claude4sonnet,django__django-12708,submitted,57,42868,207,15352,27309,38,54,7,18,6,0,30,28.5
+claude4sonnet,django__django-12747,submitted,63,36342,220,13800,22322,47,58,7,12,7,0,39,31.0
+claude4sonnet,django__django-12856,submitted,61,29170,85,6152,22933,50,57,5,6,11,0,40,31.25
+claude4sonnet,django__django-12908,submitted,61,30775,307,9640,20828,46,56,6,9,7,0,40,32.5
+claude4sonnet,django__django-12915,submitted (exit_cost),254,39301,210,12271,26820,28,253,6,12,222,0,19,232.5
+claude4sonnet,django__django-12983,submitted,51,27196,93,7033,20070,35,45,7,10,8,0,27,25.0
+claude4sonnet,django__django-13028,submitted,65,37895,699,9952,27244,47,60,6,11,9,0,40,30.0
+claude4sonnet,django__django-13033,submitted,55,47063,935,11600,34528,38,52,8,15,6,0,31,26.5
+claude4sonnet,django__django-13158,submitted,79,51098,263,11667,39168,59,76,10,13,8,0,55,40.0
+claude4sonnet,django__django-13220,submitted,41,28865,111,10032,18722,31,35,2,9,5,0,21,22.0
+claude4sonnet,django__django-13230,submitted,64,56770,55,14664,42051,43,57,12,19,13,0,25,32.0
+claude4sonnet,django__django-13265,submitted,127,69803,458,23781,45564,56,123,14,45,10,0,68,56.25
+claude4sonnet,django__django-13315,submitted,69,46319,50,16063,30206,59,65,4,12,7,0,46,35.0
+claude4sonnet,django__django-13321,submitted,47,29045,1220,7821,20004,34,44,8,8,8,0,28,23.75
+claude4sonnet,django__django-13401,submitted,49,39252,282,10666,28304,34,46,6,12,8,0,26,22.5
+claude4sonnet,django__django-13447,submitted,69,40615,74,12432,28109,42,65,9,25,9,0,31,29.5
+claude4sonnet,django__django-13448,submitted,65,39075,1420,11283,26372,50,60,7,12,11,0,37,31.5
+claude4sonnet,django__django-13551,submitted,73,41824,113,15522,26189,46,69,12,16,10,0,43,30.5
+claude4sonnet,django__django-13590,submitted,38,33922,183,9624,24115,26,35,4,10,5,0,20,15.5
+claude4sonnet,django__django-13658,submitted,51,30057,298,12058,17701,35,46,6,14,8,0,24,29.0
+claude4sonnet,django__django-13660,submitted,29,20124,664,6493,12967,20,25,3,7,5,0,13,14.0
+claude4sonnet,django__django-13710,submitted,44,27639,169,7937,19533,35,40,2,6,6,0,28,21.0
+claude4sonnet,django__django-13757,submitted,89,41926,195,15040,26691,47,76,12,13,6,0,57,53.0
+claude4sonnet,django__django-13768,submitted,49,29979,126,8772,21081,33,42,4,9,11,0,22,20.5
+claude4sonnet,django__django-13925,submitted,69,42782,876,11242,30664,40,62,8,13,11,0,38,30.0
+claude4sonnet,django__django-13933,submitted,49,30195,249,9534,20412,39,45,4,9,7,0,29,25.0
+claude4sonnet,django__django-13964,submitted,65,36843,411,12229,24203,39,60,11,14,10,0,36,35.5
+claude4sonnet,django__django-14016,submitted,46,33966,177,9090,24699,37,41,3,9,10,0,22,23.0
+claude4sonnet,django__django-14017,submitted,51,35613,447,11117,24049,37,48,5,14,6,0,28,25.5
+claude4sonnet,django__django-14155,submitted,42,22749,107,6289,16353,33,39,4,7,5,0,27,21.0
+claude4sonnet,django__django-14238,submitted,51,26773,690,9164,16919,40,45,2,10,7,0,28,25.5
+claude4sonnet,django__django-14382,submitted,54,28190,142,7961,20087,39,47,4,10,7,0,30,27.0
+claude4sonnet,django__django-14411,submitted,48,32628,78,8445,24105,34,45,7,11,6,0,28,24.5
+claude4sonnet,django__django-14534,submitted,88,35736,386,11678,23672,57,78,11,13,9,0,56,47.0
+claude4sonnet,django__django-14580,submitted,47,37714,369,7866,29479,28,42,6,9,11,0,22,22.5
+claude4sonnet,django__django-14608,submitted,59,46463,120,9063,37280,50,54,3,7,9,0,38,30.5
+claude4sonnet,django__django-14667,submitted,54,39217,291,12455,26471,42,51,6,7,10,0,34,26.5
+claude4sonnet,django__django-14672,submitted,30,20081,1652,4735,13694,16,26,6,7,6,0,13,13.75
+claude4sonnet,django__django-14730,submitted,90,76360,89,11597,64674,64,83,12,16,12,0,55,45.75
+claude4sonnet,django__django-14752,submitted,47,46470,627,17144,28699,31,42,9,18,6,0,18,22.0
+claude4sonnet,django__django-14787,submitted,57,28027,173,8725,19129,38,52,7,14,9,0,29,25.75
+claude4sonnet,django__django-14855,submitted,63,59313,222,14839,44252,40,59,11,16,7,0,36,32.75
+claude4sonnet,django__django-14915,submitted,48,28220,247,8253,19720,37,42,2,8,7,0,27,24.0
+claude4sonnet,django__django-14997,submitted,59,40377,1593,11356,27428,44,53,6,14,8,0,31,29.5
+claude4sonnet,django__django-14999,submitted,64,53289,48,19666,33575,42,60,12,17,6,0,37,31.0
+claude4sonnet,django__django-15061,submitted,74,36018,78,10135,25805,54,65,7,11,8,0,46,34.5
+claude4sonnet,django__django-15202,submitted,67,53113,131,16809,36173,51,63,7,16,8,0,39,31.5
+claude4sonnet,django__django-15213,submitted,61,37786,199,12195,25392,49,55,3,11,8,0,36,29.0
+claude4sonnet,django__django-15252,submitted,134,70672,340,24717,45615,65,121,19,36,15,0,70,72.0
+claude4sonnet,django__django-15320,submitted,37,32969,263,7334,25372,27,34,4,8,4,0,22,19.0
+claude4sonnet,django__django-15347,submitted,40,28961,296,8227,20438,30,36,3,7,10,0,19,18.5
+claude4sonnet,django__django-15388,submitted,77,57557,180,16841,40536,42,66,13,20,11,0,35,39.75
+claude4sonnet,django__django-15400,submitted,70,71969,163,9454,62352,46,58,7,12,9,0,37,39.5
+claude4sonnet,django__django-15498,submitted,74,48684,66,8470,40148,54,64,7,13,16,0,35,37.5
+claude4sonnet,django__django-15695,submitted,90,42074,216,12929,28929,52,77,8,16,8,0,53,49.5
+claude4sonnet,django__django-15738,submitted,93,81201,425,31877,48899,60,86,11,27,6,0,53,54.75
+claude4sonnet,django__django-15781,submitted,56,28935,291,6980,21664,46,50,2,9,9,0,32,28.5
+claude4sonnet,django__django-15789,submitted,49,25570,116,8342,17112,36,43,7,12,8,0,23,28.0
+claude4sonnet,django__django-15790,submitted,54,23898,84,8451,15363,39,51,7,13,11,0,27,23.5
+claude4sonnet,django__django-15814,submitted,60,33798,719,9747,23332,40,57,7,14,7,0,36,29.75
+claude4sonnet,django__django-15819,submitted,64,46073,111,13494,32468,43,58,11,19,10,0,29,33.0
+claude4sonnet,django__django-15851,submitted,59,24919,146,7165,17608,42,52,6,10,16,0,26,29.75
+claude4sonnet,django__django-15902,submitted,67,34229,83,8427,25719,47,62,13,12,9,0,41,33.0
+claude4sonnet,django__django-15996,submitted,55,35081,130,9963,24988,39,48,7,14,3,0,31,27.5
+claude4sonnet,django__django-16041,submitted,41,31963,287,9225,22451,29,36,4,8,6,0,22,19.0
+claude4sonnet,django__django-16046,submitted,47,22846,69,6375,16402,35,40,3,9,6,0,25,23.0
+claude4sonnet,django__django-16139,submitted,39,38640,363,11003,27274,24,36,7,11,6,0,19,17.5
+claude4sonnet,django__django-16229,submitted,93,64662,275,17005,47382,74,88,11,16,14,0,58,45.75
+claude4sonnet,django__django-16255,submitted,48,29955,403,8136,21416,32,44,6,12,11,0,21,23.5
+claude4sonnet,django__django-16379,submitted,36,18808,277,5909,12622,26,31,3,6,6,0,19,17.5
+claude4sonnet,django__django-16400,submitted,69,46995,495,10218,36282,50,63,8,12,15,0,36,37.5
+claude4sonnet,django__django-16408,submitted,120,86791,389,20293,66109,74,107,13,26,12,0,69,76.75
+claude4sonnet,django__django-16527,submitted,25,17977,94,6953,10930,16,21,4,7,3,0,11,14.5
+claude4sonnet,django__django-16595,submitted,50,32976,388,9986,22602,35,44,6,9,9,0,26,21.0
+claude4sonnet,django__django-16816,submitted,89,54038,1353,19258,33427,67,86,14,21,9,0,56,47.0
+claude4sonnet,django__django-16820,submitted,77,52969,67,16702,36200,48,69,9,16,11,0,42,41.0
+claude4sonnet,django__django-16873,submitted,101,56998,820,23649,32529,51,97,15,29,8,0,60,52.5
+claude4sonnet,django__django-16910,submitted,95,55357,373,19540,35444,67,87,15,21,11,0,55,51.0
+claude4sonnet,django__django-17051,submitted,59,42785,251,9525,33009,36,55,8,15,8,0,32,26.5
+claude4sonnet,django__django-17087,submitted,54,32933,275,9157,23501,38,49,6,12,7,0,30,27.5
+claude4sonnet,matplotlib__matplotlib-18869,submitted,53,36416,392,10872,25152,42,48,5,16,5,0,27,28.75
+claude4sonnet,matplotlib__matplotlib-22711,submitted,46,27647,984,8092,18571,37,40,1,11,6,0,23,24.0
+claude4sonnet,matplotlib__matplotlib-22835,submitted,43,18731,462,4757,13512,31,39,4,6,6,0,27,20.5
+claude4sonnet,matplotlib__matplotlib-23299,submitted,59,34200,504,9657,24039,44,55,6,12,6,0,37,33.5
+claude4sonnet,matplotlib__matplotlib-23314,submitted,50,31432,227,9645,21560,39,47,3,10,8,0,29,22.0
+claude4sonnet,matplotlib__matplotlib-23476,submitted,80,35104,925,9264,24915,59,72,7,12,8,0,52,39.0
+claude4sonnet,matplotlib__matplotlib-23562,submitted,101,36469,318,9913,26238,70,82,7,8,5,0,69,50.0
+claude4sonnet,matplotlib__matplotlib-23563,submitted,47,38432,1249,11859,25324,34,43,6,11,7,0,25,20.5
+claude4sonnet,matplotlib__matplotlib-23913,submitted,57,32478,150,9130,23198,44,52,4,11,7,0,34,27.5
+claude4sonnet,matplotlib__matplotlib-23964,submitted,47,54444,1083,5378,47983,36,43,6,11,7,0,25,21.75
+claude4sonnet,matplotlib__matplotlib-23987,submitted,54,22381,298,5844,16239,45,51,3,8,6,0,37,28.5
+claude4sonnet,matplotlib__matplotlib-24149,submitted,67,33542,888,9074,23580,51,62,6,12,6,0,44,33.5
+claude4sonnet,matplotlib__matplotlib-24265,submitted,46,23537,305,6440,16792,36,43,3,7,10,0,26,21.75
+claude4sonnet,matplotlib__matplotlib-24334,submitted,60,26959,176,8553,18230,46,53,2,9,7,0,37,28.75
+claude4sonnet,matplotlib__matplotlib-24970,submitted,39,25642,422,5393,19827,29,35,3,7,5,0,23,18.0
+claude4sonnet,matplotlib__matplotlib-25079,submitted,71,28833,1046,8370,19417,56,66,4,12,7,0,47,35.0
+claude4sonnet,matplotlib__matplotlib-25311,submitted,101,50828,213,13639,36976,63,95,17,27,8,0,60,49.0
+claude4sonnet,matplotlib__matplotlib-25332,submitted,46,26669,256,7096,19317,36,42,2,7,6,0,29,23.5
+claude4sonnet,matplotlib__matplotlib-25433,submitted,77,39993,417,12302,27274,57,74,9,17,7,0,50,41.0
+claude4sonnet,matplotlib__matplotlib-25442,submitted,44,27768,463,6252,21053,34,39,3,7,5,0,27,21.75
+claude4sonnet,matplotlib__matplotlib-25498,submitted,69,36071,402,9495,26174,51,61,6,17,7,0,37,34.5
+claude4sonnet,matplotlib__matplotlib-26011,submitted,80,50771,364,18778,31629,53,77,11,22,6,0,49,33.5
+claude4sonnet,matplotlib__matplotlib-26020,submitted,73,50131,2800,12365,34966,49,69,14,18,9,0,42,34.0
+claude4sonnet,mwaskom__seaborn-2848,submitted,57,38986,232,6207,32547,43,54,6,11,6,0,37,29.0
+claude4sonnet,mwaskom__seaborn-3010,submitted,88,41546,1138,13030,27378,54,79,12,18,12,0,49,51.5
+claude4sonnet,mwaskom__seaborn-3190,submitted,56,27319,520,6470,20329,44,53,5,10,8,0,35,25.5
+claude4sonnet,mwaskom__seaborn-3407,submitted,76,49146,759,14279,34108,61,73,9,20,5,0,48,41.5
+claude4sonnet,pallets__flask-4045,submitted,60,30101,46,7108,22947,43,56,7,10,7,0,39,28.0
+claude4sonnet,pallets__flask-4992,submitted,52,57361,317,10840,46204,30,39,5,3,9,0,27,26.0
+claude4sonnet,pallets__flask-5063,submitted,86,36683,569,9487,26627,65,79,9,14,7,0,58,47.0
+claude4sonnet,psf__requests-1963,submitted,40,39124,141,14293,24690,30,35,3,9,5,0,21,20.5
+claude4sonnet,psf__requests-2148,submitted,84,32474,752,12242,19480,49,75,8,20,7,0,48,48.5
+claude4sonnet,psf__requests-2317,submitted,108,49202,206,12025,36971,76,101,13,19,8,0,74,48.75
+claude4sonnet,psf__requests-2674,submitted,108,56739,111,16896,39732,74,100,12,30,8,0,62,61.75
+claude4sonnet,psf__requests-3362,submitted,53,26340,121,7176,19043,39,48,6,6,6,0,36,27.5
+claude4sonnet,psf__requests-863,submitted,53,27964,177,8237,19550,40,49,3,8,8,0,33,26.0
+claude4sonnet,pydata__xarray-3364,submitted,84,52568,132,16707,35729,55,79,10,26,7,0,46,46.0
+claude4sonnet,pydata__xarray-4094,submitted,52,29695,489,6525,22681,42,48,2,9,5,0,34,25.5
+claude4sonnet,pydata__xarray-4248,submitted,56,34486,227,8665,25594,40,52,9,14,5,0,33,27.75
+claude4sonnet,pydata__xarray-4493,submitted,66,35262,730,7529,27003,57,61,2,5,6,0,50,34.0
+claude4sonnet,pydata__xarray-5131,submitted,70,32072,520,6523,25029,37,59,12,10,6,0,43,37.0
+claude4sonnet,pylint-dev__pylint-5859,submitted,56,25108,322,5563,19223,40,51,5,13,8,0,30,31.5
+claude4sonnet,pylint-dev__pylint-6506,submitted,66,42550,449,8825,33276,40,58,9,11,13,0,34,35.5
+claude4sonnet,pylint-dev__pylint-7080,submitted,84,60309,6490,14719,39100,57,79,13,21,11,0,47,35.0
+claude4sonnet,pylint-dev__pylint-7114,submitted,97,69810,562,27546,41702,70,92,14,30,6,0,56,50.75
+claude4sonnet,pylint-dev__pylint-7228,submitted,59,44555,1213,8731,34611,36,55,8,13,10,0,32,35.0
+claude4sonnet,pylint-dev__pylint-7993,submitted,78,54001,627,16036,37338,53,73,16,27,11,0,35,39.0
+claude4sonnet,pytest-dev__pytest-11143,submitted,46,28312,1653,7912,18747,37,43,2,9,5,0,29,22.0
+claude4sonnet,pytest-dev__pytest-11148,submitted,72,48039,1244,12339,34456,53,65,9,15,8,0,42,37.0
+claude4sonnet,pytest-dev__pytest-5103,submitted,94,82274,506,19575,62193,53,90,15,34,9,0,47,45.5
+claude4sonnet,pytest-dev__pytest-5221,submitted,53,49449,54,4828,44567,44,49,3,6,8,0,35,25.5
+claude4sonnet,pytest-dev__pytest-5227,submitted,47,28493,297,7415,20781,35,39,2,9,7,0,23,23.0
+claude4sonnet,pytest-dev__pytest-5413,submitted,68,31140,755,5723,24662,53,60,5,10,7,0,43,37.0
+claude4sonnet,pytest-dev__pytest-5495,submitted,46,30266,178,4938,25150,29,41,7,14,7,0,20,22.0
+claude4sonnet,pytest-dev__pytest-5692,submitted,64,31982,389,10448,21145,45,57,9,17,7,0,33,32.5
+claude4sonnet,pytest-dev__pytest-6116,submitted,54,52308,218,8485,43605,38,44,4,9,6,0,29,28.75
+claude4sonnet,pytest-dev__pytest-7168,submitted,37,22428,2283,3170,16975,27,32,2,6,6,0,20,18.5
+claude4sonnet,pytest-dev__pytest-7220,submitted,75,28717,772,7956,19989,65,68,2,15,7,0,46,38.0
+claude4sonnet,pytest-dev__pytest-7373,submitted,38,17193,240,3907,13046,25,30,3,10,6,0,14,19.0
+claude4sonnet,pytest-dev__pytest-7432,submitted,47,34964,196,10996,23772,35,44,4,13,5,0,26,20.0
+claude4sonnet,pytest-dev__pytest-7490,submitted,62,36136,3458,6377,26301,45,56,6,10,8,0,38,32.0
+claude4sonnet,pytest-dev__pytest-8365,submitted,52,41736,426,12422,28888,40,49,6,14,9,0,26,24.75
+claude4sonnet,pytest-dev__pytest-8906,submitted,58,31180,480,9379,21321,45,52,5,12,9,0,31,30.5
+claude4sonnet,pytest-dev__pytest-9359,submitted,64,39849,1157,6751,31941,47,58,8,10,10,0,38,30.0
+claude4sonnet,scikit-learn__scikit-learn-10297,submitted,55,25446,338,6624,18484,41,49,6,11,5,0,33,28.0
+claude4sonnet,scikit-learn__scikit-learn-10508,submitted,40,21666,469,6301,14896,30,36,2,9,6,0,21,19.5
+claude4sonnet,scikit-learn__scikit-learn-10949,submitted,52,24219,430,6301,17488,41,47,3,7,6,0,34,24.0
+claude4sonnet,scikit-learn__scikit-learn-11040,submitted,97,37147,164,11817,25166,60,92,14,26,7,0,59,48.5
+claude4sonnet,scikit-learn__scikit-learn-11281,submitted,59,30358,101,8115,22142,54,56,2,9,8,0,39,29.5
+claude4sonnet,scikit-learn__scikit-learn-12471,submitted,45,29492,533,8777,20182,35,42,4,10,5,0,27,23.0
+claude4sonnet,scikit-learn__scikit-learn-13142,submitted,41,26830,779,6181,19870,31,36,2,10,6,0,20,20.5
+claude4sonnet,scikit-learn__scikit-learn-13241,submitted,73,37360,214,9497,27649,45,64,10,13,9,0,42,40.0
+claude4sonnet,scikit-learn__scikit-learn-13439,submitted,59,26713,320,7176,19217,42,52,8,12,5,0,35,28.25
+claude4sonnet,scikit-learn__scikit-learn-13496,submitted,50,31495,304,8872,22319,40,46,5,9,7,0,30,25.75
+claude4sonnet,scikit-learn__scikit-learn-13497,submitted,37,20121,67,6212,13842,24,31,4,8,4,0,19,18.75
+claude4sonnet,scikit-learn__scikit-learn-13584,submitted,74,29909,88,9025,20796,47,65,12,13,5,0,47,38.0
+claude4sonnet,scikit-learn__scikit-learn-13779,submitted,50,25271,151,7322,17798,39,46,5,11,5,0,30,23.5
+claude4sonnet,scikit-learn__scikit-learn-14087,submitted,102,31333,671,12428,18234,68,95,11,24,5,0,66,50.75
+claude4sonnet,scikit-learn__scikit-learn-14092,submitted,64,43906,677,8886,34343,48,54,6,13,5,0,36,35.5
+claude4sonnet,scikit-learn__scikit-learn-14894,submitted,43,26167,509,8687,16971,32,39,3,10,6,0,23,20.5
+claude4sonnet,scikit-learn__scikit-learn-14983,submitted,58,21344,326,5620,15398,48,54,2,9,5,0,40,29.75
+claude4sonnet,scikit-learn__scikit-learn-15512,submitted,39,26854,488,7939,18427,25,35,6,9,8,0,18,19.0
+claude4sonnet,scikit-learn__scikit-learn-15535,submitted,41,25902,151,5893,19858,31,36,2,6,8,0,22,20.5
+claude4sonnet,scikit-learn__scikit-learn-25500,submitted,59,24991,1271,5105,18615,45,53,6,12,7,0,34,32.0
+claude4sonnet,scikit-learn__scikit-learn-25570,submitted,60,37467,1377,9870,26220,41,55,10,14,5,0,36,34.0
+claude4sonnet,scikit-learn__scikit-learn-25638,submitted,46,33795,411,10765,22619,33,43,6,13,5,0,25,21.0
+claude4sonnet,scikit-learn__scikit-learn-25747,submitted,46,24978,1499,6833,16646,30,42,7,9,6,0,27,23.5
+claude4sonnet,sphinx-doc__sphinx-10325,submitted,93,58442,217,21125,37100,62,87,16,26,8,0,53,51.5
+claude4sonnet,sphinx-doc__sphinx-10451,submitted,51,35999,413,11797,23789,37,44,5,11,8,0,25,26.5
+claude4sonnet,sphinx-doc__sphinx-11445,submitted,83,38919,543,11739,26637,53,71,8,14,10,0,47,49.0
+claude4sonnet,sphinx-doc__sphinx-7686,submitted,116,93297,281,30232,62784,68,110,27,43,12,0,55,49.5
+claude4sonnet,sphinx-doc__sphinx-7738,submitted,80,54225,277,15151,38797,58,74,11,13,10,0,51,37.5
+claude4sonnet,sphinx-doc__sphinx-7975,submitted,64,56243,109,12480,43654,35,57,9,18,8,0,31,27.0
+claude4sonnet,sphinx-doc__sphinx-8273,submitted,79,69308,232,10870,58206,54,68,7,16,19,0,33,40.5
+claude4sonnet,sphinx-doc__sphinx-8282,submitted,61,43816,204,9708,33904,48,56,4,10,7,0,39,29.5
+claude4sonnet,sphinx-doc__sphinx-8435,submitted,117,50199,208,16769,33222,71,105,12,37,7,0,61,59.0
+claude4sonnet,sphinx-doc__sphinx-8474,submitted (exit_error),83,96294,118,9590,86586,52,70,12,12,9,0,49,43.5
+claude4sonnet,sphinx-doc__sphinx-8506,submitted,63,54890,259,13005,41626,46,57,8,17,5,0,35,35.25
+claude4sonnet,sphinx-doc__sphinx-8595,submitted,72,56499,176,12259,44064,49,66,10,16,6,0,44,39.0
+claude4sonnet,sphinx-doc__sphinx-8627,submitted,81,43018,353,12628,30037,45,73,11,24,9,0,40,38.5
+claude4sonnet,sphinx-doc__sphinx-8713,submitted,44,22862,406,5443,17013,32,36,3,6,6,0,24,22.75
+claude4sonnet,sphinx-doc__sphinx-8721,submitted,46,55110,138,8001,46971,25,42,9,12,10,0,20,22.5
+claude4sonnet,sphinx-doc__sphinx-8801,submitted,93,58015,225,16872,40918,63,85,13,24,7,0,54,53.5
+claude4sonnet,sympy__sympy-11400,submitted,69,30879,150,8134,22595,51,62,7,14,9,0,39,35.0
+claude4sonnet,sympy__sympy-11870,submitted,113,73367,126,20699,52542,72,105,14,27,9,0,69,61.5
+claude4sonnet,sympy__sympy-11897,submitted,56,56931,258,13643,43030,52,53,1,12,4,0,37,28.5
+claude4sonnet,sympy__sympy-12171,submitted,54,24587,164,7449,16974,31,51,12,13,8,0,30,29.0
+claude4sonnet,sympy__sympy-12236,submitted,61,46501,736,15469,30296,49,56,5,17,6,0,33,33.5
+claude4sonnet,sympy__sympy-12419,submitted,89,66124,358,17058,48708,62,86,7,27,14,0,45,46.75
+claude4sonnet,sympy__sympy-12454,submitted,51,23246,382,7535,15329,36,47,8,11,5,0,31,25.75
+claude4sonnet,sympy__sympy-12481,submitted,59,28366,93,7994,20279,44,53,5,13,6,0,34,32.5
+claude4sonnet,sympy__sympy-13031,submitted,63,24016,275,8637,15104,52,57,5,8,7,0,42,29.75
+claude4sonnet,sympy__sympy-13043,submitted,87,53956,96,18732,35128,56,82,10,21,7,0,54,48.5
+claude4sonnet,sympy__sympy-13146,submitted,72,40066,121,11470,28475,56,62,3,15,7,0,40,35.5
+claude4sonnet,sympy__sympy-13177,submitted,50,24973,154,8395,16424,38,46,4,12,5,0,29,23.5
+claude4sonnet,sympy__sympy-13437,submitted,43,19782,168,5054,14560,34,38,2,9,4,0,25,21.5
+claude4sonnet,sympy__sympy-13471,submitted,33,21250,224,5813,15213,25,29,3,7,5,0,17,16.5
+claude4sonnet,sympy__sympy-13480,submitted,31,10343,144,2896,7303,22,27,2,5,5,0,17,14.5
+claude4sonnet,sympy__sympy-13647,submitted,39,20235,322,6086,13827,29,35,5,6,6,0,23,19.5
+claude4sonnet,sympy__sympy-13773,submitted,108,43723,241,11425,32057,81,99,11,20,7,0,72,59.0
+claude4sonnet,sympy__sympy-13895,submitted,65,49217,255,11462,37500,47,60,7,14,8,0,38,32.5
+claude4sonnet,sympy__sympy-13915,submitted,82,68595,238,13702,54655,70,77,5,16,7,0,54,43.5
+claude4sonnet,sympy__sympy-13971,submitted,83,29273,148,7787,21338,61,71,5,10,7,0,54,47.0
+claude4sonnet,sympy__sympy-14024,submitted,77,60552,351,20785,39416,63,73,7,16,8,0,49,38.0
+claude4sonnet,sympy__sympy-14308,submitted,86,41192,96,8696,32400,60,81,10,15,12,0,54,47.5
+claude4sonnet,sympy__sympy-14317,submitted,73,40378,275,11271,28832,45,68,8,18,7,0,43,46.0
+claude4sonnet,sympy__sympy-14396,submitted,38,30590,619,8747,21224,30,35,3,7,5,0,23,17.75
+claude4sonnet,sympy__sympy-14774,submitted,51,21990,183,6500,15307,41,46,2,10,5,0,31,25.5
+claude4sonnet,sympy__sympy-14817,submitted,67,25726,497,7506,17723,48,62,7,17,7,0,38,37.5
+claude4sonnet,sympy__sympy-15011,submitted,64,32566,189,11144,21233,47,60,8,12,6,0,42,35.0
+claude4sonnet,sympy__sympy-15308,submitted,55,27532,89,5865,21578,41,48,4,7,9,0,32,28.0
+claude4sonnet,sympy__sympy-15345,submitted,104,38568,76,10746,27746,77,93,10,19,9,0,65,54.0
+claude4sonnet,sympy__sympy-15346,submitted,59,31014,508,8859,21647,49,56,3,9,8,0,39,28.0
+claude4sonnet,sympy__sympy-15609,submitted,51,19997,131,5973,13893,38,48,7,10,7,0,31,24.25
+claude4sonnet,sympy__sympy-15678,submitted,49,30554,284,10517,19753,33,46,7,12,6,0,28,23.5
+claude4sonnet,sympy__sympy-16106,submitted,89,38338,603,11426,26309,53,76,8,19,10,0,47,41.0
+claude4sonnet,sympy__sympy-16281,submitted,129,52407,449,15107,36851,84,118,14,33,8,0,77,59.5
+claude4sonnet,sympy__sympy-16503,submitted,132,51950,85,18322,33543,95,126,16,33,8,0,85,70.0
+claude4sonnet,sympy__sympy-16792,submitted,88,31442,462,12384,18596,65,82,8,19,8,0,55,48.0
+claude4sonnet,sympy__sympy-16988,submitted,74,32905,115,11464,21326,58,68,6,16,5,0,47,33.5
+claude4sonnet,sympy__sympy-17022,submitted,91,41903,291,11643,29969,70,84,9,13,11,0,60,46.75
+claude4sonnet,sympy__sympy-17139,submitted,41,19470,630,6722,12118,31,36,2,9,6,0,21,21.0
+claude4sonnet,sympy__sympy-17630,submitted,67,33077,1100,9892,22085,49,59,7,14,7,0,38,34.5
+claude4sonnet,sympy__sympy-17655,submitted,56,27758,527,8510,18721,39,50,6,12,5,0,33,25.0
+claude4sonnet,sympy__sympy-18057,submitted,54,14680,454,4777,9449,39,50,6,7,6,0,37,29.0
+claude4sonnet,sympy__sympy-18087,submitted,82,63462,79,18951,44432,71,77,4,16,7,0,54,39.5
+claude4sonnet,sympy__sympy-18189,submitted,65,27801,340,9829,17632,42,62,9,12,4,0,46,28.5
+claude4sonnet,sympy__sympy-18199,submitted,50,27081,88,7317,19676,36,44,6,12,6,0,26,26.75
+claude4sonnet,sympy__sympy-18532,submitted,65,38299,77,12322,25900,47,59,8,11,5,0,43,33.0
+claude4sonnet,sympy__sympy-18621,submitted,36,22163,640,5992,15531,27,32,2,8,6,0,18,18.0
+claude4sonnet,sympy__sympy-18698,submitted,83,29324,200,9212,19912,61,75,8,9,8,0,58,36.0
+claude4sonnet,sympy__sympy-18835,submitted,40,24413,238,7904,16271,31,36,2,7,5,0,24,19.0
+claude4sonnet,sympy__sympy-19007,submitted,96,37507,184,10799,26524,58,89,17,19,9,0,61,43.75
+claude4sonnet,sympy__sympy-19254,submitted,71,36044,121,12331,23592,51,67,8,17,5,0,45,32.0
+claude4sonnet,sympy__sympy-19487,submitted,50,29976,176,8716,21084,37,45,5,12,3,0,30,26.0
+claude4sonnet,sympy__sympy-20049,submitted,52,40575,536,12179,27860,37,48,4,13,6,0,29,24.5
+claude4sonnet,sympy__sympy-20154,submitted,39,26049,114,5679,20256,26,33,4,8,5,0,20,19.75
+claude4sonnet,sympy__sympy-20212,submitted,57,33243,127,8038,25078,45,52,3,11,6,0,35,25.0
+claude4sonnet,sympy__sympy-20322,submitted,79,61148,258,18504,42386,69,75,4,17,10,0,48,38.0
+claude4sonnet,sympy__sympy-20442,submitted,66,34242,215,10393,23634,47,63,7,15,10,0,38,33.0
+claude4sonnet,sympy__sympy-20590,submitted,45,26166,248,8156,17762,37,40,2,7,8,0,25,23.0
+claude4sonnet,sympy__sympy-20639,submitted,39,14577,153,4748,9676,30,35,2,7,7,0,21,19.5
+claude4sonnet,sympy__sympy-21055,submitted,51,33136,291,8850,23995,29,44,8,13,8,0,23,29.0
+claude4sonnet,sympy__sympy-21171,submitted,48,20878,2013,4617,14248,33,44,5,7,7,0,30,25.0
+claude4sonnet,sympy__sympy-21379,submitted,98,42711,460,14795,27456,78,95,10,27,7,0,61,52.5
+claude4sonnet,sympy__sympy-21612,submitted,65,44907,267,13700,30940,46,62,5,18,9,0,35,31.75
+claude4sonnet,sympy__sympy-21614,submitted,73,20459,95,5850,14514,45,60,8,11,9,0,40,40.0
+claude4sonnet,sympy__sympy-21627,submitted,87,63269,70,12445,50754,55,84,13,21,7,0,56,48.0
+claude4sonnet,sympy__sympy-21847,submitted,59,41086,239,11372,29475,40,53,9,17,4,0,32,24.75
+claude4sonnet,sympy__sympy-22005,submitted,56,26703,424,9935,16344,33,51,9,18,7,0,26,23.5
+claude4sonnet,sympy__sympy-22714,submitted,42,17086,472,6087,10527,30,38,5,10,4,0,24,19.75
+claude4sonnet,sympy__sympy-22840,submitted,58,36212,1557,9053,25602,42,55,7,13,9,0,33,28.75
+claude4sonnet,sympy__sympy-23117,submitted,79,31763,381,8075,23307,61,71,6,11,8,0,52,37.5
+claude4sonnet,sympy__sympy-23191,submitted,84,41978,502,16319,25157,56,81,12,22,10,0,49,43.0
+claude4sonnet,sympy__sympy-23262,submitted,72,32196,269,7710,24217,56,65,6,15,9,0,41,34.75
+claude4sonnet,sympy__sympy-24066,submitted,73,35223,135,10328,24760,56,68,8,9,13,0,46,39.5
+claude4sonnet,sympy__sympy-24102,submitted,53,35580,374,8486,26720,37,50,6,12,7,0,31,22.0
+claude4sonnet,sympy__sympy-24152,submitted,44,20988,527,6710,13751,31,38,4,12,5,0,21,22.5
+claude4sonnet,sympy__sympy-24213,submitted,44,23487,248,6127,17112,35,39,2,8,8,0,23,22.5
+claude4sonnet,sympy__sympy-24909,submitted,49,26945,165,6209,20571,33,44,6,9,14,0,21,21.0
