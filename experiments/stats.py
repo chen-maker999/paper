@@ -11,8 +11,22 @@ import numpy as np
 import pandas as pd
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
-from corpus import SHORT, load_corpus  # noqa: E402
+from corpus import SHORT, VERIFIED, load_corpus  # noqa: E402
+from skc.core import count_tokens, norm_line  # noqa: E402
 from skc.evaluate import _IDENT, use_probes  # noqa: E402
+
+
+def redundancy(turns):
+    """Share of (non-system) tokens in lines that occur again later in the history."""
+    seen, dup, tot = set(), 0, 0
+    for t in reversed(turns[1:]):
+        for ln in t.text.split("\n"):
+            n, k = norm_line(ln), count_tokens(ln)
+            tot += k
+            if len(n) >= 6 and n in seen:
+                dup += k
+            seen.add(n)
+    return dup / max(tot, 1)
 
 
 def traj_stats(turns):
@@ -41,6 +55,7 @@ def traj_stats(turns):
             for tok in set(_IDENT.findall(t.text)):
                 occ.setdefault(tok, []).append(i)
     return dict(steps=steps, tokens=tok_task + tok_agent + tok_tool, tok_task=tok_task,
+                redundancy=redundancy(turns),
                 tok_agent=tok_agent, tok_tool=tok_tool, n_keys=len(per_key) - 1,
                 n_writes=len(writes) - 1, overwritten=sum(1 for k, c in per_key.items() if c > 1 and k != "task"),
                 **{f"w_{k}": ktypes.get(k, 0) for k in ("edit", "view", "search", "cmd")},
@@ -50,7 +65,10 @@ def traj_stats(turns):
 
 def main(cache_dir, out_dir):
     rows, refs = [], []
-    for short in SHORT.values():
+    shorts = list(SHORT.values()) + [v[0] for v in VERIFIED.values()]
+    for short in shorts:
+        if not os.path.exists(os.path.join(cache_dir, f"{short}.pkl")):
+            continue
         corpus = load_corpus(cache_dir, short)
         for name, (turns, info) in corpus.items():
             s = traj_stats(turns)
@@ -69,7 +87,8 @@ def main(cache_dir, out_dir):
         tokens_max=("tokens", "max"),
         tool_share=("tok_tool", "sum"), agent_share=("tok_agent", "sum"), task_share=("tok_task", "sum"),
         keys_median=("n_keys", "median"), writes_median=("n_writes", "median"),
-        overwritten_median=("overwritten", "median"), age_median=("age_med", "median"))
+        overwritten_median=("overwritten", "median"), age_median=("age_med", "median"),
+        redundancy_mean=("redundancy", "mean"))
     tot = agg[["tool_share", "agent_share", "task_share"]].sum(axis=1)
     for c in ["tool_share", "agent_share", "task_share"]:
         agg[c] = agg[c] / tot

@@ -64,9 +64,16 @@ def copy_probes(turns, prefix_end, system_text=""):
     return sorted(last.items())
 
 
-def evaluate_prefix(turns, prefix_end, compressor, budget, key_type=None, with_use=False):
+def evaluate_prefix(turns, prefix_end, compressor, budget, key_type=None, with_use=False,
+                    extra_thresholds=(), timing=None):
     ctx_turns = turns[: prefix_end + 1]
-    units = compressor(ctx_turns, budget)
+    if timing is not None:
+        import time
+        t0 = time.perf_counter()
+        units = compressor(ctx_turns, budget)
+        timing.append(time.perf_counter() - t0)
+    else:
+        units = compressor(ctx_turns, budget)
     cidx = ContextIndex(units)
     used = context_tokens([u for u in units if not (u.src == 0 and u.kind == "turn")])
     rows = []
@@ -77,6 +84,9 @@ def evaluate_prefix(turns, prefix_end, compressor, budget, key_type=None, with_u
         age = (prefix_end - ws[-1].turn)
         rows.append(dict(probe="state", key=key, ktype=kt, n_writes=len(ws), age=age,
                          outcome=read_key(cidx, ws)))
+        for th in extra_thresholds:
+            rows.append(dict(probe=f"state@{th}", key=key, ktype=kt, n_writes=len(ws), age=age,
+                             outcome=read_key(cidx, ws, thresh=th)))
     if with_use:
         sys_text = turns[0].text if turns and turns[0].role == "system" else ""
         for tok, last in use_probes(turns, prefix_end, sys_text):

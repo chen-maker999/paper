@@ -9,6 +9,7 @@ nothing (MISSING).
 """
 from __future__ import annotations
 
+import os
 import re
 from dataclasses import dataclass, field
 
@@ -17,8 +18,28 @@ _LINENO_RE = re.compile(r"^\s*\d+[:\t]\s?")
 IDENT_RE = re.compile(r"[A-Za-z_][\w./-]{3,}[\w]")   # identifiers, dotted names, paths
 
 
+_BPE = None
+
+
+def _bpe():
+    """A real BPE tokenizer if SKC_TOKENIZER points to a `tokenizers` JSON file."""
+    global _BPE
+    if _BPE is None:
+        path = os.environ.get("SKC_TOKENIZER", "")
+        if path and os.path.exists(path):
+            from tokenizers import Tokenizer
+            _BPE = Tokenizer.from_file(path)
+        else:
+            _BPE = False
+    return _BPE
+
+
 def count_tokens(text: str) -> int:
-    """Approximate token count (word pieces + punctuation), tokenizer-agnostic."""
+    """Token count: BPE tokens when SKC_TOKENIZER is set (used for all reported
+    experiments), otherwise a tokenizer-free approximation (words + punctuation)."""
+    tok = _bpe()
+    if tok:
+        return len(tok.encode(text, add_special_tokens=False).ids) if text else 0
     return len(_TOKEN_RE.findall(text))
 
 

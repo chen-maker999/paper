@@ -304,9 +304,20 @@ class UtilityCompaction(Compressor):
                     continue
                 chosen.append(it)
                 used += it.tokens
-                have_latest |= it.latest_keys
+                if it.kind == "ledger":  # a chunk may hold only part of a value; a record holds all of it
+                    have_latest |= it.latest_keys
             units += _assemble(chosen)
         return units + rec
+
+
+class OracleUtility(UtilityCompaction):
+    """Upper bound: utilities are the true labels (does the next action use the item?).
+    Set `need = (identifiers, lines)` of the next action before each call."""
+    name = "skc-oracle"
+    need = (set(), set())
+
+    def utilities(self, items):
+        return label_items(items, *self.need).astype(float)
 
 
 def _assemble(chosen):

@@ -104,6 +104,15 @@ def main():
                                        auc=roc_auc_score(yte, sc, sample_weight=wte),
                                        ap=average_precision_score(yte, sc, sample_weight=wte)))
             print("trained", m, s, flush=True)
+    # a model trained on all SWE-agent (Lite) trajectories, for the cross-scaffold test
+    Xa = np.vstack([v[0] for v in data.values()]); ya = np.concatenate([v[1] for v in data.values()])
+    wa = np.concatenate([v[2] for v in data.values()])
+    clf = HistGradientBoostingClassifier(max_iter=300, learning_rate=0.08, max_leaf_nodes=31,
+                                         l2_regularization=1.0, random_state=0)
+    clf.fit(Xa, ya, sample_weight=wa)
+    with open(os.path.join(a.out, "hgb_all.pkl"), "wb") as f:
+        pickle.dump(clf, f)
+    print("trained all", flush=True)
     rep = pd.DataFrame(report)
     rep.to_csv(os.path.join(a.out, "auc.csv"), index=False)
     print(rep.groupby("scorer")[["auc", "ap"]].mean().round(3))
