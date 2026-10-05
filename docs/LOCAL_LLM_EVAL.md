@@ -20,6 +20,17 @@
 - 显存参考：14B 的 bf16 约需 40GB 以上；24GB 显卡可用 7–8B，或 14B 的 AWQ/GPTQ 量化版。
 - 规模与耗时：默认每个 LLM 抽 60 个决策点，共 300 个样本，约 3,300 次请求。在单卡 vLLM 上大约 1–3 小时。时间允许时可用 `--per-model 100`。
 
+## 1.1 针对 AMD RX 9070 XT（16GB）+ 32GB 内存的推荐设置
+
+- 后端：Windows 上用 **LM Studio**（开启 Developer → Local Server，默认地址 `http://localhost:1234/v1`），或 llama.cpp 的 **Vulkan** 版 `llama-server`；Linux 上用 llama.cpp（Vulkan 或 ROCm ≥ 6.4）。
+- 模型（GGUF）：`Qwen3-8B` Q6_K（主模型），`Llama-3.1-8B-Instruct` Q6_K（不同家族）；可选 `Qwen3-14B` Q4_K_M。
+- 服务端参数：上下文 **32768**、并行槽位 **1**、开启 Flash Attention、KV 缓存 **q8_0**。llama.cpp 示例：
+  ```bash
+  llama-server -m Qwen3-8B-Q6_K.gguf -c 32768 -np 1 -fa on -ctk q8_0 -ctv q8_0 -ngl 99 --port 8080
+  ```
+- 评测参数：`--per-model 40 --concurrency 1 --max-context 32768`。8B 模型每个约 4–5 小时，14B 约 8 小时，可以挂一夜。
+- Windows PowerShell 中设置环境变量用：`$env:SKC_TOKENIZER = "$PWD\data\tokenizer.json"`。
+
 ## 2. 准备代码与数据
 
 ```bash
