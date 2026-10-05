@@ -28,7 +28,7 @@ COLOR = {"skc": "#2a78d6", "skc-basic": "#2a78d6", "window": "#eb6834", "obs_mas
          "random": "#4a3aa7", "skc+bm25": "#2a78d6"}
 LS = {"skc-basic": "--", "bm25_chunk": "--", "skc+bm25": ":"}
 MARK = {"skc": "o", "skc-basic": "o", "window": "s", "obs_mask": "^", "obs_trunc": "D", "bm25": "v",
-        "bm25_chunk": "v", "selfinfo": "P", "random": "x", "skc+bm25": "o"}
+        "bm25_chunk": "<", "selfinfo": "P", "random": "x", "skc+bm25": "o"}
 MODELS = ["gpt4", "claude3opus", "gpt4o", "claude37sonnet", "claude4sonnet"]
 MODEL_LABEL = {"gpt4": "GPT-4", "claude3opus": "Claude 3 Opus", "gpt4o": "GPT-4o",
                "claude37sonnet": "Claude 3.7 Sonnet", "claude4sonnet": "Claude 4 Sonnet"}

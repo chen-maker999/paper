@@ -46,7 +46,7 @@ def paired_test(df, probe, a, b, budget, rng_filter=None, outcome="correct", n_b
     rs = np.random.default_rng(seed)
     boots = d[rs.integers(0, len(d), size=(n_boot, len(d)))].mean(axis=1)
     p = 2 * min((boots <= 0).mean(), (boots >= 0).mean())
-    return 100 * d.mean(), 100 * np.percentile(boots, 2.5), 100 * np.percentile(boots, 97.5), max(p, 1 / n_boot)
+    return 100 * d.mean(), 100 * np.percentile(boots, 2.5), 100 * np.percentile(boots, 97.5), min(1.0, max(p, 1 / n_boot))
 
 
 if __name__ == "__main__":
