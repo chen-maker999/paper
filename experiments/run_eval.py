@@ -48,6 +48,7 @@ _MODELS = {}
 class _LR:
     def __init__(self, lr, mu, sd):
         self.lr, self.mu, self.sd = lr, mu, sd
+        self.n_features_in_ = len(mu)
 
     def predict_proba(self, X):
         return self.lr.predict_proba((X - self.mu) / self.sd)
@@ -70,10 +71,13 @@ def utility_model(kind, model, inst):
 
 def methods(suite, model, inst):
     hgb = utility_model("hgb", model, inst)
+    hgb2 = utility_model("hgb2", model, inst)
+    if suite == "skconly":
+        return [UtilityCompaction(model=hgb2, name="skc")]
     if suite == "main":
         return [RecencyWindow(), ObservationMasking(), TruncateObservations(), BM25Select(),
                 ChunkBM25(), SelfInfoLines(), RandomSelect(seed=0),
-                StateKeyedCompaction(name="skc-basic"), UtilityCompaction(model=hgb, name="skc")]
+                StateKeyedCompaction(name="skc-basic"), UtilityCompaction(model=hgb2, name="skc")]
     if suite == "dev":
         return [RecencyWindow(), ObservationMasking(), BM25Select(), StateKeyedCompaction(name="skc-basic"),
                 Dedup(RecencyWindow()), Dedup(ObservationMasking()),
@@ -104,24 +108,25 @@ def methods(suite, model, inst):
         return out + [Dedup(RecencyWindow()), Dedup(ObservationMasking())]
     if suite == "ablation":
         return [
-            UtilityCompaction(model=hgb, name="skc"),
-            UtilityCompaction(model=hgb, use_ledger=False, name="-ledger"),
-            UtilityCompaction(model=hgb, safe=False, name="-safety"),
+            UtilityCompaction(model=hgb2, name="skc"),
+            UtilityCompaction(model=hgb2, use_ledger=False, name="-ledger"),
+            UtilityCompaction(model=hgb2, safe=False, name="-safety"),
             UtilityCompaction(model=None, name="-learned (heuristic utility)"),
             UtilityCompaction(model=utility_model("lr", model, inst), name="logreg utility"),
-            UtilityCompaction(model=hgb, chunk_lines=10**6, chunk_tokens=10**6, name="-chunking (whole turns)"),
-            UtilityCompaction(model=hgb, recent=2, name="recent R=2"),
-            UtilityCompaction(model=hgb, lam=0.0, name="lambda=0"),
-            UtilityCompaction(model=hgb, lam=0.1, name="lambda=0.1"),
-            UtilityCompaction(model=hgb, lam=1.0, name="lambda=1"),
-            UtilityCompaction(model=hgb, lam=3.0, name="lambda=3"),
-            UtilityCompaction(model=hgb, extractor=noisy_extractor(0.7), name="extractor recall 0.7"),
-            UtilityCompaction(model=hgb, extractor=noisy_extractor(0.7), safe=False,
+            UtilityCompaction(model=hgb2, chunk_lines=10**6, chunk_tokens=10**6, name="-chunking (whole turns)"),
+            UtilityCompaction(model=hgb2, recent=2, name="recent R=2"),
+            UtilityCompaction(model=hgb2, lam=0.0, name="lambda=0"),
+            UtilityCompaction(model=hgb2, lam=0.1, name="lambda=0.1"),
+            UtilityCompaction(model=hgb2, lam=1.0, name="lambda=1"),
+            UtilityCompaction(model=hgb2, lam=3.0, name="lambda=3"),
+            UtilityCompaction(model=hgb2, extractor=noisy_extractor(0.7), name="extractor recall 0.7"),
+            UtilityCompaction(model=hgb2, extractor=noisy_extractor(0.7), safe=False,
                               name="extractor recall 0.7, -safety"),
             Dedup(RecencyWindow()), Dedup(ObservationMasking()),
             Dedup(StateKeyedCompaction(name="skc-basic")),
-            UtilityCompaction(model=hgb, dedup=False, name="-dedup"),
+            UtilityCompaction(model=hgb2, dedup=False, name="-dedup"),
             OracleUtility(name="oracle utility (upper bound)"),
+            UtilityCompaction(model=hgb, name="v1 features"),
         ]
     raise ValueError(suite)
 
@@ -175,6 +180,8 @@ def main():
                     help="drop the development instances used for design and hyper-parameter choices")
     ap.add_argument("--per-model", type=int, default=0, help="evaluate at most this many trajectories per model")
     ap.add_argument("--corpora", default="lite", choices=["lite", "verified"])
+    ap.add_argument("--only", default="", help="comma-separated corpus names to evaluate (default: all)")
+    ap.add_argument("--tag", default="", help="suffix for output files")
     a = ap.parse_args()
     dev = set()
     if a.exclude_dev:
@@ -188,6 +195,8 @@ def main():
     if a.corpora != "lite":  # cross-scaffold test: drop instances that also occur in SWE-bench Lite
         for short in SHORT.values():
             lite_instances |= set(load_corpus(a.cache, short))
+    if a.only:
+        corpora = [c for c in corpora if c in a.only.split(",")]
     for short in corpora:
         if not os.path.exists(os.path.join(a.cache, f"{short}.pkl")):
             continue
@@ -204,14 +213,13 @@ def main():
                 br.update(b); pt.update(p); tok.update(t); nctx.update(c); lat.update(la)
         print("done", short, flush=True)
     os.makedirs(a.out, exist_ok=True)
-    tag = a.suite if a.corpora == "lite" else f"{a.suite}_{a.corpora}"
+    tag = (a.suite if a.corpora == "lite" else f"{a.suite}_{a.corpora}") + (f"_{a.tag}" if a.tag else "")
     pd.DataFrame([dict(model=k[0], method=k[1], budget=k[2], probe=k[3], ktype=k[4], age=k[5],
                        n_writes=k[6], outcome=k[7], count=v) for k, v in br.items()]
                  ).to_csv(os.path.join(a.out, f"eval_{tag}_breakdown.csv.gz"), index=False)
     pd.DataFrame([dict(model=k[0], instance=k[1], method=k[2], budget=k[3], probe=k[4], range=k[5],
                        outcome=k[6], count=v) for k, v in pt.items()]
                  ).to_csv(os.path.join(a.out, f"eval_{tag}_pertraj.csv.gz"), index=False)
-    tag = a.suite if a.corpora == "lite" else f"{a.suite}_{a.corpora}"
     pd.DataFrame([dict(method=k[0], budget=k[1], contexts=nctx[k], mean_tokens=tok[k] / nctx[k],
                        ms_per_call=1000 * lat[k] / nctx[k])
                   for k in nctx]).to_csv(os.path.join(a.out, f"eval_{tag}_tokens.csv"), index=False)

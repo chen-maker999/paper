@@ -132,6 +132,24 @@ def prepare(a):
             f.write(json.dumps(s) + "\n")
 
 
+def add_method(a):
+    """Add the context of a new compressor to existing samples (answers of the other methods are
+    cached, so `submit` afterwards only sends requests for the new method)."""
+    samples = load_samples(a.out)
+    corpora = {}
+    for s in samples:
+        short, name, point = s["model"], s["instance"], s["point"]
+        if short not in corpora:
+            corpora[short] = load_corpus(a.cache, short)
+        turns = corpora[short][name][0]
+        comp = UtilityCompaction(model=utility_model(a.utility, short, name))
+        s["contexts"][a.method] = render(comp(turns[: point + 1], BUDGET))
+    with open(os.path.join(a.out, "samples.jsonl"), "w") as f:
+        for s in samples:
+            f.write(json.dumps(s) + "\n")
+    print("added", a.method, "to", len(samples), "samples")
+
+
 def qa_prompt(s, ctx):
     cmd = s["probe"][0][len("cmd:"):]
     return (f"<issue>\n{s['task']}\n</issue>\n<history>\n{ctx}\n</history>\n\n"
@@ -315,7 +333,9 @@ def collect(a):
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("phase", choices=["prepare", "summarise", "submit", "collect"])
+    ap.add_argument("phase", choices=["prepare", "summarise", "submit", "collect", "add"])
+    ap.add_argument("--method", default="skc2", help="name of the context added by the `add` phase")
+    ap.add_argument("--utility", default="hgb2", help="utility model prefix used by the `add` phase")
     ap.add_argument("--cache")
     ap.add_argument("--out", default="results/llm")
     ap.add_argument("--per-model", type=int, default=60)
@@ -333,4 +353,5 @@ if __name__ == "__main__":
                     help="extra max_tokens per request for models whose thinking cannot be disabled (local)")
     a = ap.parse_args()
     ARGS = a
-    {"prepare": prepare, "summarise": summarise, "submit": submit, "collect": collect}[a.phase](a)
+    {"prepare": prepare, "summarise": summarise, "submit": submit, "collect": collect,
+     "add": add_method}[a.phase](a)

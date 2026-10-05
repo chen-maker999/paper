@@ -109,6 +109,16 @@ python experiments/llm_eval.py collect   --out $OUT
 `--no-think` 会关闭 qwen 的思考模式（百炼用 `enable_thinking: false`），既省钱，也避免回答被思考 token 截断。
 第二个模型用 `--model glm-5.3`，输出目录改为 `results/llm_glm-5.3`。glm-5.3 的思考模式无法关闭（传 `enable_thinking: false` 会报错），因此去掉 `--no-think`，改加 `--think-tokens 8192`：思考 token 也计入 `max_tokens`，不留余量时问答（上限 256）会在思考阶段就被截断。百炼对该模型不支持 `thinking_budget`。思考内容在单独的 `reasoning_content` 字段里，不会混进答案。
 
+## 4.2 只给新版本方法补跑（不重跑已有方法）
+
+已有方法的答案都缓存在 `answers.json` 里。下面的命令只会给新加入的方法（默认 `skc2`，即最终版 SKC）发送请求：
+
+```bash
+python experiments/llm_eval.py add     --cache data/cache --out $OUT        # 生成新方法的上下文
+python experiments/llm_eval.py submit  --out $OUT $ARGS                     # 只请求新方法
+python experiments/llm_eval.py collect --out $OUT
+```
+
 ## 5. 把结果交回
 
 把 `$OUT/` 目录下的这几个文件提交到仓库（或直接发给我）：
