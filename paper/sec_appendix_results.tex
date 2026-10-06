@@ -133,39 +133,48 @@ SKC (ours) & 79.8 & 74.9 & 70.2 \\
 \label{app:alfworld}
 We play the 134 unseen-split games of ALFWorld (text version, TextWorld PDDL
 files) with \texttt{qwen3.8-flash} (thinking disabled, temperature 0, at most 50
-steps). At every step the history is compressed to a budget of 600 or 1200
-tokens (task and history; the fixed system prompt is not charged), measured on
-the rendered prompt. SKC uses a domain extractor that writes the latest
-contents and open/closed state of each receptacle, the held object and
-cleaned/heated/cooled objects to the ledger; it compacts only once the history
-exceeds the budget and makes no LLM calls. The rolling summary folds the oldest
-steps into a running summary written by the same model (one extra call each
-time the budget overflows). Success is paired per game; p-values are exact
-McNemar tests of SKC against each method.
+steps). At every step the history is compressed to a budget of 300, 400, 600 or
+1200 tokens (task and history; the fixed system prompt is not charged), measured
+on the rendered prompt. The task description alone takes roughly 100--200
+tokens, so the two smallest budgets force real compression. SKC uses a domain
+extractor that writes the latest contents and open/closed state of each
+receptacle, the held object and cleaned/heated/cooled objects to the ledger; it
+compacts only once the history exceeds the budget and makes no LLM calls. The
+rolling summary folds the oldest steps into a running summary written by the
+same model (one extra call each time the budget overflows; 6.3 calls per game
+at 300 tokens). Success is paired per game; $p$-values are exact McNemar tests
+of SKC against each method.
 
 \begin{table}[h]
 \centering\small
-\begin{tabular}{lcccccc}
+\begin{tabular}{lcccc}
 \toprule
- & \multicolumn{2}{c}{Budget 600} & \multicolumn{2}{c}{Budget 1200} \\
-Method & Success (\%) & $p$ vs.\ SKC & Success (\%) & $p$ vs.\ SKC \\
+Success (\%) & 300 & 400 & 600 & 1200 \\
 \midrule
-Window & 83.6 & 1.00 & 85.8 & 0.82 \\
-Observation masking & 83.6 & 1.00 & 88.8 & 0.82 \\
-LLM summary (rolling) & 85.8 & 0.68 & 84.3 & 0.45 \\
-SKC & 83.6 & --- & 87.3 & --- \\
+Window & 72.4 & 77.6 & 83.6 & 85.8 \\
+Observation masking & 70.1 & 76.1 & 83.6 & 88.8 \\
+LLM summary (rolling) & 70.1 & 77.6 & 85.8 & 84.3 \\
+SKC & 72.4 & 76.9 & 83.6 & 87.3 \\
 \midrule
 No compression & \multicolumn{4}{c}{90.3 (95\% CI 85.1--94.8)} \\
 \bottomrule
 \end{tabular}
-\caption{ALFWorld success rate over 134 games. No pairwise difference between
-compressors is significant; against no compression SKC is 6.7 points lower at
-600 tokens ($p=0.078$) and 3.0 lower at 1200 ($p=0.48$). Games are short (mean
-prompt 360--450 tokens), so compression changes little; the largest gaps are on
-the 23 heat tasks (SKC 39\% at 600 tokens, window 44\%, summary 61\%, no
-compression 70\%).}
+\caption{ALFWorld success rate over 134 games (95\% CIs are about $\pm$7--8
+points). No pairwise difference between compressors is significant (all $p\ge
+0.45$, exact McNemar). Against no compression, every compressor is much worse at
+300 tokens (SKC $-17.9$, $p<0.001$) and 400 tokens ($-13.4$, $p=0.001$), and
+the gap closes as the budget grows ($-6.7$ at 600, $p=0.078$; $-3.0$ at 1200,
+$p=0.48$).}
 \label{tab:alfworld}
 \end{table}
+Compression therefore costs success when the budget is tight, but the methods
+are indistinguishable from one another. SKC's ledger helps on the cooling tasks
+(81\% vs.\ 57--67\% at 300 tokens) but not on the others, and the per-type
+counts are small (17--34 games). SKC and the summary make more invalid commands
+than a window at the tightest budgets (2.8 and 4.6 vs.\ 1.9 per game).
+A plausible reason is that these games are short and the facts a window loses
+(which receptacles were visited and what they held) are cheap to rediscover,
+while the agent's failures come from planning rather than from missing state.
 We therefore make no end-to-end claim: on short-horizon household tasks the
 state-keeping advantage measured by the probes does not translate into a
 measurable success-rate gain.

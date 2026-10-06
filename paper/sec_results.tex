@@ -410,9 +410,11 @@ much better utility prediction could still gain.
 \paragraph{From sufficiency to success.} The ideal reader measures whether
 information is present; the LLM-in-the-loop study shows that three different
 readers do use it. End-to-end on ALFWorld (\cref{app:alfworld}), SKC does not
-differ significantly from a window, observation masking or an LLM summary, and
-the 134-game test is too short-horizon (mean prompt $\approx$400 tokens) for
-compression to matter much. We did not run SWE-bench agents end-to-end on
+differ significantly from a window, observation masking or an LLM summary at
+any of four budgets (300--1200 tokens), even though compression itself costs
+13--18 points of success at 300--400 tokens; the games are short
+(mean prompt $\approx$400 tokens) and failures there come mostly from planning
+rather than missing state. We did not run SWE-bench agents end-to-end on
 compressed contexts: that requires containerized environments and many agent
 runs per method, and is the most important next step. Our analysis predicts
 that compressors with stale or missing state cause agents to repeat work or act
