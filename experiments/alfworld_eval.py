@@ -336,7 +336,9 @@ def run(a):
     jobs.sort(key=lambda j: (zlib.crc32(game_id(j[0]).encode()), j[1], j[2]))
     print(f"{len(jobs)} episodes to run", flush=True)
     done = fails = 0
-    with ProcessPoolExecutor(a.concurrency) as ex:
+    # fast-downward copies its 32 MB libdownward.so to a temp dir on every game load and never
+    # unloads it, so the deleted copies hold disk space until the worker exits; recycle workers
+    with ProcessPoolExecutor(a.concurrency, max_tasks_per_child=20) as ex:
         futs = [ex.submit(_job, j) for j in jobs]
         for fu in as_completed(futs):
             path, won, err = fu.result()
