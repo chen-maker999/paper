@@ -165,6 +165,14 @@ python experiments/alfworld_eval.py report --out $OUT
 - 输出：`alfworld_summary.csv`（各配置成功率、95% 置信区间、平均步数、无效命令数、上下文与输入 token、按任务类型的成功率），`alfworld_tests.csv`（SKC 与其他方法的配对精确 McNemar 检验）。
 - 思考模式无法关闭的模型（如 glm-5.3）去掉 `--no-think`，加 `--think-tokens 4096`。
 
+**紧预算补充实验（300 / 400 token）**：600、1200 时历史大多放得下，压缩几乎不起作用。把预算降到 300、400（任务描述本身约占 100–200 token），历史才会被真正压缩。继续用同一个输出目录，不压缩（full）的结果会直接复用，只跑 4 种方法 × 2 个预算 × 134 局，约 1,070 局：
+
+```bash
+python experiments/alfworld_eval.py run --data data/alfworld --out $OUT $ARGS --budgets 300 400 --methods window obs_mask summary skc --games 6   # 冒烟
+python experiments/alfworld_eval.py run --data data/alfworld --out $OUT $ARGS --budgets 300 400 --methods window obs_mask summary skc
+python experiments/alfworld_eval.py report --out $OUT
+```
+
 ## 5. 把结果交回
 
 把 `$OUT/` 目录下的这几个文件提交到仓库（或直接发给我）：
