@@ -164,7 +164,7 @@ def add_method(a):
         if a.method == "summary_fill":
             s["contexts"][a.method] = summary_fill(turns[: point + 1], summaries.get(f"s{k}", ""))
             continue
-        comp = UtilityCompaction(model=utility_model(a.utility, short, name))
+        comp = UtilityCompaction(model=utility_model(a.utility, short, name), redundancy=a.redundancy)
         s["contexts"][a.method] = render(comp(turns[: point + 1], BUDGET))
     with open(os.path.join(a.out, "samples.jsonl"), "w") as f:
         for s in samples:
@@ -359,6 +359,8 @@ if __name__ == "__main__":
     ap.add_argument("--method", default="skc2",
                     help="context added by the `add` phase: a SKC variant name, or summary_fill (budget-matched "
                          "LLM summary + recent turns; needs summaries.json)")
+    ap.add_argument("--redundancy", action="store_true",
+                    help="`add` phase: SKC with redundancy-aware selection (the final SKC; use --method skc3)")
     ap.add_argument("--utility", default="hgb2", help="utility model prefix used by the `add` phase")
     ap.add_argument("--cache")
     ap.add_argument("--out", default="results/llm")

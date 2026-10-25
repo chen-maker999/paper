@@ -74,6 +74,9 @@ def methods(suite, model, inst):
     hgb2 = utility_model("hgb2", model, inst)
     if suite == "skcred":
         return [UtilityCompaction(model=hgb2, redundancy=True, name="skc+red")]
+    if suite == "skcred_abl":   # ablation subset: final SKC, without redundancy, and its lambda sweep
+        return [UtilityCompaction(model=hgb2, redundancy=True, lam=lam, name="skc+red" if lam == 0.3 else
+                                  f"skc+red lambda={lam:g}") for lam in (0.0, 0.1, 0.3, 1.0, 3.0)]
     if suite == "skconly":
         return [UtilityCompaction(model=hgb2, name="skc")]
     if suite == "main":
