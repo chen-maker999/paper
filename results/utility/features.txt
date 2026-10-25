@@ -29,3 +29,8 @@ type=led:fact
 bm25_last
 lines_last
 lines_recent
+same_file_cur
+same_file_recent
+log_line_dist
+file_rank
+bm25_lastobs
