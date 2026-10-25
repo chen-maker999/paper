@@ -38,7 +38,16 @@ FEATURES = (["log_age", "log_tokens", "bm25", "bm25_rank", "overlap_last", "over
              "log_since_ref", "is_latest", "is_superseded", "has_error", "first_chunk",
              "last_chunk", "chunk_frac", "n_ident"] + [f"type={t}" for t in ITEM_TYPES]
             # v2 features (appended so that models trained on the first 25 features keep working)
-            + ["bm25_last", "lines_last", "lines_recent"])
+            + ["bm25_last", "lines_last", "lines_recent"]
+            # v3 features: where the agent is working (file of the latest view/edit)
+            + ["same_file_cur", "same_file_recent", "log_line_dist", "file_rank", "bm25_lastobs"])
+
+_KEY_FILE = re.compile(r"^(?:view|edit):(.+?)(?:@(-?\d+)|#\d+)$")
+
+
+def _key_file(key):
+    m = _KEY_FILE.match(key)
+    return (m.group(1), int(m.group(2)) if m.group(2) else None) if m else (None, None)
 
 
 @dataclass
@@ -208,6 +217,30 @@ def featurize(items, pinned, hist):
                 idf = math.log(1 + (n - df[w] + 0.5) / (df[w] + 0.5))
                 s2 += idf * f * 2.2 / (f + 1.2 * (0.25 + 0.75 * dl / avgdl))
         scores_last.append(s2)
+    # BM25 against the latest observation (tracebacks and test output point at what is fixed next)
+    q3 = Counter(w.lower() for w in _WORD.findall(tool_turns[-1].text)) if tool_turns else Counter()
+    scores_obs = []
+    for d in docs:
+        dl = sum(d.values())
+        s3 = 0.0
+        for w in q3:
+            f = d.get(w, 0)
+            if f:
+                idf = math.log(1 + (n - df[w] + 0.5) / (df[w] + 0.5))
+                s3 += idf * f * 2.2 / (f + 1.2 * (0.25 + 0.75 * dl / avgdl))
+        scores_obs.append(s3)
+    # working location: files by recency of their last view/edit, and the current view start
+    file_last, cur_file, cur_start = {}, None, None
+    for t in hist:
+        for w in t.writes:
+            fpath, start = _key_file(w.key)
+            if fpath:
+                file_last[fpath] = t.idx
+                cur_file, cur_start = fpath, (start if start is not None else cur_start
+                                              if fpath == cur_file else None)
+    by_recency = sorted(file_last, key=lambda x: -file_last[x])
+    frank = {x: r for r, x in enumerate(by_recency)}
+    recent_files = {x for x, ix in file_last.items() if ix >= now - 6}
     last_lines = set()
     for t in (agent_turns[-1:] + tool_turns[-1:]):
         last_lines.update(informative_lines(t.text, min_len=12))
@@ -217,7 +250,7 @@ def featurize(items, pinned, hist):
     order = np.argsort(-np.array(scores), kind="stable")
     rank = np.empty(n)
     rank[order] = np.arange(n) / max(n - 1, 1)
-    for it, sc, rk, ids, sl in zip(items, scores, rank, item_ids, scores_last):
+    for it, sc, rk, ids, sl, so in zip(items, scores, rank, item_ids, scores_last, scores_obs):
         ref, last_ref = 0, None
         for idx, aids in agent_ids:
             if idx > it.src and ids & aids:
@@ -248,6 +281,15 @@ def featurize(items, pinned, hist):
         f["lines_recent"] = math.log1p(len(il & recent_lines))
         for tname in ITEM_TYPES:
             f[f"type={tname}"] = float(it.itype == tname)
+        files = [_key_file(k) for k in (it.latest_keys | it.stale_keys)]
+        files = [x for x in files if x[0]]
+        f["same_file_cur"] = float(any(x[0] == cur_file for x in files))
+        f["same_file_recent"] = float(any(x[0] in recent_files for x in files))
+        dists = [abs(x[1] - cur_start) for x in files if x[0] == cur_file and x[1] is not None
+                 and cur_start is not None]
+        f["log_line_dist"] = math.log1p(min(dists)) if dists else 8.0
+        f["file_rank"] = min(min((frank[x[0]] for x in files if x[0] in frank), default=20), 20) / 20.0
+        f["bm25_lastobs"] = math.log1p(so)
 
 
 def feature_matrix(items, n_features=None):
@@ -305,8 +347,12 @@ class UtilityCompaction(Compressor):
     name = "skc"
 
     def __init__(self, model=None, lam=0.3, recent=2, chunk_lines=12, chunk_tokens=200,
-                 value_cap=300, safe=True, use_ledger=True, extractor=None, dedup=True, name=None):
+                 value_cap=300, safe=True, use_ledger=True, extractor=None, dedup=True, name=None,
+                 redundancy=False):
         self.model, self.lam, self.recent, self.dedup = model, lam, recent, dedup
+        # redundancy-aware selection: a line is emitted once per source turn (a ledger record
+        # and chunks of the same turn share it); an item is charged only for its new lines
+        self.redundancy = redundancy
         self.chunk_lines, self.chunk_tokens, self.value_cap = chunk_lines, chunk_tokens, value_cap
         self.safe, self.use_ledger, self.extractor = safe, use_ledger, extractor
         if name:
@@ -339,13 +385,22 @@ class UtilityCompaction(Compressor):
             for t in tail:
                 for w in (self.extractor or (lambda x: x.writes))(t):
                     have_latest.add(w.key)
-            chosen = []
+            chosen, emitted = [], {}
             for i in np.argsort(-ratio, kind="stable"):
                 it = items[i]
-                if used + it.tokens > budget:
-                    continue
                 if self.safe and it.stale_keys and not it.stale_keys <= have_latest:
                     continue
+                if self.redundancy:
+                    it2 = _strip_emitted(it, emitted.setdefault(it.src, set()))
+                    if it2 is None:  # fully present already (e.g. a record covered by its turn's chunks)
+                        if it.kind == "ledger":
+                            have_latest |= it.latest_keys
+                        continue
+                    it = it2
+                if used + it.tokens > budget:
+                    continue
+                if self.redundancy:
+                    emitted[it.src].update(n for n in map(norm_line, it.text.split("\n")) if len(n) >= 6)
                 chosen.append(it)
                 used += it.tokens
                 if it.kind == "ledger":  # a chunk may hold only part of a value; a record holds all of it
@@ -362,6 +417,35 @@ class OracleUtility(UtilityCompaction):
 
     def utilities(self, items):
         return count_items(items, *self.need).astype(float)
+
+
+def _strip_emitted(it, emitted):
+    """Copy of `it` without the lines already emitted for its source turn (runs replaced by
+    a marker), or None if nothing new is left. A ledger record keeps its header line."""
+    if not emitted:
+        return it
+    lines = it.text.split("\n")
+    head = [lines[0]] if it.kind == "ledger" else []
+    body = lines[1:] if it.kind == "ledger" else lines
+    kept, skipping, new = [], False, 0
+    for raw in body:
+        n = norm_line(raw)
+        if len(n) >= 6 and n in emitted:
+            if not skipping:
+                kept.append(DEDUP_MARK)
+            skipping = True
+            continue
+        skipping = False
+        kept.append(raw)
+        if len(n) >= 6:
+            new += 1
+    if new == 0:
+        return None
+    if len(kept) == len(body):
+        return it
+    text = "\n".join(head + kept)
+    return Item(it.src, it.kind, text, count_tokens(text), it.itype, it.latest_keys, it.stale_keys,
+                it.chunk_idx, it.n_chunks, it.feats)
 
 
 def _assemble(chosen):

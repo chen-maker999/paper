@@ -98,6 +98,20 @@ def methods(suite, model, inst):
                 UtilityCompaction(model=hgb2, name="skc-v2"),
                 UtilityCompaction(model=hgb2, lam=0.1, name="skc-v2 l0.1"),
                 UtilityCompaction(model=hgb2, lam=1.0, name="skc-v2 l1")]
+    if suite == "devv3":
+        return [ChunkBM25(), StateKeyedCompaction(name="skc-basic"),
+                UtilityCompaction(model=hgb2, name="skc"),
+                UtilityCompaction(model=hgb2, redundancy=True, name="skc+red"),
+                UtilityCompaction(model=hgb2, redundancy=True, lam=1.0, name="skc+red l1"),
+                UtilityCompaction(model=hgb2, redundancy=True, lam=0.1, name="skc+red l0.1")]
+    if suite == "devv4":
+        hgb3 = utility_model("hgb3", model, inst)
+        out = [ChunkBM25(), StateKeyedCompaction(name="skc-basic"),
+               UtilityCompaction(model=hgb2, name="skc"),
+               UtilityCompaction(model=hgb2, redundancy=True, name="skc+red")]
+        out += [UtilityCompaction(model=hgb3, redundancy=True, lam=lam, name=f"skc3+red l{lam}")
+                for lam in (0.1, 0.3, 1.0, 3.0)]
+        return out
     if suite == "grid":
         out = []
         for cl, ct in ((12, 200), (24, 400), (48, 800)):
