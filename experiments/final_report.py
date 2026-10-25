@@ -190,7 +190,17 @@ def compression(tok):
 
 
 def ablation():
-    df = pd.read_csv(os.path.join(RES, "eval_ablation_v2_pertraj.csv.gz"))
+    # component ablations were run on SKC without redundancy-aware selection ("skc-nored");
+    # the final SKC and its lambda sweep come from the `skcred_abl` run on the same subset
+    old = pd.read_csv(os.path.join(RES, "eval_ablation_v2_pertraj.csv.gz"))
+    old = old[old.method != "recent R=2"]   # identical to the default configuration
+    old = old.assign(method=old.method.replace({"skc": "skc-nored",
+                                                "lambda=0": "nored lambda=0", "lambda=0.1": "nored lambda=0.1",
+                                                "lambda=1": "nored lambda=1", "lambda=3": "nored lambda=3"}))
+    new = pd.read_csv(os.path.join(RES, "eval_skcred_abl_pertraj.csv.gz"))
+    new = new.assign(method=new.method.str.replace("skc+red lambda=", "lambda=", regex=False)
+                     .replace({"skc+red": "skc"}))
+    df = pd.concat([old, new])
     out = None
     for probe, rf, oc, t in [("state", "all", "correct", "state"), ("state", "all", "stale", "stale"),
                              ("use", "long", "correct", "use"), ("copy", "long", "correct", "copy")]:

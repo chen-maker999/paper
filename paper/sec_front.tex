@@ -364,8 +364,14 @@ the knapsack ratio of \cref{prop:knapsack}, where $\lambda{=}0.3$ is the value
 of holding the current state even when the very next step does not use it.
 Selection obeys the \emph{supersession-safety constraint} of \cref{cor:safe}:
 an item that carries a superseded value of key $k$ is admitted only if the
-current value of $k$ is already in the context. Selected chunks of the same turn
-are merged in their original order, with gaps marked.
+current value of $k$ is already in the context. Selection is also
+\emph{redundancy-aware}: a ledger record and the chunks of the same turn often
+repeat each other (a record is the verbatim value carried by that turn), so each
+item is charged only for the lines not yet emitted for its source turn, those
+lines are replaced by a marker, and an item with no new line is skipped. On the
+development set this removes duplicates that took 6--9\% of the context.
+Selected chunks of the same turn are merged in their original order, with gaps
+marked.
 
 \paragraph{Training the utility model.} Labels come for free from logged
 trajectories: an item is positive if the agent's next action uses one of its
@@ -387,8 +393,9 @@ instances. The utility model thus never sees the evaluated LLM or task.
 \State $\mathcal{I} \gets \{\textsc{Record}(k)\}_{k\in \mathrm{L}} \cup \textsc{Chunks}(\tilde x_{2:t-R})$
 \State $\mathit{have} \gets$ keys whose current value is in $c$
 \For{$i\in\mathcal{I}$ in decreasing order of \cref{eq:ratio}} \Comment{layer 3: utility}
-  \If{$|c|+|i|\le B$ \textbf{and} superseded keys of $i \subseteq \mathit{have}$}
-    \State $c\gets c\cup\{i\}$; $\mathit{have}\gets \mathit{have}\,\cup$ current keys of $i$
+  \State $i' \gets i$ without lines already emitted for its source turn \Comment{redundancy-aware}
+  \If{$i'\neq\emptyset$ \textbf{and} $|c|+|i'|\le B$ \textbf{and} superseded keys of $i \subseteq \mathit{have}$}
+    \State $c\gets c\cup\{i'\}$; $\mathit{have}\gets \mathit{have}\,\cup$ current keys of $i$
   \EndIf
 \EndFor
 \State \Return $c$ in original order (ledger records first, chunks of a turn merged)
@@ -397,7 +404,7 @@ instances. The utility model thus never sees the evaluated LLM or task.
 
 SKC calls no LLM: extraction is a parse of the tool call, compaction is a
 dictionary update and a set lookup, and the utility model is an ensemble of small
-trees over 25 features. It runs in 0.1--0.25\,s per step on one CPU core (\cref{tab:efficiency}),
+trees over 31 features. It runs in 0.1--0.25\,s per step on one CPU core (\cref{tab:efficiency}),
 and since it always selects from the original history (rather than from a
 previous summary) it does not compound errors over time, unlike recursive
 summarization. We also report \textbf{SKC-basic}, an earlier
