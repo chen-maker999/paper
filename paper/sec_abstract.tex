@@ -15,16 +15,19 @@ $(1-\rho)(1-(1-\rho)^{m-1})$ for a key with $m$ writes, a law that also governs
 imperfect extraction. We propose State-Keyed Compaction (SKC), a model-free
 compressor with three layers: a verbatim latest-value ledger, supersession-aware
 deduplication, and a knapsack scored by a utility model trained for free from
-logged trajectories. Across 4{,}979 public trajectories from two agent scaffolds
-and twelve LLM configurations, 65--89\% of context tokens are tool outputs and
-23--55\% are repeated lines. On 2{,}479 held-out trajectories, SKC keeps
-7--9 points more state than the best of seven baselines in-domain
-(e.g.\ 65.0\% vs.\ 57.8\% at a $4.7\times$ compression) and 3--6 points more on
-unseen scaffolds and LLMs, with stale rates (0.1--0.3\%) as low as a recency
-window. With three LLM readers from two families, SKC raises the accuracy of
+logged trajectories, with redundancy-aware selection that charges each item only
+for content not yet in the context. Across 4{,}979 public trajectories from two
+agent scaffolds and twelve LLM configurations, 65--89\% of context tokens are
+tool outputs and 23--55\% are repeated lines. On 2{,}479 held-out trajectories,
+SKC keeps 9--13 points more state than the best of seven baselines in-domain
+(e.g.\ 67.1\% vs.\ 57.8\% at a $4.7\times$ compression) and 7--10 points more on
+unseen scaffolds and LLMs, with stale rates (0.1--0.2\%) as low as a recency
+window, while preserving as many of the identifiers the next action uses as the
+best lexical selector in-domain. With three LLM readers from two families, SKC (without redundancy-aware selection) raises the accuracy of
 questions about the agent's current state from 25--40\% to 50--77\%
 ($p<10^{-3}$) without degrading next-action prediction, while a budget-matched
-LLM summary with recent turns answers 18--38\%. Fine-grained lexical selection still preserves more of the
-code that agents re-type; an oracle utility shows that this gap is one of
-prediction, which our framework can absorb.
+LLM summary with recent turns answers 18--38\%. Fine-grained lexical selection
+still preserves slightly more of the code that agents re-type (1--5 points);
+an oracle utility shows that this gap is one of prediction, which our framework
+can absorb.
 \end{abstract}

@@ -119,6 +119,16 @@ python experiments/llm_eval.py submit  --out $OUT $ARGS                     # �
 python experiments/llm_eval.py collect --out $OUT
 ```
 
+## 4.2.1 补跑最终版 SKC（去冗余选择）
+
+最终版 SKC 加入了去冗余选择。只给它补跑（约 600 次请求/模型）：
+
+```bash
+python experiments/llm_eval.py add     --method skc3 --redundancy --cache data/cache --out $OUT
+python experiments/llm_eval.py submit  --out $OUT $ARGS
+python experiments/llm_eval.py collect --out $OUT
+```
+
 ## 4.3 同预算的 LLM 摘要基线（summary_fill）
 
 原来的 LLM 摘要基线只用了约 30% 的预算。`summary_fill` 复用已有的 `summaries.json`，在摘要后面用最近的原始轮次把 8k 预算填满（与 Claude Code 等系统的做法一致）：

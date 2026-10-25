@@ -56,7 +56,8 @@ it.
   supersession-aware deduplication of repeated lines, and a knapsack over ledger
   records and history chunks scored by a small utility model that is trained
   \emph{for free} from logged trajectories and transfers across LLMs and agent
-  scaffolds.
+  scaffolds, with redundancy-aware selection that never pays twice for the
+  same line of a turn.
   \item \textbf{An extensive empirical study}: an ideal-reader evaluation on
   2{,}479 held-out trajectories (SWE-agent on SWE-bench Lite with five LLMs;
   OpenHands and SWE-agent on SWE-bench Verified with seven further LLM
@@ -67,24 +68,27 @@ it.
 \end{enumerate}
 
 \paragraph{Main findings.} At a 4k-token budget (a $4.7\times$ compression of
-the average history), SKC keeps the current value of 65\% of all state
-variables, $+7.2$ points (95\% CI $[6.7,7.7]$) over the best of seven baselines,
-and the gap grows to $+9.4$ at 32k; on unseen scaffolds and LLMs it is $+3.4$ to
-$+5.9$. Selection methods leave stale state on 1.0--2.8\% of probes (13--18\% of
-the values they keep for keys rewritten three or more times); SKC on 0.1--0.3\%, as low as
+the average history), SKC keeps the current value of 67\% of all state
+variables, $+9.3$ points (95\% CI $[8.8,9.8]$) over the best of seven baselines,
+and the gap grows to $+13.4$ at 16k; on unseen scaffolds and LLMs it is $+6.7$
+to $+10.2$. Selection methods leave stale state on 1.0--2.8\% of probes (13--18\% of
+the values they keep for keys rewritten three or more times); SKC on 0.1--0.2\%, as low as
 a recency window while retaining far more. With real LLM readers, SKC raises
 state-question accuracy from 25--40\% (best baseline) to 50--77\% across three
 models ($p<10^{-3}$), while next-action prediction is statistically
 indistinguishable from the baselines; a budget-matched LLM summary (summary plus
-recent turns, as in production agents) answers 18--38\%. SKC is not uniformly best: fine-grained BM25 selection preserves more
-lines that the agent later copies (by 1--8 points), which an oracle utility shows
-is a gap of prediction rather than of the framework.
+recent turns, as in production agents) answers 18--38\%. In-domain SKC also
+preserves the most identifiers that the next action uses, but it is not
+uniformly best: fine-grained BM25 selection preserves more lines that the agent
+later copies (by 1--5 points in-domain), which an oracle utility shows is a gap
+of prediction rather than of the framework.
 
 \paragraph{Scope.} Our main evaluation measures \emph{information sufficiency}
 with an ideal reader, which isolates the compressor from the reader; an
 LLM-in-the-loop study with three reader models checks that the preserved
-information is usable. We do not run agents end-to-end on compressed contexts
-(\cref{sec:limitations}). Code, parsed probes, trained utility models and all
+information is usable, and an ALFWorld study runs an agent end-to-end on
+compressed contexts (\cref{app:alfworld}); end-to-end runs on SWE-bench remain
+future work (\cref{sec:limitations}). Code, parsed probes, trained utility models and all
 results are released.
 
 %% ---------------------------------------------------------------------------
@@ -404,7 +408,7 @@ instances. The utility model thus never sees the evaluated LLM or task.
 
 SKC calls no LLM: extraction is a parse of the tool call, compaction is a
 dictionary update and a set lookup, and the utility model is an ensemble of small
-trees over 31 features. It runs in 0.1--0.25\,s per step on one CPU core (\cref{tab:efficiency}),
+trees over 31 features. It runs in 0.12--0.31\,s per step on one CPU core (\cref{tab:efficiency}),
 and since it always selects from the original history (rather than from a
 previous summary) it does not compound errors over time, unlike recursive
 summarization. We also report \textbf{SKC-basic}, an earlier

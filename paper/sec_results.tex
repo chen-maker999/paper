@@ -52,7 +52,10 @@ answers are graded correct, stale (an earlier run's output), unknown or wrong.
 Task~B (\emph{next action}) asks for the agent's next tool call; we report
 whether it names the same file as the true action and identifier-level F1. An
 \textbf{LLM summary} baseline replaces the history before the last two turns by
-a summary of at most 4k tokens written by the same reader model.
+a summary of at most 4k tokens written by the same reader model. This study (and the ALFWorld study in
+\cref{app:alfworld}) was run with SKC before redundancy-aware selection was
+added, a variant that keeps 2--4 points less state in the ideal-reader
+evaluation.
 
 \begin{table}[t]
 \centering
@@ -138,22 +141,22 @@ Recency window & 45.3 & 55.5 & 64.4 & 72.4 & 0.3 & 0.2 & 0.2 & \textbf{0.1} & 54
 Observation masking & 44.8 & 50.8 & 46.4 & 39.1 & 0.3 & 0.3 & 0.6 & 0.7 & 55.0 & 77.7 & 87.5 & 88.3 & 49.5 & 78.4 & 93.2 & 93.5 \\
 Truncate observations & 49.2 & 54.8 & 58.8 & 59.9 & 0.7 & 1.3 & 1.8 & 1.8 & 70.1 & 84.7 & 89.1 & 88.2 & 66.3 & 87.0 & 94.1 & 95.7 \\
 BM25 (turns) & 47.7 & 53.6 & 60.6 & 70.7 & 1.9 & 1.8 & 1.8 & 1.3 & 72.7 & 80.4 & 87.3 & 92.3 & 64.0 & 74.0 & 86.0 & 93.4 \\
-BM25 (chunks) & 48.5 & 56.6 & 65.1 & 75.1 & 2.1 & 2.0 & 1.7 & 1.3 & \textbf{80.5} & \textbf{89.4} & \textbf{95.4} & \textbf{99.0} & \textbf{75.7} & \textbf{87.7} & \textbf{95.3} & \textbf{99.0} \\
+BM25 (chunks) & 48.5 & 56.6 & 65.1 & 75.1 & 2.1 & 2.0 & 1.7 & 1.3 & 80.5 & 89.4 & 95.4 & \textbf{99.0} & \textbf{75.7} & \textbf{87.7} & \textbf{95.3} & \textbf{99.0} \\
 Self-information & 36.8 & 44.7 & 54.4 & 69.3 & 1.3 & 1.6 & 1.8 & 1.4 & 58.3 & 73.6 & 87.0 & 95.8 & 34.4 & 48.2 & 69.0 & 85.4 \\
 Random selection & 57.8 & 67.3 & 75.7 & 82.5 & 2.8 & 2.2 & 1.6 & 1.0 & 74.0 & 82.2 & 91.6 & 95.4 & 63.4 & 77.0 & 90.0 & 96.7 \\
-SKC-basic (ours) & \textbf{69.7} & \textbf{77.6} & 83.6 & 87.8 & \textbf{0.2} & \textbf{0.2} & \textbf{0.2} & 0.1 & 72.8 & 83.7 & 92.7 & 94.9 & 51.3 & 73.4 & 90.6 & 98.2 \\
-SKC (ours) & 65.0 & 74.8 & \textbf{85.0} & \textbf{91.8} & 0.3 & \textbf{0.2} & \textbf{0.2} & \textbf{0.1} & 79.5 & 88.3 & 94.6 & 97.4 & 67.6 & 81.3 & 90.0 & 96.2 \\
+SKC-basic (ours) & \textbf{69.7} & 77.6 & 83.6 & 87.8 & \textbf{0.2} & \textbf{0.2} & 0.2 & 0.1 & 72.8 & 83.7 & 92.7 & 94.9 & 51.3 & 73.4 & 90.6 & 98.2 \\
+SKC (ours) & 67.1 & \textbf{78.9} & \textbf{89.1} & \textbf{94.8} & \textbf{0.2} & \textbf{0.2} & \textbf{0.1} & \textbf{0.1} & \textbf{81.5} & \textbf{90.3} & \textbf{95.9} & \textbf{99.0} & 70.5 & 84.6 & 94.2 & 97.2 \\
 \midrule
 \multicolumn{17}{l}{\emph{(b) Cross-scaffold: OpenHands and SWE-agent on SWE-bench Verified, 7 LLM configurations, 1{,}050 trajectories}} \\
 Recency window & 37.5 & 51.3 & 66.3 & 78.7 & \textbf{0.2} & 0.2 & 0.2 & \textbf{0.1} & 51.7 & 70.0 & 85.2 & 94.7 & 48.9 & 71.7 & 88.2 & 96.5 \\
 Observation masking & 37.0 & 46.3 & 47.2 & 42.2 & \textbf{0.2} & 0.2 & 0.3 & 0.5 & 52.1 & 72.7 & 86.9 & 91.9 & 49.6 & 75.1 & 89.5 & 94.7 \\
 Truncate observations & 36.8 & 46.1 & 53.0 & 56.0 & 0.5 & 0.8 & 1.2 & 1.3 & 59.9 & 76.2 & 86.5 & 92.7 & 57.8 & \textbf{78.8} & 88.9 & 95.9 \\
 BM25 (turns) & 34.0 & 43.4 & 58.0 & 75.4 & 1.0 & 1.3 & 1.3 & 0.8 & 64.7 & 77.7 & 86.1 & 93.1 & 51.5 & 65.4 & 74.3 & 83.2 \\
-BM25 (chunks) & 29.4 & 42.4 & 59.9 & 77.2 & 0.7 & 1.1 & 1.2 & 1.0 & \textbf{69.0} & \textbf{83.8} & \textbf{93.7} & \textbf{98.1} & \textbf{59.0} & 76.8 & \textbf{90.5} & \textbf{97.3} \\
+BM25 (chunks) & 29.4 & 42.4 & 59.9 & 77.2 & 0.7 & 1.1 & 1.2 & 1.0 & \textbf{69.0} & \textbf{83.8} & \textbf{93.7} & 98.1 & \textbf{59.0} & 76.8 & 90.5 & 97.3 \\
 Self-information & 25.1 & 31.2 & 44.1 & 64.1 & 0.3 & 0.6 & 0.9 & 1.5 & 43.2 & 62.2 & 80.3 & 92.4 & 20.7 & 30.0 & 46.4 & 66.3 \\
 Random selection & 43.8 & 56.8 & 71.9 & 84.5 & 1.4 & 1.5 & 1.3 & 0.9 & 63.0 & 76.0 & 87.2 & 94.7 & 50.6 & 65.1 & 81.3 & 91.7 \\
-SKC-basic (ours) & \textbf{55.4} & \textbf{70.2} & \textbf{79.5} & 85.2 & \textbf{0.2} & \textbf{0.1} & \textbf{0.1} & \textbf{0.1} & 61.4 & 74.1 & 86.2 & 93.7 & 46.2 & 63.6 & 83.8 & 94.3 \\
-SKC (ours) & 48.7 & 62.8 & 76.1 & \textbf{87.9} & \textbf{0.2} & 0.3 & 0.2 & 0.1 & 64.8 & 79.1 & 90.3 & 96.6 & 55.2 & 74.2 & 89.3 & 96.6 \\
+SKC-basic (ours) & \textbf{55.4} & \textbf{70.2} & 79.5 & 85.2 & \textbf{0.2} & \textbf{0.1} & \textbf{0.1} & \textbf{0.1} & 61.4 & 74.1 & 86.2 & 93.7 & 46.2 & 63.6 & 83.8 & 94.3 \\
+SKC (ours) & 50.5 & 66.2 & \textbf{82.0} & \textbf{94.8} & \textbf{0.2} & 0.2 & \textbf{0.2} & \textbf{0.1} & 66.7 & 82.2 & 93.4 & \textbf{98.9} & 57.2 & 78.2 & \textbf{92.9} & \textbf{98.2} \\
 \bottomrule
 \end{tabular}
 \end{table*}
@@ -163,33 +166,43 @@ SKC (ours) & 48.7 & 62.8 & 76.1 & \textbf{87.9} & \textbf{0.2} & 0.3 & 0.2 & 0.1
 \includegraphics[width=\linewidth]{figures/real_budget.pdf}
 \caption{In-domain results as a function of the budget (95\% bootstrap
 intervals). SKC and SKC-basic keep the most state at every budget and are as
-stale-free as a recency window; fine-grained BM25 keeps the most copied lines.}
+stale-free as a recency window; SKC matches fine-grained BM25 on identifiers the
+next action uses, and BM25 keeps the most copied lines.}
 \label{fig:real-budget}
 \end{figure}
 
 \paragraph{State retention.} \Cref{tab:main} and \cref{fig:real-budget} give the
-main comparison. In-domain, SKC keeps the current value of 65.0\% / 74.8\% /
-85.0\% / 91.8\% of all state variables at 4k / 8k / 16k / 32k tokens, against
+main comparison. In-domain, SKC keeps the current value of 67.1\% / 78.9\% /
+89.1\% / 94.8\% of all state variables at 4k / 8k / 16k / 32k tokens, against
 57.8\% / 67.3\% / 75.7\% / 82.5\% for the best baseline (random selection) and
-45--72\% for the recency window. The paired differences, $+7.2$, $+7.5$, $+9.2$
-and $+9.4$ points, have 95\% intervals of width below 1.6 points ($p<10^{-3}$).
-SKC-basic, which spends its budget on the ledger first, keeps even more state at
-small budgets (69.7\% at 4k). The gain transfers to unseen scaffolds and LLMs:
-on the cross-scaffold set SKC improves on the best baseline by $+4.9$, $+5.9$,
-$+4.1$ and $+3.4$ points (all $p<10^{-3}$), and SKC-basic by up to $+13.4$, for
-each of the seven configurations (\cref{app:results}). Budgets correspond to
-real compression: at 4k, SKC reduces the average history of 18.6k tokens by
-$4.7\times$ (at 32k, $1.7\times$) in 0.1--0.25\,s per step on one CPU core
-(\cref{tab:efficiency}).
+45--72\% for the recency window. The paired differences, $+9.3$, $+11.6$,
+$+13.4$ and $+12.4$ points, have 95\% intervals of width below 1.5 points
+($p<10^{-3}$). SKC-basic, which spends its budget on the ledger first, keeps
+more state only at the smallest budget (69.7\% at 4k); from 8k on SKC keeps
+more ($+1.3$ to $+7.0$ points, $p<10^{-3}$). The gain transfers to unseen
+scaffolds and LLMs: on the cross-scaffold set SKC improves on the best baseline
+by $+6.7$, $+9.3$, $+10.1$ and $+10.2$ points (all $p<10^{-3}$), for each of the
+seven configurations (\cref{app:results}); there SKC-basic keeps more at 4k and
+8k. Budgets correspond to real compression: at 4k, SKC reduces the average
+history of 18.6k tokens by $4.7\times$ (at 32k, $1.7\times$) in 0.12--0.31\,s
+per step on one CPU core (\cref{tab:efficiency}).
+
+\paragraph{Redundancy-aware selection.} Charging each item only for the lines
+not yet emitted for its turn (\cref{sec:method}) improves every probe at every
+budget on both sets: in-domain by $+2.1$ to $+4.1$ points of state, $+1.4$ to
+$+2.0$ of use and $+0.9$ to $+4.2$ of copy; on the cross-scaffold set by
+$+1.7$ to $+6.8$, $+1.8$ to $+3.1$ and $+1.6$ to $+4.1$ (paired tests against
+SKC without it, all $p<0.003$). It costs no LLM call and about 25\% more
+selection time.
 
 \paragraph{Staleness.} Selection methods leave stale state on 1.0--2.8\% of all
 probes in-domain. This average hides the dependence on overwrites predicted by
 \cref{prop:stale} (\cref{fig:stale-real}): for keys written three or more
 times, BM25 and random selection are stale on 9--13\% of probes, i.e.\ 13--18\%
 of the values they retain for such keys are outdated. SKC is stale on
-0.1--0.3\% of probes, statistically indistinguishable from the recency window
-(the least stale baseline; $p\ge0.18$ at every budget in-domain) while keeping
-19--21 points more state.
+0.1--0.2\% of probes, never more than the recency window (the least stale
+baseline; lower at 4k and 16k, $p<0.05$, indistinguishable otherwise) while
+keeping 22--25 points more state.
 
 \begin{figure}[t]
 \centering
@@ -220,18 +233,21 @@ identifier or line last appeared (middle, right).}
 \end{figure}
 
 \paragraph{Information the agent uses next.} The key-free probes paint a more
-nuanced picture. SKC preserves long-range identifiers as well as the best
-baseline in-domain (79.5\% vs.\ 80.5\% for chunk-level BM25 at 4k; differences of
-1--1.6 points, $p\ge0.05$) and better than every other baseline (window 54.5\%,
-masking 55.0\%, random 74.0\%). For lines the agent later \emph{copies},
-chunk-level BM25 is best (75.7\% vs.\ 67.6\% at 4k; the gap shrinks to 2.7
-points at 32k); on the cross-scaffold set the gap to BM25 is 1.5--4.7 points on
-use and 0.7--4.7 on copy. Copying is dominated by an agent re-typing parts of a
-script or edit it wrote a few steps before, which lexical overlap with the
-latest agent turn captures directly. \Cref{fig:frontier} shows that this is a
-trade-off governed by $\lambda$ rather than a ceiling: with $\lambda=0$, SKC
-matches BM25 on use at 4k while keeping 5 points more state, and every
-operating point with $\lambda\ge0.1$ keeps more state than every baseline. The oracle utility in
+nuanced picture. In-domain, SKC preserves the most long-range identifiers at
+every budget (81.5\% vs.\ 80.5\% for chunk-level BM25 at 4k; differences of
+0--1 point, $p\ge0.2$) and far more than the window (54.5\%), masking (55.0\%)
+or random selection (74.0\%). For lines the agent later \emph{copies},
+chunk-level BM25 is best in-domain (75.7\% vs.\ 70.5\% at 4k; 1.1--3.1 points at
+8k--32k). On the cross-scaffold set SKC trails BM25 by 1.7--2.3 points on use at
+4k--8k and matches or exceeds it from 16k, and on copy it is within 2 points at
+4k--8k and better by 2.5 points at 16k ($p=0.006$). Copying is dominated by an
+agent re-typing parts of a script or edit it wrote a few steps before, which
+lexical overlap with the latest agent turn captures directly.
+\Cref{fig:frontier} shows that this is a trade-off governed by $\lambda$ rather
+than a ceiling. On the ablation subset at 4k, $\lambda=0.1$ comes within 0.5
+points of chunk-level BM25 on use and 1.2 on copy while keeping 12.7 points more
+state (61.4\% vs.\ 48.7\%), and $\lambda=1$ dominates SKC-basic, with more state
+(70.6\% vs.\ 69.7\%), use ($+7.6$) and copy ($+11.0$). The oracle utility in
 \cref{sec:ablation} shows that better utility prediction alone would raise use
 and copy to 93--95\%.
 
@@ -309,8 +325,10 @@ state readable without degrading what the next step needs.
 \begin{table}[t]
 \centering
 \small
-\caption{Ablations (in-domain, 100 trajectories per LLM, \%). Each row changes one
-component of SKC.}
+\caption{Ablations (in-domain, 100 trajectories per LLM, \%). The component
+ablations below the first block remove one component from SKC \emph{without}
+redundancy-aware selection (the configuration they were run on); the oracle uses
+the same configuration.}
 \label{tab:ablation}
 \setlength{\tabcolsep}{3pt}
 \begin{tabular}{l rr rr rr rr}
@@ -319,22 +337,26 @@ component of SKC.}
 \cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}\cmidrule(lr){8-9}
 Variant & 4k & 8k & 4k & 8k & 4k & 8k & 4k & 8k \\
 \midrule
-SKC & 64.7 & 74.1 & 0.3 & 0.2 & 78.8 & 88.7 & 67.9 & 83.8 \\
-\quad $-$ ledger (layer 1) & 54.4 & 67.4 & 0.3 & 0.2 & 80.3 & 89.0 & 75.2 & 86.3 \\
-\quad $-$ deduplication (layer 2) & 62.7 & 69.4 & 0.4 & 0.5 & 78.1 & 88.4 & 69.0 & 83.3 \\
-\quad $-$ learned utility (heuristic) & 69.5 & 76.6 & 0.3 & 0.3 & 78.1 & 88.3 & 59.2 & 82.9 \\
-\quad $-$ chunking (whole turns) & 67.0 & 77.1 & 0.3 & 0.2 & 78.6 & 87.8 & 65.1 & 79.8 \\
-\quad $-$ safety constraint & 64.4 & 73.7 & 0.5 & 0.3 & 79.2 & 88.9 & 67.8 & 84.4 \\
-\quad logistic-regression utility & 65.5 & 75.0 & 0.2 & 0.2 & 80.0 & 88.5 & 71.2 & 82.3 \\
-\quad extractor recall 0.7 & 59.7 & 69.0 & 0.9 & 0.9 & 79.1 & 88.9 & 69.5 & 84.3 \\
-\quad $\lambda=0$ / $\lambda=3$ & 53.6/70.0 & 65.3/77.0 & 0.3/0.3 & 0.2/0.2 & 80.4/78.4 & 88.7/88.2 & 72.9/55.2 & 85.7/77.6 \\
+SKC & 66.8 & 78.1 & 0.2 & 0.2 & 80.7 & 91.1 & 71.2 & 86.9 \\
+\quad $\lambda=0$ / $\lambda=3$ & 56.3/71.2 & 70.3/80.1 & 0.2/0.3 & 0.2/0.2 & 81.7/79.0 & 90.5/89.8 & 75.6/56.4 & 88.2/81.4 \\
+\quad $-$ redundancy-aware selection & 64.7 & 74.1 & 0.3 & 0.2 & 78.8 & 88.7 & 67.9 & 83.8 \\
+\midrule
+\quad\quad $-$ ledger (layer 1) & 54.4 & 67.4 & 0.3 & 0.2 & 80.3 & 89.0 & 75.2 & 86.3 \\
+\quad\quad $-$ deduplication (layer 2) & 62.7 & 69.4 & 0.4 & 0.5 & 78.1 & 88.4 & 69.0 & 83.3 \\
+\quad\quad $-$ learned utility (heuristic) & 69.5 & 76.6 & 0.3 & 0.3 & 78.1 & 88.3 & 59.2 & 82.9 \\
+\quad\quad $-$ chunking (whole turns) & 67.0 & 77.1 & 0.3 & 0.2 & 78.6 & 87.8 & 65.1 & 79.8 \\
+\quad\quad $-$ safety constraint & 64.4 & 73.7 & 0.5 & 0.3 & 79.2 & 88.9 & 67.8 & 84.4 \\
+\quad\quad logistic-regression utility & 65.5 & 75.0 & 0.2 & 0.2 & 80.0 & 88.5 & 71.2 & 82.3 \\
+\quad\quad extractor recall 0.7 & 59.7 & 69.0 & 0.9 & 0.9 & 79.1 & 88.9 & 69.5 & 84.3 \\
 \midrule
 Oracle utility (upper bound) & 66.2 & 75.9 & 0.3 & 0.2 & 93.3 & 95.3 & 93.1 & 94.5 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\Cref{tab:ablation} isolates each component. The \emph{ledger} is what retains
+\Cref{tab:ablation} isolates each component. \emph{Redundancy-aware selection}
+adds 2.1 / 4.0 points of state, 1.9 / 2.4 of use and 3.3 / 3.1 of copy at 4k /
+8k. Starting from SKC without it, the \emph{ledger} is what retains
 state: removing it costs 10.3 / 6.7 points at 4k / 8k, while its budget would
 otherwise buy only 0.3--1.5 points of use and 2.5--7.3 of copy. \emph{Deduplication}
 adds 2.0 / 4.7 points of state at little cost elsewhere, consistent with
@@ -347,7 +369,10 @@ triples staleness, the effect predicted by \cref{prop:stale}. Finally, an
 93--95\% with the same budget, framework and state retention: the remaining gap
 to chunk-level BM25 on copy is a matter of utility prediction (AUC 0.818 for
 our model vs.\ 0.707 for BM25 relevance, \cref{tab:auc}), not of the compaction
-layers.
+layers. Adding features that describe where the agent is working (the file and
+region of the latest view or edit, BM25 against the latest observation) raised
+the AUC only to 0.824 and did not improve the development-set probes, so we did
+not adopt them.
 
 \subsection{Controlled experiments}
 \label{sec:synthetic}
@@ -399,10 +424,12 @@ ledger alone.}
 \section{Discussion and Limitations}
 \label{sec:limitations}
 
-\paragraph{When to use which variant.} SKC-basic maximizes state retention and
-is the better choice when the agent must not lose track of its edits, results
-and constraints; SKC trades some of that for the information the next step is
-likely to use; and $\lambda$ moves continuously between the two. For agents whose
+\paragraph{When to use which variant.} SKC is the default: from 8k tokens on it
+keeps the most state in-domain and the most identifiers the next step uses.
+SKC-basic keeps more state at the smallest budgets and on unfamiliar scaffolds
+(4k--8k cross-scaffold), where the learned utility spends budget on content the
+next step may need; $\lambda$ moves continuously between the two, and
+$\lambda=1$ already dominates SKC-basic in-domain. For agents whose
 next action often re-types recent text, a lexical relevance term remains a
 strong signal---our utility model already uses it, and the oracle bound shows how
 much better utility prediction could still gain.
@@ -428,7 +455,10 @@ extractors. The ordering of methods is unchanged for evidence thresholds
 $\theta\in\{0.6,0.8,1.0\}$ (\cref{app:results}). The three v2 utility features
 (BM25 against the latest agent turn alone and line overlap with recent turns)
 were added after a first evaluation and validated on the development split only;
-on the test set they change SKC by less than one point.
+on the test set they change SKC by less than one point. Redundancy-aware
+selection was likewise designed on the development split, after a diagnosis of
+where SKC's budget went (20--25\% of its context tokens were duplicate lines),
+and then evaluated once on the test sets.
 
 \paragraph{Scope.} The trajectories come from software-engineering agents with
 typed tools, where most state writes can be extracted structurally. Agents whose
@@ -444,10 +474,11 @@ those events define. Viewing compression through this lens separates missing
 from stale state, explains when common compressors fail---windows forget by age,
 supersession-blind selection retains outdated values at a rate that grows with
 overwrites---and suggests compaction at three levels: keys, content and
-utility. SKC, a model-free implementation, keeps 7--9 points more state than the
-best of seven baselines in-domain and 3--6 points more on unseen scaffolds and
-LLMs, is as stale-free as a recency window, and doubles the accuracy with which
-LLM readers recover the agent's current state, without hurting next-action
-prediction. The open problems are utility prediction, which an oracle shows
+utility. SKC, a model-free implementation, keeps 9--13 points more state than the
+best of seven baselines in-domain and 7--10 points more on unseen scaffolds and
+LLMs, is as stale-free as a recency window, preserves as many of the identifiers
+the next action uses as the best lexical selector in-domain, and doubles the
+accuracy with which LLM readers recover the agent's current state, without
+hurting next-action prediction. The open problems are utility prediction, which an oracle shows
 could close the remaining gap on copied content, extraction for unstructured
 state, and end-to-end validation.
