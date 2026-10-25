@@ -72,6 +72,8 @@ def utility_model(kind, model, inst):
 def methods(suite, model, inst):
     hgb = utility_model("hgb", model, inst)
     hgb2 = utility_model("hgb2", model, inst)
+    if suite == "skcred":
+        return [UtilityCompaction(model=hgb2, redundancy=True, name="skc+red")]
     if suite == "skconly":
         return [UtilityCompaction(model=hgb2, name="skc")]
     if suite == "main":
