@@ -164,7 +164,11 @@ def add_method(a):
         if a.method == "summary_fill":
             s["contexts"][a.method] = summary_fill(turns[: point + 1], summaries.get(f"s{k}", ""))
             continue
-        comp = UtilityCompaction(model=utility_model(a.utility, short, name), redundancy=a.redundancy)
+        if a.method == "llmlingua2":
+            from skc.lingua import LLMLingua2
+            comp = LLMLingua2()
+        else:
+            comp = UtilityCompaction(model=utility_model(a.utility, short, name), redundancy=a.redundancy)
         s["contexts"][a.method] = render(comp(turns[: point + 1], BUDGET))
     with open(os.path.join(a.out, "samples.jsonl"), "w") as f:
         for s in samples:

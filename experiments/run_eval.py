@@ -77,6 +77,9 @@ def methods(suite, model, inst):
     if suite == "skcred_abl":   # ablation subset: final SKC, without redundancy, and its lambda sweep
         return [UtilityCompaction(model=hgb2, redundancy=True, lam=lam, name="skc+red" if lam == 0.3 else
                                   f"skc+red lambda={lam:g}") for lam in (0.0, 0.1, 0.3, 1.0, 3.0)]
+    if suite == "lingua":   # learned token-level compression baseline (needs torch + the checkpoint)
+        from skc.lingua import LLMLingua2
+        return [LLMLingua2()]
     if suite == "skconly":
         return [UtilityCompaction(model=hgb2, name="skc")]
     if suite == "main":
