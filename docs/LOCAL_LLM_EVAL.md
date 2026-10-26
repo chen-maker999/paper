@@ -129,6 +129,21 @@ python experiments/llm_eval.py submit  --out $OUT $ARGS
 python experiments/llm_eval.py collect --out $OUT
 ```
 
+## 4.2.2 LLMLingua-2 基线（学习型 token 级压缩）
+
+需要 `torch`、`transformers` 和能访问 huggingface.co（首次运行会下载约 2.2GB 的 `microsoft/llmlingua-2-xlm-roberta-large-meetingbank`）。CPU 即可。
+
+```bash
+pip install torch transformers sentencepiece
+# 理想读取器评测：每个 LLM 抽 100 条测试轨迹（与消融子集相同），4 个预算，约 3–4 小时（4 核）
+python experiments/run_eval.py --cache data/cache --out results --suite lingua --exclude-dev --per-model 100 \
+    --budgets 4000,8000,16000,32000 --workers 4
+# LLM 在环评测：只给 llmlingua2 补跑
+python experiments/llm_eval.py add     --method llmlingua2 --cache data/cache --out $OUT
+python experiments/llm_eval.py submit  --out $OUT $ARGS
+python experiments/llm_eval.py collect --out $OUT
+```
+
 ## 4.3 同预算的 LLM 摘要基线（summary_fill）
 
 原来的 LLM 摘要基线只用了约 30% 的预算。`summary_fill` 复用已有的 `summaries.json`，在摘要后面用最近的原始轮次把 8k 预算填满（与 Claude Code 等系统的做法一致）：
